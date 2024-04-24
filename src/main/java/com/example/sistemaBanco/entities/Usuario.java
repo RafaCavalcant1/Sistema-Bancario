@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.example.sistemaBanco.entities.enums.UsuarioTipo;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,20 +29,22 @@ public class Usuario implements Serializable { //interface marcadora que indica 
 	private String cpfCnpj;
 	private String email;
 	private String senha;
+	private UsuarioTipo tipo; // comum ou lojista
 	
-	@OneToMany(mappedBy = "usuario") // um usuario tem apenas uma conta
+	@OneToMany(mappedBy = "usuario") // um usuario pode ter varias contas
 	private List<Conta> contas = new ArrayList<>();
 	
 	public Usuario(){
 	}
 
-	public Usuario(Long id, String nomeCompleto, String cpfCnpj, String email, String senha) {
+	public Usuario(Long id, String nomeCompleto, String cpfCnpj, String email, String senha, UsuarioTipo tipo) {
 		super();
 		this.id = id;
 		this.nomeCompleto = nomeCompleto;
 		this.cpfCnpj = cpfCnpj;
 		this.email = email;
 		this.senha = senha;
+		this.tipo = tipo;
 	}
 
 	public Long getId() {
@@ -83,10 +87,19 @@ public class Usuario implements Serializable { //interface marcadora que indica 
 		this.senha = senha;
 	}
 	
+	public UsuarioTipo getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(UsuarioTipo tipo) {
+		this.tipo = tipo;
+	}
+
 	public List<Conta> getContas() {
 	     return contas;
 	}
 
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

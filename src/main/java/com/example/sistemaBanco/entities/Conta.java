@@ -11,7 +11,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "contas")
+@Table(name = "tb_contas")
 public class Conta implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -19,17 +19,22 @@ public class Conta implements Serializable{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+	private String conta;
+	private String agencia;
     private Double saldo;
+    
 
-    @ManyToOne // muitas contas pode pertencer a um unico usuario 
+    @ManyToOne // uma conta pode pertencer a um unico usuario 
     private Usuario usuario;
     
     public Conta() {
     }
 
-	public Conta(Long id, Double saldo) {
+	public Conta(Long id, String conta, String agencia, Double saldo) {
 		super();
 		this.id = id;
+		this.conta = conta;
+		this.agencia = agencia;
 		this.saldo = saldo;
 	}
 
@@ -39,6 +44,22 @@ public class Conta implements Serializable{
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getConta() {
+		return conta;
+	}
+
+	public void setConta(String conta) {
+		this.conta = conta;
+	}
+
+	public String getAgencia() {
+		return agencia;
+	}
+
+	public void setAgencia(String agencia) {
+		this.agencia = agencia;
 	}
 
 	public Double getSaldo() {
@@ -52,6 +73,7 @@ public class Conta implements Serializable{
 	public Usuario getUsuario() {
 		return usuario;
 	}
+
 
 	@Override
 	public int hashCode() {
