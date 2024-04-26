@@ -8,14 +8,16 @@ import java.util.Objects;
 import com.example.sistemaBanco.entities.enums.UsuarioTipo;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+
 @Entity
-@Table(name = "usuarios")
+@Table(name = "tb_usuarios")
 public class Usuario implements Serializable { //interface marcadora que indica que a classe pode ser serializada.  é o processo de converter um objeto em uma sequência de bytes, que pode ser armazenada em um arquivo
 
 	private static final long serialVersionUID = 1L;  // nnúmero de série padrao 
@@ -23,15 +25,14 @@ public class Usuario implements Serializable { //interface marcadora que indica 
 	@Id // PK 
 	// para fazer com que o id fique autoincrementavel 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
+	private Long id;	
 	private String nomeCompleto;
 	private String cpfCnpj;
 	private String email;
 	private String senha;
 	private UsuarioTipo tipo; // comum ou lojista
 	
-	@OneToMany(mappedBy = "usuario") // um usuario pode ter varias contas
+	@OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER ) // um usuario pode ter varias contas
 	private List<Conta> contas = new ArrayList<>();
 	
 	public Usuario(){

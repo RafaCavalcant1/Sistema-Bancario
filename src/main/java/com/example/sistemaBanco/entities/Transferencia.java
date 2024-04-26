@@ -4,14 +4,18 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+import com.example.sistemaBanco.entities.enums.TipoTransacao;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "transferencias")
+@Table(name = "tb_transferencias")
 public class Transferencia implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,20 +24,28 @@ public class Transferencia implements Serializable {
 	// para fazer com que o id fique autoincrementavel 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long contaOrigemId;
-    private Long contaDestinoId;
     private Double valor;
     private Date data;
+    private TipoTransacao tipo;
+    
+    @ManyToOne//uma transferência pertence a uma única conta de origem
+    @JoinColumn(name = "contaOrigem") // chave estrangeira
+    private Conta contaOrigem;
+
+    @ManyToOne //uma transferência pertence a uma única conta de destino
+    @JoinColumn(name = "contaDestino")// chave estrandeira
+    private Conta contaDestino;
 
     public Transferencia() {
     }
 
-    public Transferencia(Long id, Long contaOrigemId, Long contaDestinoId, Double valor, Date data) {
+    public Transferencia(Long id, Conta contaOrigem, Conta contaDestino, Double valor, Date data, TipoTransacao tipo) {
         this.id = id;
-    	this.contaOrigemId = contaOrigemId;
-        this.contaDestinoId = contaDestinoId;
+    	this.contaOrigem = contaOrigem;
+        this.contaDestino = contaDestino;
         this.valor = valor;
         this.data = data;
+        this.tipo = tipo;
     }
 
     
@@ -45,20 +57,20 @@ public class Transferencia implements Serializable {
 		this.id = id;
 	}
 
-	public Long getContaOrigemId() {
-        return contaOrigemId;
+	public Conta getContaOrigem() {
+        return contaOrigem;
     }
 
-    public void setContaOrigemId(Long contaOrigemId) {
-        this.contaOrigemId = contaOrigemId;
+    public void setContaOrigem(Conta contaOrigem) {
+        this.contaOrigem = contaOrigem;
     }
 
-    public Long getContaDestinoId() {
-        return contaDestinoId;
+    public Conta getContaDestino() {
+        return contaDestino;
     }
 
-    public void setContaDestinoId(Long contaDestinoId) {
-        this.contaDestinoId = contaDestinoId;
+    public void setContaDestino(Conta contaDestino) {
+        this.contaDestino = contaDestino;
     }
 
     public Double getValor() {
@@ -75,6 +87,14 @@ public class Transferencia implements Serializable {
 
 	public void setData(Date data) {
 		this.data = data;
+	}
+
+	public TipoTransacao getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(TipoTransacao tipo) {
+		this.tipo = tipo;
 	}
 
 	@Override

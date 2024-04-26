@@ -12,23 +12,22 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_contas")
-public class Conta implements Serializable{
-	
+public class Conta implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	private String conta;
 	private String agencia;
-    private Double saldo;
-    
+	private Double saldo;
 
-    @ManyToOne // uma conta pode pertencer a um unico usuario 
-    private Usuario usuario;
-    
-    public Conta() {
-    }
+	@ManyToOne // uma conta pode pertencer a um unico usuario
+	private Usuario usuario;
+
+	public Conta() {
+	}
 
 	public Conta(Long id, String conta, String agencia, Double saldo) {
 		super();
@@ -74,7 +73,6 @@ public class Conta implements Serializable{
 		return usuario;
 	}
 
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -91,11 +89,5 @@ public class Conta implements Serializable{
 		Conta other = (Conta) obj;
 		return Objects.equals(id, other.id);
 	}
-
-	
-	
-	
-    
-    
 
 }
