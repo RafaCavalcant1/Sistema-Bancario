@@ -9,13 +9,12 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public class UsuarioDto implements Serializable { // interface marcadora que indica que a classe pode ser serializada. é
-													// o processo de converter um objeto em uma sequência de bytes, que
-													// pode ser armazenada em um arquivo
+public class UsuarioRequestDto implements Serializable { // interface marcadora que indica que a classe pode ser
+															// serializada. é
+	// o processo de converter um objeto em uma sequência de bytes, que
+	// pode ser armazenada em um arquivo
 
 	private static final long serialVersionUID = 1L; // nnúmero de série padrao
-
-	private Long id;
 
 	@NotBlank(message = "Name cannot be empty.")
 	private String nomeCompleto;
@@ -33,12 +32,11 @@ public class UsuarioDto implements Serializable { // interface marcadora que ind
 	@NotNull(message = "Type cannot be empty.")
 	private UsuarioTipo tipo; // comum ou lojista
 
-	public UsuarioDto() {
+	public UsuarioRequestDto() {
 	}
 
-	public UsuarioDto(Long id, String nomeCompleto, String cpfCnpj, String email, String senha, UsuarioTipo tipo) {
+	public UsuarioRequestDto(String nomeCompleto, String cpfCnpj, String email, String senha, UsuarioTipo tipo) {
 		super();
-		this.id = id;
 		this.nomeCompleto = nomeCompleto;
 		this.cpfCnpj = cpfCnpj;
 		this.email = email;
@@ -46,12 +44,9 @@ public class UsuarioDto implements Serializable { // interface marcadora que ind
 		this.tipo = tipo;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+	public Usuario toUsuario() { // convertendo usuarioDto em um obj usuario
+		return new Usuario(null, this.getNomeCompleto(), this.getCpfCnpj(), this.getEmail(), this.getSenha(),
+				this.getTipo());
 	}
 
 	public String getNomeCompleto() {
@@ -94,13 +89,4 @@ public class UsuarioDto implements Serializable { // interface marcadora que ind
 		this.tipo = tipo;
 	}
 
-	public Usuario toUsuario() { // convertendo usuarioDto em um obj usuario
-		return new Usuario(this.getId(), this.getNomeCompleto(), this.getCpfCnpj(), this.getEmail(), this.getSenha(),
-				this.getTipo());
-	}
-
-	public static UsuarioDto fromUsuario(Usuario usuario) { // faz  o inverso e retorna os objetps 
-		return new UsuarioDto(usuario.getId(), usuario.getNomeCompleto(), usuario.getCpfCnpj(), usuario.getEmail(),
-				usuario.getSenha(), usuario.getTipo());
-	}
 }
