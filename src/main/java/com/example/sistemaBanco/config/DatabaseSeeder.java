@@ -9,12 +9,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.example.sistemaBanco.entities.Conta;
-import com.example.sistemaBanco.entities.Transferencia;
+import com.example.sistemaBanco.entities.Transacao;
 import com.example.sistemaBanco.entities.Usuario;
 import com.example.sistemaBanco.entities.enums.TipoTransacao;
 import com.example.sistemaBanco.entities.enums.UsuarioTipo;
 import com.example.sistemaBanco.repository.ContaRepository;
-import com.example.sistemaBanco.repository.TransferenciaRepository;
+import com.example.sistemaBanco.repository.TransacaoRepository;
 import com.example.sistemaBanco.repository.UsuarioRepository;
 import com.example.sistemaBanco.util.Md5Util;
 
@@ -31,7 +31,7 @@ public class DatabaseSeeder implements CommandLineRunner {
 	private ContaRepository contaRepository;
 	
 	@Autowired
-	private TransferenciaRepository transferenciaRepository;
+	private TransacaoRepository transacaoRepository;
 
 	
 	@Override// tudo que colocar dentro desse método run(ele veio do implements) vai ser executado
@@ -43,17 +43,18 @@ public class DatabaseSeeder implements CommandLineRunner {
 		
 		usuarioRepository.saveAll(Arrays.asList(u1, u2, u3));
 		
-		Conta c1 = new Conta(null, "12", "1234", 5000.00);
-		Conta c2 = new Conta(null, "13", "1235", 4000.00);
+		Conta c1 = new Conta(null, "12", "1234", 5000.00, u1);
+		Conta c2 = new Conta(null, "13", "1235", 4000.00, u2);
+		Conta c3 = new Conta(null, "14", "1236", 3000.00, u3);
 		
-		contaRepository.saveAll(Arrays.asList(c1, c2));
+		contaRepository.saveAll(Arrays.asList(c1, c2,c3));
 		
 		Date dataAtual = new Date();
-		Transferencia t1 = new Transferencia(null, c1, c2, 1000.00, dataAtual, TipoTransacao.DEPOSITO);
-		Transferencia t2 = new Transferencia(null, c2, c1, 2000.00, dataAtual, TipoTransacao.DEPOSITO);
+		Transacao t1 = new Transacao(null, c1, c2, 1000.00, dataAtual, TipoTransacao.DEPOSITO);
+		Transacao t2 = new Transacao(null, c2, c1, 2000.00, dataAtual, TipoTransacao.DEPOSITO);
 		
 		
-		transferenciaRepository.saveAll(Arrays.asList(t1, t2));
+		transacaoRepository.saveAll(Arrays.asList(t1, t2));
 		
 	}
 }
