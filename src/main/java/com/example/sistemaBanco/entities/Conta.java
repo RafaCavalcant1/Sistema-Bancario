@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,18 +24,20 @@ public class Conta implements Serializable {
 	private String agencia;
 	private Double saldo;
 
-	@ManyToOne // uma conta pode pertencer a um unico usuario
+	
+	@ManyToOne(fetch = FetchType.EAGER) //(fetch = FetchType.LAZY)// uma conta pode pertencer a um unico usuario
 	private Usuario usuario;
 
 	public Conta() {
 	}
 
-	public Conta(Long id, String conta, String agencia, Double saldo) {
+	public Conta(Long id, String conta, String agencia, Double saldo, Usuario usuario) {
 		super();
 		this.id = id;
 		this.conta = conta;
 		this.agencia = agencia;
 		this.saldo = saldo;
+		this.usuario = usuario;
 	}
 
 	public Long getId() {

@@ -32,7 +32,7 @@ public class Usuario implements Serializable { //interface marcadora que indica 
 	private String senha;
 	private UsuarioTipo tipo; // comum ou lojista
 	
-	@OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER ) // um usuario pode ter varias contas
+	@OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER) // um usuario pode ter varias contas
 	private List<Conta> contas = new ArrayList<>();
 	
 	public Usuario(){
