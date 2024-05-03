@@ -21,6 +21,7 @@ import com.example.sistemaBanco.service.exceptions.InvalidPasswordLengthExceptio
 import com.example.sistemaBanco.service.exceptions.ResourceNotFoundException;
 import com.example.sistemaBanco.service.exceptions.SaldoInsuficienteException;
 import com.example.sistemaBanco.service.exceptions.TransferenciaNotFoundException;
+import com.example.sistemaBanco.service.exceptions.UsuarioLojistaException;
 import com.example.sistemaBanco.service.exceptions.ValorInvalidoException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,7 +42,7 @@ public class ResourceExceptionHandler {
 	
 	// passei todas as classes de exceção
 	@ExceptionHandler({InvalidPasswordLengthException.class, DuplicateUserException.class, SaldoInsuficienteException.class, ContaDestinoException.class, ContaOrigemException.class,
-		ValorInvalidoException.class, ContasIguaisException.class})
+		ValorInvalidoException.class, ContasIguaisException.class,UsuarioLojistaException.class, ContaNotFoundException.class})
 	public ResponseEntity<StandardError> handleOnlyException(Exception e, HttpServletRequest request) { // método handleCustomException que recebe Exception e (exceção lançada), e HttpServletRequest request, que representa a requisição HTTP.
 	    String messageUser = e.getMessage();
 	    HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY; // o status sempre vai ser esse, 422
@@ -70,16 +71,6 @@ public class ResourceExceptionHandler {
         });
         
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(err);// o metodo vai retornar um ResponseEntity .status é p vim com o codigo personalizado
-	}
-	
-	@ExceptionHandler(ContaNotFoundException.class)//apara que o metodo seja capaz de interseptar a requisição que deu exceção para ele cair aqui
-	//o tipo do obj de resposta vai ser o standardError, o nome do metodo é resourceNotFound e ele tem que receber como argumento  a exceção personalizada e depois o objeto HttpServletRequest(representa uma solicitação HTTP)
-	public ResponseEntity<StandardError>contaInexistente(ContaNotFoundException e, HttpServletRequest request){
-		String messageUser = "Conta não encontrada"; // mensagem para o usuário 
-		HttpStatus status = HttpStatus.NOT_FOUND;// resposta 404 que é o Not fouad
-		//instanciando um obj StandardError e colocar os campos, o instante atual, o status , o erro , a menssagem que veio na exceção que ta no parametro e o caminho é o request que tb está no parametro
-		StandardError err = new StandardError(Instant.now(),status.value(), messageUser, e.getMessage(), request.getRequestURI());
-		return ResponseEntity.status(status).body(err); // o metodo vai retornar um ResponseEntity .status é p vim com o codigo personalizado
 	}
 	
 	@ExceptionHandler(DatabaseException.class)//apara que o metodo seja capaz de interseptar a requisição que deu exceção para ele cair aqui

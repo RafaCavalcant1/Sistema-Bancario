@@ -21,6 +21,7 @@ import com.example.sistemaBanco.service.exceptions.ContaOrigemException;
 import com.example.sistemaBanco.service.exceptions.ContasIguaisException;
 import com.example.sistemaBanco.service.exceptions.SaldoInsuficienteException;
 import com.example.sistemaBanco.service.exceptions.TransferenciaNotFoundException;
+import com.example.sistemaBanco.service.exceptions.UsuarioLojistaException;
 import com.example.sistemaBanco.service.exceptions.ValorInvalidoException;
 
 import jakarta.transaction.Transactional;
@@ -58,10 +59,8 @@ public class TransacaoService {
 
 
 	@Transactional
-	public void realizarSaque(Transacao saque) {
-		Conta contaOrigem = contaRepository.findById(saque.getContaOrigem().getId()) // vendo se a conta origem existe
-				.orElseThrow(() -> new ContaOrigemException("Conta de origem não encontrada.")); // se n gera esse erro 
-
+	public void realizarSaque(Transacao saque, Conta contaOrigem) {
+		
 		if (saque.getValor() <= 0) {  // se o valoe do saque for menor ou = a zero lança esse erro 
 			throw new ValorInvalidoException("O valor da transação deve ser positivo.");
 		}
@@ -70,7 +69,7 @@ public class TransacaoService {
 			contaOrigem.setSaldo(contaOrigem.getSaldo() - saque.getValor()); // pega o saldo e subtrai do valor sacado 
 			contaRepository.save(contaOrigem); // salva a conta 
 			
-			//saque.setTipo("SAQUE");
+			saque.setTipo(TipoTransacao.SAQUE);
 			Date dataAtual = new Date();
 	        saque.setData(dataAtual);
 	        
@@ -80,27 +79,26 @@ public class TransacaoService {
 			throw new SaldoInsuficienteException("Saldo insuficiente para realizar a transação."); // se n, gera esse erro 
 		}
 	}
+	
+	@Transactional
+	public void realizarSaque(Transacao saque) {
+		Conta contaOrigem = contaRepository.findById(saque.getContaOrigem().getId()) // vendo se a conta origem existe
+				.orElseThrow(() -> new ContaOrigemException("Conta de origem não encontrada.")); // se n gera esse erro 
+		
+		realizarSaque(saque, contaOrigem);
+	}
 
 	@Transactional
-	public void realizarDeposito(Transacao deposito) {
-		
-		// o deposito é apenas enviar o dinheiro para uma conta ent n tem conta origem 
-
-		Conta contaDestino = contaRepository.findById(deposito.getContaDestino().getId())  // v se a conta que vai ser depositada existe 
-				.orElseThrow(() -> new ContaDestinoException("Conta de destino não encontrada.")); // se n encontrar gera esse erro
+	public void realizarDeposito(Transacao deposito, Conta contaDestino) {
 
 		if (deposito.getValor() <= 0) { // vendo se o valor do deposito é positivo
 			throw new ValorInvalidoException("O valor do depósito deve ser um valor positivo.");
 		}
 		
-//		// vendo se o usuario é lojista 
-//	    if (deposito.getContaOrigem().getUsuario().getTipo().equals(UsuarioTipo.LOJISTA)) {
-//	        throw new UsuarioTipoException("Lojistas não podem realizar depósitos.");
-//	    }
-	    
 		contaDestino.setSaldo(contaDestino.getSaldo() + deposito.getValor());  // se for peha a conta destino e soma com o novo valor depositado
 		contaRepository.save(contaDestino);
 		
+		deposito.setTipo(TipoTransacao.DEPOSITO);
 		Date dataAtual = new Date();
         deposito.setData(dataAtual);
         
@@ -108,15 +106,35 @@ public class TransacaoService {
 	}
 	
 	@Transactional
+	public void realizarDeposito(Transacao deposito) {
+		Conta contaDestino = contaRepository.findById(deposito.getContaDestino().getId())  // v se a conta que vai ser depositada existe 
+				.orElseThrow(() -> new ContaDestinoException("Conta de destino não encontrada.")); // se n encontrar gera esse erro
+		
+		realizarDeposito(deposito, contaDestino);
+	}
+	
+	@Transactional
 	public void realizarTransferencia(Transacao transferencia) {
-		if (transferencia.getContaOrigem().equals(transferencia.getContaDestino())) {
+		Conta contaOrigem = contaRepository.findById(transferencia.getContaOrigem().getId()) // vendo se a conta origem existe
+				.orElseThrow(() -> new ContaOrigemException("Conta de origem não encontrada.")); // se n gera esse erro 
+		
+		Conta contaDestino = contaRepository.findById(transferencia.getContaDestino().getId())  // v se a conta que vai ser depositada existe 
+				.orElseThrow(() -> new ContaDestinoException("Conta de destino não encontrada.")); // se n encontrar gera esse erro
+		
+		if (transferencia.getContaOrigem().getId().equals(transferencia.getContaDestino().getId())) {
 	        throw new ContasIguaisException("A conta de origem é igual à conta de destino");
 	    }
+	
+		Usuario usuarioOrigem = contaOrigem.getUsuario();
+	    if (usuarioOrigem.getTipo() == UsuarioTipo.LOJISTA) {
+	        throw new UsuarioLojistaException("Usuário de tipo lojista não pode fazer transferências");
+	    }
+	    
 	    try {
-	        realizarSaque(transferencia); // chamando metodo sauqe
-	        realizarDeposito(transferencia); // metodo deposito
+	        realizarSaque(transferencia, contaOrigem); // chamando metodo sauqe
+	        realizarDeposito(transferencia, contaDestino); // metodo deposito
 	        
-	        
+	        transferencia.setTipo(TipoTransacao.TRANSFERENCIA);
 	        Date dataAtual = new Date(); 
 	        transferencia.setData(dataAtual);
 	        
