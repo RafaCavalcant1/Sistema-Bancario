@@ -17,6 +17,7 @@ import com.example.sistemaBanco.service.exceptions.ContaOrigemException;
 import com.example.sistemaBanco.service.exceptions.ContasIguaisException;
 import com.example.sistemaBanco.service.exceptions.DatabaseException;
 import com.example.sistemaBanco.service.exceptions.DuplicateUserException;
+import com.example.sistemaBanco.service.exceptions.EmailException;
 import com.example.sistemaBanco.service.exceptions.InvalidPasswordLengthException;
 import com.example.sistemaBanco.service.exceptions.ResourceNotFoundException;
 import com.example.sistemaBanco.service.exceptions.SaldoInsuficienteException;
@@ -42,7 +43,7 @@ public class ResourceExceptionHandler {
 	
 	// passei todas as classes de exceção
 	@ExceptionHandler({InvalidPasswordLengthException.class, DuplicateUserException.class, SaldoInsuficienteException.class, ContaDestinoException.class, ContaOrigemException.class,
-		ValorInvalidoException.class, ContasIguaisException.class,UsuarioLojistaException.class, ContaNotFoundException.class})
+		ValorInvalidoException.class, ContasIguaisException.class,UsuarioLojistaException.class, ContaNotFoundException.class, EmailException.class})
 	public ResponseEntity<StandardError> handleOnlyException(Exception e, HttpServletRequest request) { // método handleCustomException que recebe Exception e (exceção lançada), e HttpServletRequest request, que representa a requisição HTTP.
 	    String messageUser = e.getMessage();
 	    HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY; // o status sempre vai ser esse, 422
