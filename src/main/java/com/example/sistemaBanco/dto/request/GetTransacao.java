@@ -1,4 +1,4 @@
-package com.example.sistemaBanco.dto;
+package com.example.sistemaBanco.dto.request;
 
 import java.io.Serializable;
 import java.util.Date;

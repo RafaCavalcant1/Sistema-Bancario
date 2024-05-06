@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.sistemaBanco.dto.GetConta;
+import com.example.sistemaBanco.dto.request.GetConta;
 import com.example.sistemaBanco.entities.Conta;
 import com.example.sistemaBanco.repository.ContaRepository;
 import com.example.sistemaBanco.service.exceptions.ContaNotFoundException;

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import com.example.sistemaBanco.dto.PutUsuario;
+import com.example.sistemaBanco.dto.request.PutUsuario;
 import com.example.sistemaBanco.dto.response.ResponseUsuario;
 import com.example.sistemaBanco.entities.Usuario;
 import com.example.sistemaBanco.repository.UsuarioRepository;

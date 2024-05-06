@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.example.sistemaBanco.dto.PostUsuario;
-import com.example.sistemaBanco.dto.PutUsuario;
+import com.example.sistemaBanco.dto.request.PostUsuario;
+import com.example.sistemaBanco.dto.request.PutUsuario;
 import com.example.sistemaBanco.dto.response.ResponseUsuario;
 import com.example.sistemaBanco.entities.Usuario;
 import com.example.sistemaBanco.service.UsuarioService;

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.sistemaBanco.dto.GetTransacao;
+import com.example.sistemaBanco.dto.request.GetTransacao;
 import com.example.sistemaBanco.entities.Transacao;
 import com.example.sistemaBanco.service.TransacaoService;
 
