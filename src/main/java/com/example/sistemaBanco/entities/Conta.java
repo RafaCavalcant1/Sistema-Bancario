@@ -22,7 +22,7 @@ public class Conta implements Serializable {
 	private Long id;
 	private String conta;
 	private String agencia;
-	private Double saldo;
+	private Double saldo; 
 
 	
 	@ManyToOne(fetch = FetchType.EAGER) //(fetch = FetchType.LAZY)// uma conta pode pertencer a um unico usuario

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.sistemaBanco.dto.request.GetConta;
+import com.example.sistemaBanco.entities.Conta;
 import com.example.sistemaBanco.service.ContaService;
 
 @RestController
@@ -27,11 +28,12 @@ public class ContaResource {
 	
 	@GetMapping("/{id}") // indica que a requisição vai aceitar um ID dentro da url
 	public ResponseEntity<GetConta> findById(@PathVariable Long id) {
-		GetConta getConta = contaService.findById(id);
-		return ResponseEntity.ok(getConta);
+		 Conta conta = contaService.findById(id);
+		 GetConta getConta = GetConta.fromConta(conta); //convertendo 
+		 return ResponseEntity.ok(getConta);
 	}
 	
-	
+	// filtros de semelhante eusuario agencia, e conta igualzinho o 
 	
 	
 //	@DeleteMapping("/{id}")
