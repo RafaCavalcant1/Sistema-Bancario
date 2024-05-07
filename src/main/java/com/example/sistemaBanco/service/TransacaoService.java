@@ -39,6 +39,9 @@ public class TransacaoService {
 	@Autowired
 	private EmailService emailService;
 
+	@Autowired
+	ContaService contaService;
+
 	public List<GetTransacao> findAll() {
 		List<Transacao> transferencias = transacaoRepository.findAll(); // pego a lista de usuarios
 		List<GetTransacao> getTransferencias = new ArrayList<>(); // uma lisra vazia que armazena os obj convertdos
@@ -124,16 +127,7 @@ public class TransacaoService {
 	}
 
 	@Transactional
-	public void realizarTransferencia(Transacao transferencia) {
-		Conta contaOrigem = contaRepository.findById(transferencia.getContaOrigem().getId()) // vendo se a conta origem
-																								// existe
-				.orElseThrow(() -> new ContaOrigemException("Conta de origem não encontrada.")); // se n gera esse erro
-
-		Conta contaDestino = contaRepository.findById(transferencia.getContaDestino().getId()) // v se a conta que vai
-																								// ser depositada existe
-				.orElseThrow(() -> new ContaDestinoException("Conta de destino não encontrada.")); // se n encontrar
-																									// gera esse erro
-
+	public void validarTransferencia(Transacao transferencia, Conta contaOrigem) {
 		if (transferencia.getContaOrigem().getId().equals(transferencia.getContaDestino().getId())) {
 			throw new ContasIguaisException("A conta de origem é igual à conta de destino");
 		}
@@ -142,26 +136,39 @@ public class TransacaoService {
 		if (usuarioOrigem.getTipo() == UsuarioTipo.LOJISTA) {
 			throw new UsuarioLojistaException("Usuário de tipo lojista não pode fazer transferências");
 		}
+	}
+	
+	@Transactional
+	private void enviarEmailTransferencia(Transacao transferencia, Conta contaDestino) {
+	    String destinatario = contaDestino.getUsuario().getEmail();
+	    String assunto = "Transferência Recebida";
+	    String corpo = "Você recebeu uma transferência no valor de " + transferencia.getValor() + " reais.";
+	    EmailDto emailDto = new EmailDto(destinatario, assunto, corpo);
+	    emailService.enviarEmail(emailDto);
+	}
+
+
+	@Transactional
+	public void realizarTransferencia(Transacao transferencia) { // gera esse erro
+
+		Conta contaOrigem = contaService.findById(transferencia.getContaOrigem().getId());
+		Conta contaDestino = contaService.findById(transferencia.getContaDestino().getId());
+		
+		validarTransferencia(transferencia, contaOrigem);
 
 		try {
 			realizarSaque(transferencia, contaOrigem); // chamando metodo sauqe
 			realizarDeposito(transferencia, contaDestino); // metodo deposito
 
 			transferencia.setTipo(TipoTransacao.TRANSFERENCIA);
-			Date dataAtual = new Date();
-			transferencia.setData(dataAtual);
-
-			// enviando o email
-			String destinatario = contaDestino.getUsuario().getEmail();
-			String assunto = "Transferência Recebida";
-			String corpo = "Você recebeu uma transferência no valor de " + transferencia.getValor() + " reais.";
-			EmailDto emailDto = new EmailDto(destinatario, assunto, corpo);
-			emailService.enviarEmail(emailDto);
+			transferencia.setData(new Date());
+			
+			enviarEmailTransferencia(transferencia, contaDestino);
 
 			// se algum dos erros que tem disponivel aparecer gera a menssagem
 		} catch (ValorInvalidoException | SaldoInsuficienteException | ContaOrigemException | ContaDestinoException e) {
 			throw new RuntimeException("Erro ao realizar a transferência: " + e.getMessage());
 		}
 	}
-
+	
 }
