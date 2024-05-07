@@ -9,8 +9,9 @@ import com.example.sistemaBanco.dto.ResponseEmailDto;
 
 // a anotação do feignClient com o nome e a url que criei com a API 
 @FeignClient(name = "email", url = "https://8rz3y.wiremockapi.cloud")
-public interface EmailClient {
+public interface EmailClient { // interface pq usa comunicação com web 
 	
+	// so o nome do metodo e os parametros pq é uma interface 
 	@PostMapping(value = "/emails")
 	ResponseEmailDto email(@RequestBody EmailDto emailDto);  // o retorno precisa ser o DTO de resposta  com 1 atributo msm
 }

@@ -43,7 +43,7 @@ public class ResourceExceptionHandler {
 	
 	// passei todas as classes de exceção
 	@ExceptionHandler({InvalidPasswordLengthException.class, DuplicateUserException.class, SaldoInsuficienteException.class, ContaDestinoException.class, ContaOrigemException.class,
-		ValorInvalidoException.class, ContasIguaisException.class,UsuarioLojistaException.class, ContaNotFoundException.class, EmailException.class})
+		ValorInvalidoException.class, ContasIguaisException.class,UsuarioLojistaException.class, ContaNotFoundException.class})
 	public ResponseEntity<StandardError> handleOnlyException(Exception e, HttpServletRequest request) { // método handleCustomException que recebe Exception e (exceção lançada), e HttpServletRequest request, que representa a requisição HTTP.
 	    String messageUser = e.getMessage();
 	    HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY; // o status sempre vai ser esse, 422
@@ -93,5 +93,15 @@ public class ResourceExceptionHandler {
 		StandardError err = new StandardError(Instant.now(),status.value(), messageUser, e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(status).body(err); // o metodo vai retornar um ResponseEntity .status é p vim com o codigo personalizado
 	}
+	
+	@ExceptionHandler(EmailException.class)
+	public ResponseEntity<StandardError> emailExceptionn(EmailException e, HttpServletRequest request) { // método handleCustomException que recebe Exception e (exceção lançada), e HttpServletRequest request, que representa a requisição HTTP.
+	    String messageUser = "Transferencia nao realizada. Serviço de envio de e-mail temporariamente indisponível";
+	    HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY; // o status sempre vai ser esse, 422
+
+	    StandardError err = new StandardError(Instant.now(), status.value(), messageUser, e.getMessage(), request.getRequestURI());
+	    return ResponseEntity.status(status).body(err);
+	}
+	
 	
 }
