@@ -15,9 +15,10 @@ public class EmailService {
 
     public void enviarEmail(EmailDto emailDto) {
         try {
-            emailClient.email(emailDto);
+        	// mudar p enviaremail 
+            emailClient.email(emailDto); // chamando o post e eviar o email e enviando 
         } catch (Exception e) {
-            throw new EmailException("Erro ao enviar email"  + e.getMessage());
+            throw new EmailException("Erro ao enviar email, "  + e.getMessage()); // se der errado lança essa exceção 
         }
     }
 }
