@@ -2,7 +2,6 @@ package com.example.sistemaBanco.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +10,6 @@ import com.example.sistemaBanco.dto.request.GetConta;
 import com.example.sistemaBanco.entities.Conta;
 import com.example.sistemaBanco.repository.ContaRepository;
 import com.example.sistemaBanco.service.exceptions.ContaNotFoundException;
-
 
 
 @Service
@@ -33,13 +31,8 @@ public class ContaService {
 	}
 
 	// para pegar a conta por id
-	public GetConta findById(Long id) {
-		Optional<Conta> optionalConta = contaRepository.findById(id);
-		// ver se encontrou
-		Conta conta = optionalConta.orElseThrow(() -> new ContaNotFoundException(id)); // se não gera esse erro
-		// mapeando a conta para o get
-		GetConta getConta = GetConta.fromConta(conta);
-		return getConta;
+	public Conta findById(Long id) {
+		return contaRepository.findById(id).orElseThrow(() -> new ContaNotFoundException(id));
 	}
 
 	// para atualizar a conta
