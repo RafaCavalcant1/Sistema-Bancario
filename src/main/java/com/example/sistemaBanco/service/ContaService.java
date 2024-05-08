@@ -1,16 +1,20 @@
 package com.example.sistemaBanco.service;
 
+import static com.example.sistemaBanco.spec.ContaSpec.comContaIgual;
+import static com.example.sistemaBanco.spec.ContaSpec.comAgenciaParecida;
+import static com.example.sistemaBanco.spec.ContaSpec.comNomeDoUsuarioParecido;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.example.sistemaBanco.dto.request.GetConta;
 import com.example.sistemaBanco.entities.Conta;
 import com.example.sistemaBanco.repository.ContaRepository;
 import com.example.sistemaBanco.service.exceptions.ContaNotFoundException;
-
 
 @Service
 public class ContaService {
@@ -29,6 +33,23 @@ public class ContaService {
 		}
 		return getConta;
 	}
+	
+	public List<Conta> pesquisarContas( String conta, String agencia, String nomeCompleto) {
+
+		//estudar esse padrão 
+		Specification<Conta> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
+
+		if (conta != null)
+			spec = spec.and(comContaIgual(conta));
+
+		if (agencia != null)
+			spec = spec.and(comAgenciaParecida(agencia));
+
+		if (nomeCompleto != null)
+			spec = spec.and(comNomeDoUsuarioParecido(nomeCompleto));
+
+		return this.contaRepository.findAll(spec);
+	}
 
 	// para pegar a conta por id
 	public Conta findById(Long id) {
@@ -40,17 +61,4 @@ public class ContaService {
 		contaRepository.save(conta);
 	}
 
-//	// deletar a conta
-//	public void deletarConta(Long id) {
-//	    // vai ver se existe
-//	    if (!contaRepository.existsById(id)) {
-//	        throw new ContaNotFoundException(id); // gera o erro caso não exista
-//	    }  
-//	    // pegar todas as transferencias da contsa
-//	    List<Transferencia> transferencias = transferenciaRepository.findByContaOrigemContaDestino(id, id);
-//	    //apagar tds as transferencias
-//	    transferenciaRepository.deleteAll(transferencias);
-//	    // deleta a conta
-//	    contaRepository.deleteById(id);
-//	}
 }

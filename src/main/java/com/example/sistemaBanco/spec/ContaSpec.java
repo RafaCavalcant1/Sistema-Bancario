@@ -11,7 +11,7 @@ public class ContaSpec {
 	
 	//root: representa a entidade principal da consulta, Conta
 	//query: representa a consulta em si, permite acesso a diferentes partes da consulta, como  filtros
-	//criteriaBuilder: construir as cláusulas da consulta, como where, like, equal, 
+	//criteriaBuilder: construir as cláusulas da consulta, como where, like, equal, (são criterios do filtro) 
 	public static Specification<Conta> comNomeDoUsuarioParecido(String nomeCompleto) {
 		return (root, query, criteriaBuilder) -> 
 				criteriaBuilder.like(criteriaBuilder.lower(root.get("usuario").get("nomeCompleto")), "%" + nomeCompleto.toLowerCase() + "%");
