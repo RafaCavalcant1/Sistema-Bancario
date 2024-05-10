@@ -1,11 +1,16 @@
 package com.example.sistemaBanco.service;
 
+import static com.example.sistemaBanco.spec.UsuarioSpec.comEmailParecido;
+import static com.example.sistemaBanco.spec.UsuarioSpec.comNomeParecido;
+import static com.example.sistemaBanco.spec.UsuarioSpec.comCpfCnpjIgual;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.example.sistemaBanco.dto.request.PutUsuario;
@@ -36,6 +41,23 @@ public class UsuarioService {
 		}
 
 		return getUsuarios;
+	}
+	
+	public List<Usuario> pesquisarUsuario(String nomeCompleto, String email, String cpfCnpj) {
+
+		//estudar esse padrão 
+		Specification<Usuario> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
+
+		if (cpfCnpj != null)
+			spec = spec.and(comCpfCnpjIgual(cpfCnpj));
+
+		if (email != null)
+			spec = spec.and(comEmailParecido(email));
+
+		if (nomeCompleto != null)
+			spec = spec.and(comNomeParecido(nomeCompleto));
+
+		return this.usuarioRepository.findAll(spec);
 	}
 
 	public ResponseUsuario findById(Long id) {
