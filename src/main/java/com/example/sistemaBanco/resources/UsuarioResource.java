@@ -4,6 +4,9 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,15 +35,17 @@ public class UsuarioResource {
 	private UsuarioService usuarioService;
 
 	@GetMapping
-	public ResponseEntity<List<ResponseUsuario>> pesquisarUsuario(@RequestParam(required = false) String cpfCnpj,
+	public ResponseEntity<Page<ResponseUsuario>> pesquisarUsuario(@RequestParam(required = false) String cpfCnpj,
 																  @RequestParam(required = false) String email, 
-																  @RequestParam(required = false) String nomeCompleto) {
+																  @RequestParam(required = false) String nomeCompleto,
+																  Pageable pageable) {
 
-		List<ResponseUsuario> respondeUsuario = usuarioService.pesquisarUsuario(nomeCompleto, email, cpfCnpj).stream()
+		Page<Usuario> paginaUsuarios = usuarioService.pesquisarUsuario(nomeCompleto, email, cpfCnpj, pageable);
+		 List<ResponseUsuario> respondeUsuario = paginaUsuarios.stream()
 				.map(ResponseUsuario::toResponseUsuario)
 				.toList();
 
-		return ResponseEntity.ok().body(respondeUsuario);
+		 return ResponseEntity.ok(new PageImpl<>(respondeUsuario, pageable, paginaUsuarios.getTotalElements()));
 	}
 
 	@GetMapping("/{id}") // indica que a requisição vai aceitar um ID dentro da url

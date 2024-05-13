@@ -10,6 +10,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +45,7 @@ public class UsuarioService {
 		return getUsuarios;
 	}
 	
-	public List<Usuario> pesquisarUsuario(String nomeCompleto, String email, String cpfCnpj) {
+	public Page<Usuario> pesquisarUsuario(String nomeCompleto, String email, String cpfCnpj, Pageable pageable) {
 
 		//estudar esse padrão 
 		Specification<Usuario> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
@@ -57,7 +59,7 @@ public class UsuarioService {
 		if (nomeCompleto != null)
 			spec = spec.and(comNomeParecido(nomeCompleto));
 
-		return this.usuarioRepository.findAll(spec);
+		return this.usuarioRepository.findAll(spec, pageable);
 	}
 
 	public ResponseUsuario findById(Long id) {
