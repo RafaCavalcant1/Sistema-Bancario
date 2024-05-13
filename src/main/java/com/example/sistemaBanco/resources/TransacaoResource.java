@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
@@ -31,20 +34,22 @@ public class TransacaoResource {
 	private TransacaoService transacaoService;
 
 	@GetMapping
-	public ResponseEntity<List<GetTransacao>> obterHistoricoTransacao(@RequestParam(required = false)@DateTimeFormat(iso = ISO.DATE) LocalDate dataInicio,
+	public ResponseEntity<Page<GetTransacao>> obterHistoricoTransacao(@RequestParam(required = false)@DateTimeFormat(iso = ISO.DATE) LocalDate dataInicio,
 													  @RequestParam(required = false)@DateTimeFormat(iso = ISO.DATE) LocalDate dataFim,
 													 // padrão iso é "yyyy-MM-dd"
-													  @RequestParam(required = false) TipoTransacao tipo){
+													  @RequestParam(required = false) TipoTransacao tipo,
+													  Pageable pageable){
 		
 		//se a dataInicio é posterior a dataFim
 		if((dataInicio != null && dataFim != null) && dataInicio.isAfter(dataFim))
 			throw new RequisicaoInvalidaException("Data ínicio deve ser menor ou igual a data fim");
 		
-		List<GetTransacao> getTransacao= transacaoService.listarHistoricoTransacao(dataInicio, dataFim, tipo).stream()
+		Page<Transacao> paginaTransacoes = transacaoService.listarHistoricoTransacao(dataInicio, dataFim, tipo, pageable);
+		List<GetTransacao> getTransacao= paginaTransacoes.stream()
 				.map(GetTransacao::fromTransferencia)
 				.toList();
 
-		return ResponseEntity.ok().body(getTransacao);
+		return ResponseEntity.ok(new PageImpl<>(getTransacao, pageable, paginaTransacoes.getTotalElements()));
 	}
 
 	@GetMapping("/{id}") // indica que a requisição vai aceitar um ID dentro da url

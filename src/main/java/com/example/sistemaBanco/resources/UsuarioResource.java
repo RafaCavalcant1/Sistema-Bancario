@@ -45,7 +45,7 @@ public class UsuarioResource {
 				.map(ResponseUsuario::toResponseUsuario)
 				.toList();
 
-		 return ResponseEntity.ok(new PageImpl<>(respondeUsuario, pageable, paginaUsuarios.getTotalElements()));
+		return ResponseEntity.ok(new PageImpl<>(respondeUsuario, pageable, paginaUsuarios.getTotalElements()));
 	}
 
 	@GetMapping("/{id}") // indica que a requisição vai aceitar um ID dentro da url

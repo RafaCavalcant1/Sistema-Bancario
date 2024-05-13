@@ -6,10 +6,11 @@ import static com.example.sistemaBanco.spec.TransacaoSpec.comTipoIgual;
 
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +49,7 @@ public class TransacaoService {
 	@Autowired
 	ContaService contaService;
 	
-	public List<Transacao> listarHistoricoTransacao( LocalDate dataInicio, LocalDate dataFim, TipoTransacao tipo) {
+	public Page<Transacao> listarHistoricoTransacao( LocalDate dataInicio, LocalDate dataFim, TipoTransacao tipo, Pageable pageable) {
 		
 		Specification<Transacao> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
 		
@@ -61,7 +62,7 @@ public class TransacaoService {
 		if(tipo != null)
 			spec = spec.and(comTipoIgual(tipo));
 		
-		return transacaoRepository.findAll(spec);
+		return transacaoRepository.findAll(spec, pageable);
 	}
 
 	// para pegar a transferencia por id
