@@ -104,10 +104,11 @@ public class ResourceExceptionHandler {
 	    return ResponseEntity.status(status).body(err);
 	}
 	
+	// mudar p 400 
 	@ExceptionHandler(RequisicaoInvalidaException.class)
 	public ResponseEntity<StandardError> requisicaoInvalida(RequisicaoInvalidaException e, HttpServletRequest request) { // método handleCustomException que recebe Exception e (exceção lançada), e HttpServletRequest request, que representa a requisição HTTP.
 	    String messageUser = "Data ínicio deve ser menor ou igual a data fim";
-	    HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY; // o status sempre vai ser esse, 422
+	    HttpStatus status = HttpStatus.BAD_REQUEST; // o status sempre vai ser esse, 400
 
 	    StandardError err = new StandardError(Instant.now(), status.value(), messageUser, e.getMessage(), request.getRequestURI());
 	    return ResponseEntity.status(status).body(err);

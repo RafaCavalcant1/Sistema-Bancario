@@ -13,7 +13,7 @@ public class TransacaoSpec {
 	public static Specification<Transacao> comDataMaiorOuIgualA(LocalDate data) {
 		//criteriaBuilder.greaterThanOrEqualTo() cria uma expressão de comparação que ver se a data da transação é maior ou igual à data fornecida.
 		return (root, query, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(root.get("data"), data.atStartOfDay());
-	//atStartOfDay considera apenas as datas, sem os horarios 
+	//atStartOfDay pega a hora e joga para o começo do dia 00:00
 	}
 
 	public static Specification<Transacao> comDataMenorOuIgualA(LocalDate data) {

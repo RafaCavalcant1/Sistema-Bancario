@@ -1,13 +1,15 @@
 package com.example.sistemaBanco.service;
 
-import static com.example.sistemaBanco.spec.ContaSpec.comContaIgual;
 import static com.example.sistemaBanco.spec.ContaSpec.comAgenciaParecida;
+import static com.example.sistemaBanco.spec.ContaSpec.comContaIgual;
 import static com.example.sistemaBanco.spec.ContaSpec.comNomeDoUsuarioParecido;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +36,7 @@ public class ContaService {
 		return getConta;
 	}
 	
-	public List<Conta> pesquisarContas( String conta, String agencia, String nomeCompleto) {
+	public Page<Conta> pesquisarContas( String conta, String agencia, String nomeCompleto, Pageable pegeable) {
 
 		//estudar esse padrão 
 		Specification<Conta> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
@@ -48,7 +50,7 @@ public class ContaService {
 		if (nomeCompleto != null)
 			spec = spec.and(comNomeDoUsuarioParecido(nomeCompleto));
 
-		return this.contaRepository.findAll(spec);
+		return this.contaRepository.findAll(spec, pegeable);
 	}
 
 	// para pegar a conta por id
