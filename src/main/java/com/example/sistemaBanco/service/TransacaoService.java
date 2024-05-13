@@ -1,11 +1,16 @@
 package com.example.sistemaBanco.service;
 
-import java.util.ArrayList;
+import static com.example.sistemaBanco.spec.TransacaoSpec.comDataMaiorOuIgualA;
+import static com.example.sistemaBanco.spec.TransacaoSpec.comDataMenorOuIgualA;
+import static com.example.sistemaBanco.spec.TransacaoSpec.comTipoIgual;
+
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.example.sistemaBanco.dto.EmailDto;
@@ -27,6 +32,7 @@ import com.example.sistemaBanco.service.exceptions.ValorInvalidoException;
 
 import jakarta.transaction.Transactional;
 
+
 @Service
 public class TransacaoService {
 
@@ -41,17 +47,21 @@ public class TransacaoService {
 
 	@Autowired
 	ContaService contaService;
-
-	public List<GetTransacao> findAll() {
-		List<Transacao> transferencias = transacaoRepository.findAll(); // pego a lista de usuarios
-		List<GetTransacao> getTransferencias = new ArrayList<>(); // uma lisra vazia que armazena os obj convertdos
-
-		for (Transacao transferencia : transferencias) { // pecorre cada obj de usuarios
-			getTransferencias.add(GetTransacao.fromTransferencia(transferencia)); // pega a lista e adiciona os
-																					// usuarios convertidos
-		}
-
-		return getTransferencias;
+	
+	public List<Transacao> listarHistoricoTransacao( LocalDate dataInicio, LocalDate dataFim, TipoTransacao tipo) {
+		
+		Specification<Transacao> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
+		
+		if(dataInicio != null)
+			spec = spec.and(comDataMaiorOuIgualA(dataInicio));
+		
+		if(dataFim != null)
+			spec = spec.and(comDataMenorOuIgualA(dataFim));
+		
+		if(tipo != null)
+			spec = spec.and(comTipoIgual(tipo));
+		
+		return transacaoRepository.findAll(spec);
 	}
 
 	// para pegar a transferencia por id

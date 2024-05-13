@@ -1,8 +1,11 @@
 package com.example.sistemaBanco.resources;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,25 +13,38 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.sistemaBanco.dto.request.GetTransacao;
 import com.example.sistemaBanco.entities.Transacao;
+import com.example.sistemaBanco.entities.enums.TipoTransacao;
 import com.example.sistemaBanco.service.TransacaoService;
+import com.example.sistemaBanco.service.exceptions.RequisicaoInvalidaException;
 
 @RestController
-@RequestMapping(value = "/transacao")
+@RequestMapping(value = "/transacoes")
 public class TransacaoResource {
 
 	@Autowired
 	private TransacaoService transacaoService;
 
 	@GetMapping
-	public ResponseEntity<List<GetTransacao>> retornaTransferencia() {
-		List<GetTransacao> list = transacaoService.findAll();
-		// vai retornar todos usuários
-		return ResponseEntity.ok().body(list);
+	public ResponseEntity<List<GetTransacao>> obterHistoricoTransacao(@RequestParam(required = false)@DateTimeFormat(iso = ISO.DATE) LocalDate dataInicio,
+													  @RequestParam(required = false)@DateTimeFormat(iso = ISO.DATE) LocalDate dataFim,
+													 // padrão iso é "yyyy-MM-dd"
+													  @RequestParam(required = false) TipoTransacao tipo){
+		
+		//se a dataInicio é posterior a dataFim
+		if((dataInicio != null && dataFim != null) && dataInicio.isAfter(dataFim))
+			throw new RequisicaoInvalidaException("Data ínicio deve ser menor ou igual a data fim");
+		
+		List<GetTransacao> getTransacao= transacaoService.listarHistoricoTransacao(dataInicio, dataFim, tipo).stream()
+				.map(GetTransacao::fromTransferencia)
+				.toList();
+
+		return ResponseEntity.ok().body(getTransacao);
 	}
 
 	@GetMapping("/{id}") // indica que a requisição vai aceitar um ID dentro da url

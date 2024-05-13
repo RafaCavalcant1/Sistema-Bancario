@@ -19,6 +19,7 @@ import com.example.sistemaBanco.service.exceptions.DatabaseException;
 import com.example.sistemaBanco.service.exceptions.DuplicateUserException;
 import com.example.sistemaBanco.service.exceptions.EmailException;
 import com.example.sistemaBanco.service.exceptions.InvalidPasswordLengthException;
+import com.example.sistemaBanco.service.exceptions.RequisicaoInvalidaException;
 import com.example.sistemaBanco.service.exceptions.ResourceNotFoundException;
 import com.example.sistemaBanco.service.exceptions.SaldoInsuficienteException;
 import com.example.sistemaBanco.service.exceptions.TransferenciaNotFoundException;
@@ -95,7 +96,7 @@ public class ResourceExceptionHandler {
 	}
 	
 	@ExceptionHandler(EmailException.class)
-	public ResponseEntity<StandardError> emailExceptionn(EmailException e, HttpServletRequest request) { // método handleCustomException que recebe Exception e (exceção lançada), e HttpServletRequest request, que representa a requisição HTTP.
+	public ResponseEntity<StandardError> emailException(EmailException e, HttpServletRequest request) { // método handleCustomException que recebe Exception e (exceção lançada), e HttpServletRequest request, que representa a requisição HTTP.
 	    String messageUser = "Transferencia nao realizada. Serviço de envio de e-mail temporariamente indisponível";
 	    HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY; // o status sempre vai ser esse, 422
 
@@ -103,5 +104,13 @@ public class ResourceExceptionHandler {
 	    return ResponseEntity.status(status).body(err);
 	}
 	
+	@ExceptionHandler(RequisicaoInvalidaException.class)
+	public ResponseEntity<StandardError> requisicaoInvalida(RequisicaoInvalidaException e, HttpServletRequest request) { // método handleCustomException que recebe Exception e (exceção lançada), e HttpServletRequest request, que representa a requisição HTTP.
+	    String messageUser = "Data ínicio deve ser menor ou igual a data fim";
+	    HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY; // o status sempre vai ser esse, 422
+
+	    StandardError err = new StandardError(Instant.now(), status.value(), messageUser, e.getMessage(), request.getRequestURI());
+	    return ResponseEntity.status(status).body(err);
+	}
 	
 }

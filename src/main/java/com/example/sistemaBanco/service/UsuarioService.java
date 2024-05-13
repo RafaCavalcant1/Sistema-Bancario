@@ -70,7 +70,6 @@ public class UsuarioService {
 	}
 
 	public Usuario createUsuario(Usuario usuario) {
-
 		// verificando cpf
 		// v se ja tem um usuario, se tiver ele vai p variavel existBy, se tiver lança o
 		// erro, se n fica null e salva o usuaio
