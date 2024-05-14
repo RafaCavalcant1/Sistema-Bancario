@@ -28,7 +28,7 @@ import com.example.sistemaBanco.service.UsuarioService;
 import jakarta.validation.Valid;
 
 @RestController // recurso web
-@RequestMapping(value = "/usuarios") // nome para chamar
+@RequestMapping(value = "/usuarios")
 public class UsuarioResource {
 
 	@Autowired
@@ -36,13 +36,11 @@ public class UsuarioResource {
 
 	@GetMapping
 	public ResponseEntity<Page<ResponseUsuario>> pesquisarUsuario(@RequestParam(required = false) String cpfCnpj,
-																  @RequestParam(required = false) String email, 
-																  @RequestParam(required = false) String nomeCompleto,
-																  Pageable pageable) {
+			@RequestParam(required = false) String email, @RequestParam(required = false) String nomeCompleto,
+			Pageable pageable) {
 
 		Page<Usuario> paginaUsuarios = usuarioService.pesquisarUsuario(nomeCompleto, email, cpfCnpj, pageable);
-		 List<ResponseUsuario> respondeUsuario = paginaUsuarios.stream()
-				.map(ResponseUsuario::toResponseUsuario)
+		List<ResponseUsuario> respondeUsuario = paginaUsuarios.stream().map(ResponseUsuario::toResponseUsuario)
 				.toList();
 
 		return ResponseEntity.ok(new PageImpl<>(respondeUsuario, pageable, paginaUsuarios.getTotalElements()));
@@ -64,26 +62,10 @@ public class UsuarioResource {
 		return ResponseEntity.created(uri).body(responseDto);
 	}
 
-//	//para atualizar o usuario
+	// para atualizar o usuario
 	@PutMapping(value = "/{id}")
 	// a resposta é um response
-	public ResponseEntity<ResponseUsuario> update(@PathVariable Long id, @RequestBody @Valid PutUsuario obj) { // os
-																												// paremetros
-																												// sao:
-																												// o id
-																												// que
-																												// vai
-																												// chegar
-																												// na
-																												// url e
-																												// vai
-																												// recev=ber
-																												// o obj
-																												// contendo
-																												// os
-																												// dados
-																												// para
-																												// atualizar
+	public ResponseEntity<ResponseUsuario> update(@PathVariable Long id, @RequestBody @Valid PutUsuario obj) {
 		Usuario updatedUsuario = usuarioService.update(id, obj); // Metodo update retorna um Usuario
 		ResponseUsuario responseUsuario = ResponseUsuario.toResponseUsuario(updatedUsuario); // Convertendo para
 																								// ResponseUsuario

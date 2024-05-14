@@ -33,7 +33,6 @@ import com.example.sistemaBanco.service.exceptions.ValorInvalidoException;
 
 import jakarta.transaction.Transactional;
 
-
 @Service
 public class TransacaoService {
 
@@ -48,20 +47,21 @@ public class TransacaoService {
 
 	@Autowired
 	ContaService contaService;
-	
-	public Page<Transacao> listarHistoricoTransacao( LocalDate dataInicio, LocalDate dataFim, TipoTransacao tipo, Pageable pageable) {
-		
+
+	public Page<Transacao> listarHistoricoTransacao(LocalDate dataInicio, LocalDate dataFim, TipoTransacao tipo,
+			Pageable pageable) {
+
 		Specification<Transacao> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
-		
-		if(dataInicio != null)
+
+		if (dataInicio != null)
 			spec = spec.and(comDataMaiorOuIgualA(dataInicio));
-		
-		if(dataFim != null)
+
+		if (dataFim != null)
 			spec = spec.and(comDataMenorOuIgualA(dataFim));
-		
-		if(tipo != null)
+
+		if (tipo != null)
 			spec = spec.and(comTipoIgual(tipo));
-		
+
 		return transacaoRepository.findAll(spec, pageable);
 	}
 
@@ -69,11 +69,7 @@ public class TransacaoService {
 	public GetTransacao findById(Long id) {
 		Optional<Transacao> optionalTransferencia = transacaoRepository.findById(id);
 		// ver se encontrou
-		Transacao transferencia = optionalTransferencia.orElseThrow(() -> new TransferenciaNotFoundException(id)); // se
-																													// n,
-																													// gera
-																													// esse
-																													// erro
+		Transacao transferencia = optionalTransferencia.orElseThrow(() -> new TransferenciaNotFoundException(id));
 		// mapeando a transferencia para o get
 		GetTransacao getTransferencia = GetTransacao.fromTransferencia(transferencia);
 		return getTransferencia;
@@ -148,23 +144,22 @@ public class TransacaoService {
 			throw new UsuarioLojistaException("Usuário de tipo lojista não pode fazer transferências");
 		}
 	}
-	
+
 	@Transactional
 	private void enviarEmailTransferencia(Transacao transferencia, Conta contaDestino) {
-	    String destinatario = contaDestino.getUsuario().getEmail();
-	    String assunto = "Transferência Recebida";
-	    String corpo = "Você recebeu uma transferência no valor de " + transferencia.getValor() + " reais.";
-	    EmailDto emailDto = new EmailDto(destinatario, assunto, corpo);
-	    emailService.enviarEmail(emailDto);
+		String destinatario = contaDestino.getUsuario().getEmail();
+		String assunto = "Transferência Recebida";
+		String corpo = "Você recebeu uma transferência no valor de " + transferencia.getValor() + " reais.";
+		EmailDto emailDto = new EmailDto(destinatario, assunto, corpo);
+		emailService.enviarEmail(emailDto);
 	}
-
 
 	@Transactional
 	public void realizarTransferencia(Transacao transferencia) { // gera esse erro
 
 		Conta contaOrigem = contaService.findById(transferencia.getContaOrigem().getId());
 		Conta contaDestino = contaService.findById(transferencia.getContaDestino().getId());
-		
+
 		validarTransferencia(transferencia, contaOrigem);
 
 		try {
@@ -173,7 +168,7 @@ public class TransacaoService {
 
 			transferencia.setTipo(TipoTransacao.TRANSFERENCIA);
 			transferencia.setData(new Date());
-			
+
 			enviarEmailTransferencia(transferencia, contaDestino);
 
 			// se algum dos erros que tem disponivel aparecer gera a menssagem
@@ -181,5 +176,5 @@ public class TransacaoService {
 			throw new RuntimeException("Erro ao realizar a transferência: " + e.getMessage());
 		}
 	}
-	
+
 }

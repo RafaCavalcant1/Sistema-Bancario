@@ -35,19 +35,20 @@ public class UsuarioService {
 
 	// método para retornar todos os usuários do banco
 	public List<ResponseUsuario> findAll() {
-		List<Usuario> usuarios = usuarioRepository.findAll(); // pego a lista de usuarios 
+		List<Usuario> usuarios = usuarioRepository.findAll(); // pego a lista de usuarios
 		List<ResponseUsuario> getUsuarios = new ArrayList<>(); // uma lisra vazia que armazena os obj convertdos
 
 		for (Usuario usuario : usuarios) { // pecorre cada obj de usuarios
-			getUsuarios.add(ResponseUsuario.toResponseUsuario(usuario));  // pega a lista e adiciona os usuarios convertidos
+			getUsuarios.add(ResponseUsuario.toResponseUsuario(usuario)); // pega a lista e adiciona os usuarios
+																			// convertidos
 		}
 
 		return getUsuarios;
 	}
-	
+
 	public Page<Usuario> pesquisarUsuario(String nomeCompleto, String email, String cpfCnpj, Pageable pageable) {
 
-		//estudar esse padrão 
+		// estudar esse padrão
 		Specification<Usuario> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
 
 		if (cpfCnpj != null)
@@ -96,35 +97,34 @@ public class UsuarioService {
 
 		return usuarioRepository.save(usuario);
 	}
-	
 
 	// atualizar um dado do usuario
 	@Transactional // para garantir que as operações sejam executadas dentro de uma transação
 	public Usuario update(Long id, PutUsuario obj) {
-		// buscar o usuario pelo id , se n existir gera esse erro 
-		Usuario entity = usuarioRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id)); 
+		// buscar o usuario pelo id , se n existir gera esse erro
+		Usuario entity = usuarioRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
 
-		// ver se CPF/CNPJ já está cadastrado 
+		// ver se CPF/CNPJ já está cadastrado
 		Usuario existByCpfCnpj = usuarioRepository.findByCpfCnpj(obj.getCpfCnpj());
 		if (existByCpfCnpj != null) {
 			throw new DuplicateUserException("CPF/CNPJ já cadastrado para outro usuário: " + obj.getCpfCnpj());
 		}
 
-		// Vver se o email já está cadastrado 
+		// Vver se o email já está cadastrado
 		Usuario existByEmail = usuarioRepository.findByEmail(obj.getEmail());
 		if (existByEmail != null) {
 			throw new DuplicateUserException("E-mail já cadastrado para outro usuário: " + obj.getEmail());
 		}
 
-		//  tamanho da senha
+		// tamanho da senha
 		if (obj.getSenha() != null && obj.getSenha().length() < 8) {
 			throw new InvalidPasswordLengthException("A senha deve ter no mínimo 8 caracteres.");
 		}
 
-		// Atualizar os dados do usuário no bancp 
+		// Atualizar os dados do usuário no bancp
 		updateData(entity, obj);
 
-		return usuarioRepository.save(entity); //usuario atualizado 
+		return usuarioRepository.save(entity); // usuario atualizado
 	}
 
 	// atualizar os dados do entity do que chegou com o obj
@@ -145,13 +145,13 @@ public class UsuarioService {
 		}
 		if (obj.getSenha() != null) {
 			String encryptedPassword = Md5Util.cryptography(obj.getSenha());
-            entity.setSenha(encryptedPassword);
+			entity.setSenha(encryptedPassword);
 			entity.setSenha(obj.getSenha());
 		}
 
-		// não vai atualizar o id 
+		// não vai atualizar o id
 	}
-	
+
 	// deletar o usuario
 	public void deletarUsuario(Long id) {
 		// vai ver se existe

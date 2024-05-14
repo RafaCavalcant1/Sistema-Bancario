@@ -42,17 +42,11 @@ public class ContaResource {
 									// usando method reference coloca por deibaixo dos panos a mesma coisa que a lambda, so que como os dois xpto é o mesmo q entra e sai ai usa o method reference 
 									.map(GetConta::fromConta) // o map é para transformar que no caso to transformando a lista e comta em uma lista de GetConta
 									.toList();
-// criando uma nova pagina passando o conteudo r=transformados, junto com as informações da paginaçãi 
+	    // criando uma nova pagina passando o conteudo transformados, junto com as informações da paginação 
 	    // o pageImpl implmenta a interfae Page 
-	    // totalements é tp, mesmo que a pagina r=tenha 10 elementos e o total seja 1000, o total é 1000
+	    // totalements é tp, mesmo que a pagina tenha 10 elementos e o total seja 1000, o total é 1000
 		return ResponseEntity.ok(new PageImpl<>(getContas, pageable, paginaContas.getTotalElements()));
 	}
-	
-	//return paginaAssembler.toPage(content, pageable, produtos.getTotalElements());
-	
-//	GetConta apply(Conta conta) {
-//		return GetConta.fromConta(conta);
-//	}
 
 	@GetMapping("/{id}") // indica que a requisição vai aceitar um ID dentro da url
 	public ResponseEntity<GetConta> findById(@PathVariable Long id) {

@@ -18,7 +18,7 @@ public class TransacaoSpec {
 
 	public static Specification<Transacao> comDataMenorOuIgualA(LocalDate data) {
 		return (root, query, criteriaBuilder) -> criteriaBuilder.lessThanOrEqualTo(root.get("data"), data.atTime(LocalTime.MAX));
-		//data.atTime(LocalTime.MAX) é usado para obter o último momento do dia da data fornecida
+		//data.atTime(LocalTime.MAX)23:59
 	}
 	
 	public static Specification<Transacao> comTipoIgual(TipoTransacao tipo) {
