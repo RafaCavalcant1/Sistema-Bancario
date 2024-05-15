@@ -15,11 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.sistemaBanco.dto.request.GetConta;
 import com.example.sistemaBanco.entities.Conta;
+import com.example.sistemaBanco.resources.openApi.ContaResourceOpenApi;
 import com.example.sistemaBanco.service.ContaService;
 
 @RestController
 @RequestMapping(value = "/contas")
-public class ContaResource {
+public class ContaResource implements ContaResourceOpenApi{
 
 	@Autowired
 	private ContaService contaService;
@@ -29,7 +30,7 @@ public class ContaResource {
 	// retorna a lista de getConta
 	@GetMapping
 	public ResponseEntity<Page<GetConta>> pesquisarContas(@RequestParam(required = false) String conta,
-			@RequestParam(required = false) String agencia, @RequestParam(required = false) String nomeCompleto, Pageable pageable) {
+			@RequestParam(required = false) String agencia, @RequestParam(required = false) String nomeCompleto,@RequestParam(required = false) Pageable pageable ) {
 
 		// chamando a service para pesquisar contas com base nos parâmetros de
 		// requisição fornecidos e armazena na lista Conta

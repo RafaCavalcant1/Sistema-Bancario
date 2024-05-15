@@ -23,13 +23,14 @@ import com.example.sistemaBanco.dto.request.PostUsuario;
 import com.example.sistemaBanco.dto.request.PutUsuario;
 import com.example.sistemaBanco.dto.response.ResponseUsuario;
 import com.example.sistemaBanco.entities.Usuario;
+import com.example.sistemaBanco.resources.openApi.UsuarioResourceOpenApi;
 import com.example.sistemaBanco.service.UsuarioService;
 
 import jakarta.validation.Valid;
 
 @RestController // recurso web
 @RequestMapping(value = "/usuarios")
-public class UsuarioResource {
+public class UsuarioResource implements UsuarioResourceOpenApi {
 
 	@Autowired
 	private UsuarioService usuarioService;

@@ -23,12 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.sistemaBanco.dto.request.GetTransacao;
 import com.example.sistemaBanco.entities.Transacao;
 import com.example.sistemaBanco.entities.enums.TipoTransacao;
+import com.example.sistemaBanco.resources.openApi.TransacaoResourceOpenApi;
 import com.example.sistemaBanco.service.TransacaoService;
 import com.example.sistemaBanco.service.exceptions.RequisicaoInvalidaException;
 
 @RestController
 @RequestMapping(value = "/transacoes")
-public class TransacaoResource {
+public class TransacaoResource implements TransacaoResourceOpenApi{
 
 	@Autowired
 	private TransacaoService transacaoService;
@@ -38,7 +39,7 @@ public class TransacaoResource {
 													  @RequestParam(required = false)@DateTimeFormat(iso = ISO.DATE) LocalDate dataFim,
 													 // padrão iso é "yyyy-MM-dd"
 													  @RequestParam(required = false) TipoTransacao tipo,
-													  Pageable pageable){
+													  @RequestParam(required = false) Pageable pageable){
 		
 		//se a dataInicio é posterior a dataFim
 		if((dataInicio != null && dataFim != null) && dataInicio.isAfter(dataFim))
