@@ -20,7 +20,7 @@ import com.example.sistemaBanco.entities.Conta;
 import com.example.sistemaBanco.entities.Transacao;
 import com.example.sistemaBanco.entities.Usuario;
 import com.example.sistemaBanco.entities.enums.TipoTransacao;
-import com.example.sistemaBanco.entities.enums.UsuarioTipo;
+import com.example.sistemaBanco.entities.enums.TipoUsuario;
 import com.example.sistemaBanco.repository.ContaRepository;
 import com.example.sistemaBanco.repository.TransacaoRepository;
 import com.example.sistemaBanco.service.exceptions.ContaDestinoException;
@@ -125,8 +125,7 @@ public class TransacaoService {
 
 	@Transactional
 	public void realizarDeposito(Transacao deposito) {
-		Conta contaDestino = contaRepository.findById(deposito.getContaDestino().getId()) // v se a conta que vai ser
-																							// depositada existe
+		Conta contaDestino = contaRepository.findById(deposito.getContaDestino().getId()) // v se a conta que vai ser								// depositada existe
 				.orElseThrow(() -> new ContaDestinoException("Conta de destino não encontrada.")); // se n encontrar
 																									// gera esse erro
 
@@ -140,7 +139,7 @@ public class TransacaoService {
 		}
 
 		Usuario usuarioOrigem = contaOrigem.getUsuario();
-		if (usuarioOrigem.getTipo() == UsuarioTipo.LOJISTA) {
+		if (usuarioOrigem.getTipo() == TipoUsuario.LOJISTA) {
 			throw new UsuarioLojistaException("Usuário de tipo lojista não pode fazer transferências");
 		}
 	}

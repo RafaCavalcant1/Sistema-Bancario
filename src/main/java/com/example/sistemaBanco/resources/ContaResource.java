@@ -30,7 +30,7 @@ public class ContaResource implements ContaResourceOpenApi{
 	// retorna a lista de getConta
 	@GetMapping
 	public ResponseEntity<Page<GetConta>> pesquisarContas(@RequestParam(required = false) String conta,
-			@RequestParam(required = false) String agencia, @RequestParam(required = false) String nomeCompleto,@RequestParam(required = false) Pageable pageable ) {
+			@RequestParam(required = false) String agencia, @RequestParam(required = false) String nomeCompleto, Pageable pageable ) {
 
 		// chamando a service para pesquisar contas com base nos parâmetros de
 		// requisição fornecidos e armazena na lista Conta

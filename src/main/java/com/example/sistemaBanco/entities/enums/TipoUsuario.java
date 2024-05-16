@@ -1,6 +1,6 @@
 package com.example.sistemaBanco.entities.enums;
 
-public enum UsuarioTipo {
+public enum TipoUsuario {
 	
 	COMUM,
     LOJISTA

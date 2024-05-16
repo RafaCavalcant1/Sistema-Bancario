@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.example.sistemaBanco.entities.enums.UsuarioTipo;
+import com.example.sistemaBanco.entities.enums.TipoUsuario;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -30,7 +30,7 @@ public class Usuario implements Serializable { //interface marcadora que indica 
 	private String cpfCnpj;
 	private String email;
 	private String senha;
-	private UsuarioTipo tipo; // comum ou lojista
+	private TipoUsuario tipo; // comum ou lojista
 	
 	@OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER) // um usuario pode ter varias contas
 	private List<Conta> contas = new ArrayList<>();
@@ -38,7 +38,7 @@ public class Usuario implements Serializable { //interface marcadora que indica 
 	public Usuario(){
 	}
 
-	public Usuario(Long id, String nomeCompleto, String cpfCnpj, String email, String senha, UsuarioTipo tipo) {
+	public Usuario(Long id, String nomeCompleto, String cpfCnpj, String email, String senha, TipoUsuario tipo) {
 		super();
 		this.id = id;
 		this.nomeCompleto = nomeCompleto;
@@ -88,11 +88,11 @@ public class Usuario implements Serializable { //interface marcadora que indica 
 		this.senha = senha;
 	}
 	
-	public UsuarioTipo getTipo() {
+	public TipoUsuario getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(UsuarioTipo tipo) {
+	public void setTipo(TipoUsuario tipo) {
 		this.tipo = tipo;
 	}
 

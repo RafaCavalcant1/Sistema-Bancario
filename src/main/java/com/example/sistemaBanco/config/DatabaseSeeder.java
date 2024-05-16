@@ -12,7 +12,7 @@ import com.example.sistemaBanco.entities.Conta;
 import com.example.sistemaBanco.entities.Transacao;
 import com.example.sistemaBanco.entities.Usuario;
 import com.example.sistemaBanco.entities.enums.TipoTransacao;
-import com.example.sistemaBanco.entities.enums.UsuarioTipo;
+import com.example.sistemaBanco.entities.enums.TipoUsuario;
 import com.example.sistemaBanco.repository.ContaRepository;
 import com.example.sistemaBanco.repository.TransacaoRepository;
 import com.example.sistemaBanco.repository.UsuarioRepository;
@@ -37,9 +37,9 @@ public class DatabaseSeeder implements CommandLineRunner {
 	@Override// tudo que colocar dentro desse método run(ele veio do implements) vai ser executado
 	public void run(String... args) throws Exception {
 		//id está null pois vai ser gerado pelo BD
-		Usuario u1 = new Usuario(null, "Rafaela cavalcanti", "12329912447", "rafaela@gmail.com", Md5Util.cryptography("12345678"),UsuarioTipo.COMUM);
-		Usuario u2 = new Usuario(null, "Jessica Silva", "11111111111", "jessica@gmail.com", Md5Util.cryptography("12345678"),UsuarioTipo.COMUM);
-		Usuario u3 = new Usuario(null, "Maria Pereira", "22222222222", "maria@gmail.com", Md5Util.cryptography("12345678"),UsuarioTipo.LOJISTA);
+		Usuario u1 = new Usuario(null, "Rafaela cavalcanti", "12329912447", "rafaela@gmail.com", Md5Util.cryptography("12345678"),TipoUsuario.COMUM);
+		Usuario u2 = new Usuario(null, "Jessica Silva", "11111111111", "jessica@gmail.com", Md5Util.cryptography("12345678"),TipoUsuario.COMUM);
+		Usuario u3 = new Usuario(null, "Maria Pereira", "22222222222", "maria@gmail.com", Md5Util.cryptography("12345678"),TipoUsuario.LOJISTA);
 		
 		usuarioRepository.saveAll(Arrays.asList(u1, u2, u3));
 		

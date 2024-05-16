@@ -3,7 +3,7 @@ package com.example.sistemaBanco.dto.response;
 import java.io.Serializable;
 
 import com.example.sistemaBanco.entities.Usuario;
-import com.example.sistemaBanco.entities.enums.UsuarioTipo;
+import com.example.sistemaBanco.entities.enums.TipoUsuario;
 
 
 public class ResponseUsuario implements Serializable { // interface marcadora que indica que a classe pode ser
@@ -17,12 +17,12 @@ public class ResponseUsuario implements Serializable { // interface marcadora qu
 	private String nomeCompleto;
 	private String cpfCnpj;
 	private String email;
-	private UsuarioTipo tipo; 
+	private TipoUsuario tipo; 
 	
 	public ResponseUsuario() {
 	}
 
-	public ResponseUsuario(Long id, String nomeCompleto, String cpfCnpj, String email, UsuarioTipo tipo) {
+	public ResponseUsuario(Long id, String nomeCompleto, String cpfCnpj, String email, TipoUsuario tipo) {
 		super();
 		this.id = id;
 		this.nomeCompleto = nomeCompleto;
@@ -68,11 +68,11 @@ public class ResponseUsuario implements Serializable { // interface marcadora qu
 		this.email = email;
 	}
 
-	public UsuarioTipo getTipo() {
+	public TipoUsuario getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(UsuarioTipo tipo) {
+	public void setTipo(TipoUsuario tipo) {
 		this.tipo = tipo;
 	}
 	

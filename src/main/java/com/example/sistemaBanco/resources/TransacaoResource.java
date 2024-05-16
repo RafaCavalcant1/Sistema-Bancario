@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.sistemaBanco.dto.request.GetTransacao;
+import com.example.sistemaBanco.dto.request.PostTransacaoDeposito;
+import com.example.sistemaBanco.dto.request.PostTransacaoSaque;
+import com.example.sistemaBanco.dto.request.PostTransacaoTransferencia;
 import com.example.sistemaBanco.entities.Transacao;
 import com.example.sistemaBanco.entities.enums.TipoTransacao;
 import com.example.sistemaBanco.resources.openApi.TransacaoResourceOpenApi;
@@ -39,7 +42,7 @@ public class TransacaoResource implements TransacaoResourceOpenApi{
 													  @RequestParam(required = false)@DateTimeFormat(iso = ISO.DATE) LocalDate dataFim,
 													 // padrão iso é "yyyy-MM-dd"
 													  @RequestParam(required = false) TipoTransacao tipo,
-													  @RequestParam(required = false) Pageable pageable){
+													  Pageable pageable){
 		
 		//se a dataInicio é posterior a dataFim
 		if((dataInicio != null && dataFim != null) && dataInicio.isAfter(dataFim))
@@ -61,20 +64,23 @@ public class TransacaoResource implements TransacaoResourceOpenApi{
 
 	@ResponseStatus(HttpStatus.NO_CONTENT) // essa anotação deixa o retorno do end point com esse status
 	@PostMapping("/fazer-transferencias")
-	public void realizarTransferencia(@RequestBody Transacao transferencia) {
-		transacaoService.realizarTransferencia(transferencia);
+	public void realizarTransferencia(@RequestBody PostTransacaoTransferencia transferenciaDto) {
+		Transacao trasferencia = transferenciaDto.toTransacao();
+        transacaoService.realizarTransferencia(trasferencia);
 	}
 	
 	@ResponseStatus(HttpStatus.NO_CONTENT) // essa anotação deixa o retorno do end point com esse status
 	@PostMapping("/fazer-saques")
-	public void realizarSaque(@RequestBody Transacao saque) {
-		transacaoService.realizarSaque(saque);
+	public void realizarSaque(@RequestBody PostTransacaoSaque saqueDto) {
+		Transacao saque = saqueDto.toTransacao();
+        transacaoService.realizarSaque(saque);
 	}
 	
 	@ResponseStatus(HttpStatus.NO_CONTENT) // essa anotação deixa o retorno do end point com esse status
 	@PostMapping("/fazer-depositos")
-	public void realizarDeposito(@RequestBody Transacao deposito) {
-		transacaoService.realizarDeposito(deposito);
+	public void realizarDeposito(@RequestBody PostTransacaoDeposito depositoDto) {
+		Transacao deposito = depositoDto.toTransacao();
+        transacaoService.realizarDeposito(deposito);
 	}
 
 
