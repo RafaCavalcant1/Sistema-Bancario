@@ -3,7 +3,7 @@ package com.example.sistemaBanco.dto.request;
 import java.io.Serializable;
 
 import com.example.sistemaBanco.entities.Usuario;
-import com.example.sistemaBanco.entities.enums.UsuarioTipo;
+import com.example.sistemaBanco.entities.enums.TipoUsuario;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -30,12 +30,12 @@ public class UsuarioRequestDto implements Serializable { // interface marcadora 
 	private String senha;
 
 	@NotNull(message = "Type cannot be empty.")
-	private UsuarioTipo tipo; // comum ou lojista
+	private TipoUsuario tipo; // comum ou lojista
 
 	public UsuarioRequestDto() {
 	}
 
-	public UsuarioRequestDto(String nomeCompleto, String cpfCnpj, String email, String senha, UsuarioTipo tipo) {
+	public UsuarioRequestDto(String nomeCompleto, String cpfCnpj, String email, String senha, TipoUsuario tipo) {
 		super();
 		this.nomeCompleto = nomeCompleto;
 		this.cpfCnpj = cpfCnpj;
@@ -81,11 +81,11 @@ public class UsuarioRequestDto implements Serializable { // interface marcadora 
 		this.senha = senha;
 	}
 
-	public UsuarioTipo getTipo() {
+	public TipoUsuario getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(UsuarioTipo tipo) {
+	public void setTipo(TipoUsuario tipo) {
 		this.tipo = tipo;
 	}
 

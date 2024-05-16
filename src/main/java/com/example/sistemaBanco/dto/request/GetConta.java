@@ -36,6 +36,9 @@ public class GetConta implements Serializable {
 	}
 
 	public static GetConta fromConta(Conta conta) {
+		if (conta == null) {
+            return null;
+        }
 		ResponseUsuario getUsuario = ResponseUsuario.toResponseUsuario(conta.getUsuario());// pegando o getusuario para converter em usuario associando a uma conta
 		return new GetConta(conta.getId(), conta.getConta(), conta.getAgencia(), conta.getSaldo(), getUsuario);
 	}

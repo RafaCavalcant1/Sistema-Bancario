@@ -3,14 +3,14 @@ package com.example.sistemaBanco.dto.request;
 import java.io.Serializable;
 
 import com.example.sistemaBanco.entities.Usuario;
-import com.example.sistemaBanco.entities.enums.UsuarioTipo;
+import com.example.sistemaBanco.entities.enums.TipoUsuario;
 
 public class PutUsuario extends UsuarioRequestDto implements Serializable { 
 	
 	private static final long serialVersionUID = 1L;
 
 
-	public PutUsuario(String nomeCompleto, String cpfCnpj, String email, String senha, UsuarioTipo tipo) {
+	public PutUsuario(String nomeCompleto, String cpfCnpj, String email, String senha, TipoUsuario tipo) {
 		super(nomeCompleto, cpfCnpj, email, senha , tipo);
 	}
 
