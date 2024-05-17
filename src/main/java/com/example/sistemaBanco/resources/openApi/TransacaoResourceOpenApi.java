@@ -35,7 +35,7 @@ public interface TransacaoResourceOpenApi {
 
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "200"),
-	        @ApiResponse(responseCode = "404", description = "Transação não encontrada")
+	        @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(schema = @Schema(implementation = StandardError.class)))
 	    })
 	@Parameter(in = ParameterIn.QUERY, name = "page", schema = @Schema(type = "integer"))
 	@Parameter(in = ParameterIn.QUERY, name = "size", schema = @Schema(type = "integer"))
@@ -47,7 +47,7 @@ public interface TransacaoResourceOpenApi {
 													  @Parameter(hidden = true) Pageable pageable);
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "200"),
-	        @ApiResponse(responseCode = "404", description = "Transação não encontrada")
+	        @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(schema = @Schema(implementation = StandardError.class)))
 	    })
 	@GetMapping("/{id}") 
 	ResponseEntity<GetTransacao> findById(@PathVariable Long id);

@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.sistemaBanco.dto.request.PostUsuario;
 import com.example.sistemaBanco.dto.request.PutUsuario;
 import com.example.sistemaBanco.dto.response.ResponseUsuario;
+import com.example.sistemaBanco.resources.exception.StandardError;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -28,7 +30,7 @@ public interface UsuarioResourceOpenApi {
 
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "200", description = "Usuário encontrado com sucesso"),
-	        @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
+	        @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(schema = @Schema(implementation = StandardError.class)))
 	    })
 	
 	// esta criando um parametro que vai na url ParameterIn.QUERY, o name é o nome do parametro e o @Schema define o tipo do parametro 
@@ -45,29 +47,30 @@ public interface UsuarioResourceOpenApi {
 	
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "200", description = "Usuário encontrado com sucesso"),
-	        @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
+	        @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(schema = @Schema(implementation = StandardError.class)))
 	    })
 	@GetMapping("/{id}")
 	ResponseEntity<ResponseUsuario> findById(@PathVariable Long id);
 
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "201"),
-	        @ApiResponse(responseCode = "422", description = "Um ou mais campos estão inválidos")
+	        @ApiResponse(responseCode = "422", description = "Entidade não processável", content = @Content(schema = @Schema(implementation = StandardError.class)))
 	    })
 	@PostMapping
 	ResponseEntity<ResponseUsuario> insert(@RequestBody @Valid PostUsuario postUsuario);
 
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "200"),
-	        @ApiResponse(responseCode = "422", description = "Um ou mais campos estão inválidos")
+	        @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(schema = @Schema(implementation = StandardError.class))),
+	        @ApiResponse(responseCode = "422", description = "Entidade não processável", content = @Content(schema = @Schema(implementation = StandardError.class)))
 	    })
 	@PutMapping("/{id}")
 	ResponseEntity<ResponseUsuario> update(@PathVariable Long id, @RequestBody @Valid PutUsuario obj);
 
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "204"),
-	        @ApiResponse(responseCode = "404", description = "Usuário não encontrado"),
-	        @ApiResponse(responseCode = "400", description = "Usuário possui dependências")
+	        @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(schema = @Schema(implementation = StandardError.class))),
+	        @ApiResponse(responseCode = "400", description = "Usuário possui dependências", content = @Content(schema = @Schema(implementation = StandardError.class)))
 	    })
 	@DeleteMapping("/{id}")
 	ResponseEntity<Void> deletarUsuario(@PathVariable Long id);
