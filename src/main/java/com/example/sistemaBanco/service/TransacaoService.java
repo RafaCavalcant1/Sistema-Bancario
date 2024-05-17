@@ -4,6 +4,7 @@ import static com.example.sistemaBanco.spec.TransacaoSpec.comDataMaiorOuIgualA;
 import static com.example.sistemaBanco.spec.TransacaoSpec.comDataMenorOuIgualA;
 import static com.example.sistemaBanco.spec.TransacaoSpec.comTipoIgual;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Optional;
@@ -78,12 +79,13 @@ public class TransacaoService {
 	@Transactional
 	public void realizarSaque(Transacao saque, Conta contaOrigem) {
 
-		if (saque.getValor() <= 0) { // se o valoe do saque for menor ou = a zero lança esse erro
+		// pegue o valor do saque que é um bigDecimal e compare com outro bigDecimal no valor zero  
+		if (saque.getValor().compareTo(BigDecimal.ZERO)<= 0) { // se o valoe do saque for menor ou = a zero lança esse erro
 			throw new ValorInvalidoException("O valor da transação deve ser positivo.");
 		}
 		// se o saldo da conta for maior qu eo valor do saque ai faz a operação
-		if (contaOrigem.getSaldo() >= saque.getValor()) {
-			contaOrigem.setSaldo(contaOrigem.getSaldo() - saque.getValor()); // pega o saldo e subtrai do valor sacado
+		if (contaOrigem.getSaldo().compareTo(saque.getValor()) >= 0) {
+			contaOrigem.setSaldo(contaOrigem.getSaldo().subtract(saque.getValor())); // pega o saldo e subtrai do valor sacado
 			contaRepository.save(contaOrigem); // salva a conta
 
 			saque.setTipo(TipoTransacao.SAQUE);
@@ -108,11 +110,11 @@ public class TransacaoService {
 	@Transactional
 	public void realizarDeposito(Transacao deposito, Conta contaDestino) {
 
-		if (deposito.getValor() <= 0) { // vendo se o valor do deposito é positivo
+		if (deposito.getValor().compareTo(BigDecimal.ZERO) <= 0) { // vendo se o valor do deposito é positivo
 			throw new ValorInvalidoException("O valor do depósito deve ser um valor positivo.");
 		}
 
-		contaDestino.setSaldo(contaDestino.getSaldo() + deposito.getValor()); // se for peha a conta destino e soma com
+		contaDestino.setSaldo(contaDestino.getSaldo().add(deposito.getValor())); // se for peha a conta destino e soma com
 																				// o novo valor depositado
 		contaRepository.save(contaDestino);
 

@@ -1,6 +1,7 @@
 package com.example.sistemaBanco.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
@@ -22,7 +23,7 @@ public class Conta implements Serializable {
 	private Long id;
 	private String conta;
 	private String agencia;
-	private Double saldo; 
+	private BigDecimal saldo; 
 
 	
 	@ManyToOne(fetch = FetchType.EAGER) //(fetch = FetchType.LAZY)// uma conta pode pertencer a um unico usuario
@@ -31,7 +32,7 @@ public class Conta implements Serializable {
 	public Conta() {
 	}
 
-	public Conta(Long id, String conta, String agencia, Double saldo, Usuario usuario) {
+	public Conta(Long id, String conta, String agencia, BigDecimal saldo, Usuario usuario) {
 		super();
 		this.id = id;
 		this.conta = conta;
@@ -64,11 +65,11 @@ public class Conta implements Serializable {
 		this.agencia = agencia;
 	}
 
-	public Double getSaldo() {
+	public BigDecimal getSaldo() {
 		return saldo;
 	}
 
-	public void setSaldo(Double saldo) {
+	public void setSaldo(BigDecimal saldo) {
 		this.saldo = saldo;
 	}
 

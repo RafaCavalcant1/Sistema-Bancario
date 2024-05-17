@@ -1,6 +1,7 @@
 package com.example.sistemaBanco.dto.request;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import com.example.sistemaBanco.entities.Transacao;
@@ -12,7 +13,7 @@ public class GetTransacao implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private Long id;
-    private Double valor;
+    private BigDecimal valor;
     private Date data;
     private TipoTransacao tipo;
     private GetConta contaOrigem;// usar  dto 
@@ -21,7 +22,7 @@ public class GetTransacao implements Serializable {
     public GetTransacao() {
     }
 
-    public GetTransacao(Long id, GetConta contaOrigem, GetConta contaDestino, Double valor, Date data, TipoTransacao tipo) {
+    public GetTransacao(Long id, GetConta contaOrigem, GetConta contaDestino, BigDecimal valor, Date data, TipoTransacao tipo) {
     	this.id = id;
     	this.contaOrigem = contaOrigem;
         this.contaDestino = contaDestino;
@@ -47,11 +48,11 @@ public class GetTransacao implements Serializable {
 		this.id = id;
 	}
 
-	public Double getValor() {
+	public BigDecimal getValor() {
 		return valor;
 	}
 
-	public void setValor(Double valor) {
+	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
 

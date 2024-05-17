@@ -1,6 +1,7 @@
 package com.example.sistemaBanco.dto.request;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import com.example.sistemaBanco.dto.IdDto;
 import com.example.sistemaBanco.entities.Transacao;
@@ -12,12 +13,12 @@ public class PostTransacaoTransferencia implements Serializable {
 
 	private Long idContaOrigem;
 	private Long idContaDestino;
-	private Double valor;
+	private BigDecimal valor;
 
 	public PostTransacaoTransferencia() {
 	}
 
-	public PostTransacaoTransferencia(Long idContaOrigem, Long idContaDestino, Double valor) {
+	public PostTransacaoTransferencia(Long idContaOrigem, Long idContaDestino, BigDecimal valor) {
 		super();
 		this.idContaOrigem = idContaOrigem;
 		this.idContaDestino = idContaDestino;
@@ -59,11 +60,11 @@ public class PostTransacaoTransferencia implements Serializable {
 		this.idContaDestino = idContaDestino;
 	}
 
-	public Double getValor() {
+	public BigDecimal getValor() {
 		return valor;
 	}
 
-	public void setValor(Double valor) {
+	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
 

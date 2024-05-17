@@ -1,5 +1,6 @@
 package com.example.sistemaBanco.config;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -43,15 +44,15 @@ public class DatabaseSeeder implements CommandLineRunner {
 		
 		usuarioRepository.saveAll(Arrays.asList(u1, u2, u3));
 		
-		Conta c1 = new Conta(null, "12", "1234", 5000.00, u1);
-		Conta c2 = new Conta(null, "13", "1235", 4000.00, u2);
-		Conta c3 = new Conta(null, "14", "1236", 3000.00, u3);
+		Conta c1 = new Conta(null, "12", "1234", new BigDecimal("5000.00"), u1);
+		Conta c2 = new Conta(null, "13", "1235", new BigDecimal("4000.00"), u2);
+		Conta c3 = new Conta(null, "14", "1236", new BigDecimal("3000.00"), u3);
 		
 		contaRepository.saveAll(Arrays.asList(c1, c2,c3));
 		
 		Date dataAtual = new Date();
-		Transacao t1 = new Transacao(null, c1, c2, 1000.00, dataAtual, TipoTransacao.DEPOSITO);
-		Transacao t2 = new Transacao(null, c2, c1, 2000.00, dataAtual, TipoTransacao.DEPOSITO);
+		Transacao t1 = new Transacao(null, c1, c2, new BigDecimal("1000.00") , dataAtual, TipoTransacao.DEPOSITO);
+		Transacao t2 = new Transacao(null, c2, c1, new BigDecimal("2000.00") , dataAtual, TipoTransacao.DEPOSITO);
 		
 		
 		transacaoRepository.saveAll(Arrays.asList(t1, t2));

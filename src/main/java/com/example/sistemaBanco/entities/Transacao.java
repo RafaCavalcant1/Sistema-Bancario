@@ -1,6 +1,7 @@
 package com.example.sistemaBanco.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
@@ -24,7 +25,7 @@ public class Transacao implements Serializable {
 	// para fazer com que o id fique autoincrementavel
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Double valor;
+	private BigDecimal valor;
 	private Date data;
 	private TipoTransacao tipo;
 
@@ -39,7 +40,7 @@ public class Transacao implements Serializable {
 	public Transacao() {
 	}
 
-	public Transacao(Long id, Conta contaOrigem, Conta contaDestino, Double valor, Date data, TipoTransacao tipo) {
+	public Transacao(Long id, Conta contaOrigem, Conta contaDestino, BigDecimal valor, Date data, TipoTransacao tipo) {
 		this.id = id;
 		this.contaOrigem = contaOrigem;
 		this.contaDestino = contaDestino;
@@ -72,11 +73,11 @@ public class Transacao implements Serializable {
 		this.contaDestino = contaDestino;
 	}
 
-	public Double getValor() {
+	public BigDecimal getValor() {
 		return valor;
 	}
 
-	public void setValor(Double valor) {
+	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
 

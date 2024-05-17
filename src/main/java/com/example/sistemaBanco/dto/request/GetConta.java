@@ -1,6 +1,7 @@
 package com.example.sistemaBanco.dto.request;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import com.example.sistemaBanco.dto.response.ResponseUsuario;
 import com.example.sistemaBanco.entities.Conta;
@@ -13,7 +14,7 @@ public class GetConta implements Serializable {
 	private Long id;
 	private String conta;
 	private String agencia;
-	private Double saldo;
+	private BigDecimal saldo;
 
 	// faz com que qnd o jackson for converter java em json eme não vai considerar a propiedade contas dentro de usuario, ele vai ignorar
 	@JsonIgnoreProperties("contas") 
@@ -22,7 +23,7 @@ public class GetConta implements Serializable {
 	public GetConta() {
 	}
 
-	public GetConta(Long id,String conta, String agencia, Double saldo, ResponseUsuario usuario) {
+	public GetConta(Long id,String conta, String agencia, BigDecimal  saldo, ResponseUsuario usuario) {
 		super();
 		this.id = id;
 		this.conta = conta;
@@ -68,11 +69,11 @@ public class GetConta implements Serializable {
 		this.agencia = agencia;
 	}
 
-	public Double getSaldo() {
+	public BigDecimal  getSaldo() {
 		return saldo;
 	}
 
-	public void setSaldo(Double saldo) {
+	public void setSaldo(BigDecimal  saldo) {
 		this.saldo = saldo;
 	}
 
