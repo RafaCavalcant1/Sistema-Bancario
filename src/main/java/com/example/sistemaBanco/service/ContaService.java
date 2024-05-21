@@ -41,9 +41,4 @@ public class ContaService {
 		return contaRepository.findById(id).orElseThrow(() -> new ContaNotFoundException(id));
 	}
 
-	// para atualizar a conta
-	public void atualizarConta(Conta conta) {
-		contaRepository.save(conta);
-	}
-
 }

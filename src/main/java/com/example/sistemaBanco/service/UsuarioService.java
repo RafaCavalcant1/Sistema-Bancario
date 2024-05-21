@@ -4,8 +4,6 @@ import static com.example.sistemaBanco.spec.UsuarioSpec.comEmailParecido;
 import static com.example.sistemaBanco.spec.UsuarioSpec.comNomeParecido;
 import static com.example.sistemaBanco.spec.UsuarioSpec.comCpfCnpjIgual;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,25 +31,11 @@ public class UsuarioService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
-	// método para retornar todos os usuários do banco
-	public List<ResponseUsuario> findAll() {
-		List<Usuario> usuarios = usuarioRepository.findAll(); // pego a lista de usuarios
-		List<ResponseUsuario> getUsuarios = new ArrayList<>(); // uma lisra vazia que armazena os obj convertdos
-
-		for (Usuario usuario : usuarios) { // pecorre cada obj de usuarios
-			getUsuarios.add(ResponseUsuario.toResponseUsuario(usuario)); // pega a lista e adiciona os usuarios
-																			// convertidos
-		}
-
-		return getUsuarios;
-	}
-
 	public Page<Usuario> pesquisarUsuario(String nomeCompleto, String email, String cpfCnpj, Pageable pageable) {
 
-		// estudar esse padrão
 		Specification<Usuario> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
 
-		if (cpfCnpj != null)
+		if (cpfCnpj != null) 
 			spec = spec.and(comCpfCnpjIgual(cpfCnpj));
 
 		if (email != null)
@@ -154,7 +138,7 @@ public class UsuarioService {
 
 	// deletar o usuario
 	public void deletarUsuario(Long id) {
-		// vai ver se existe
+		// vai ver se n existe
 		if (!usuarioRepository.existsById(id)) {
 			throw new ResourceNotFoundException(id); // gera o erro caso n exista
 		}

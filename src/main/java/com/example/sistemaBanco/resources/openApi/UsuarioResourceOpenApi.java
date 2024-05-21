@@ -43,7 +43,7 @@ public interface UsuarioResourceOpenApi {
 			@Parameter(hidden = true) Pageable pageable);
 	// hidden está escondendo para não aparecer mais na documentação 
 	
-	
+
 	
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "200", description = "Usuário encontrado com sucesso"),

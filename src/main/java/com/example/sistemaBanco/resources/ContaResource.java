@@ -55,5 +55,6 @@ public class ContaResource implements ContaResourceOpenApi{
 		GetConta getConta = GetConta.fromConta(conta); // convertendo
 		return ResponseEntity.ok(getConta);
 	}
+	
 
 }
