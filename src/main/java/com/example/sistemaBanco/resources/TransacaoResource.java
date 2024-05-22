@@ -40,7 +40,6 @@ public class TransacaoResource implements TransacaoResourceOpenApi{
 	@GetMapping
 	public ResponseEntity<Page<GetTransacao>> obterHistoricoTransacao(@RequestParam(required = false)@DateTimeFormat(iso = ISO.DATE) LocalDate dataInicio,
 													  @RequestParam(required = false)@DateTimeFormat(iso = ISO.DATE) LocalDate dataFim,
-													 // padrão iso é "yyyy-MM-dd"
 													  @RequestParam(required = false) TipoTransacao tipo,
 													  Pageable pageable){
 		

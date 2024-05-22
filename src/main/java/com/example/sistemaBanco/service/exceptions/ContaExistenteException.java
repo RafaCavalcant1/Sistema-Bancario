@@ -1,4 +1,4 @@
-package com.example.sistemaBanco.service;
+package com.example.sistemaBanco.service.exceptions;
 
 public class ContaExistenteException extends RuntimeException {
 
@@ -9,3 +9,5 @@ public class ContaExistenteException extends RuntimeException {
 	}
 
 }
+
+

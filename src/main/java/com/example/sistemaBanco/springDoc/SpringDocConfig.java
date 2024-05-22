@@ -16,7 +16,7 @@ public class SpringDocConfig {
 	public OpenAPI openAPI() {
 		return new OpenAPI()
 				.info(new Info()
-						.title("Test API")
+						.title("API Sistema-bancário")
 						.version("v1")
 						.description("Sistema bancário"))
 				.tags(

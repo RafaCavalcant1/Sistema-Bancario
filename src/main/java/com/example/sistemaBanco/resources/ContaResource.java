@@ -80,7 +80,7 @@ public class ContaResource implements ContaResourceOpenApi {
 
 		Random random = new Random();
 		int numeroConta = 1 + random.nextInt(3);
-		novaConta.setConta(String.valueOf(numeroConta)); // Convertendo para String
+		novaConta.setConta(String.valueOf(numeroConta)); 
 
 		// Converter IdDto para Usuario
 		IdDto usuarioDto = postConta.getUsuario();

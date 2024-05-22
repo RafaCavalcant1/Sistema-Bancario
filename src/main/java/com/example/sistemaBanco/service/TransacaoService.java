@@ -147,7 +147,7 @@ public class TransacaoService {
 	}
 
 	@Transactional
-	private void enviarEmailTransferencia(Transacao transferencia, Conta contaDestino) {
+	public void enviarEmailTransferencia(Transacao transferencia, Conta contaDestino) {
 		String destinatario = contaDestino.getUsuario().getEmail();
 		String assunto = "Transferência Recebida";
 		String corpo = "Você recebeu uma transferência no valor de " + transferencia.getValor() + " reais.";

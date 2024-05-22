@@ -11,7 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.example.sistemaBanco.service.ContaExistenteException;
+import com.example.sistemaBanco.service.exceptions.ContaExistenteException;
 import com.example.sistemaBanco.service.exceptions.ContaDestinoException;
 import com.example.sistemaBanco.service.exceptions.ContaNotFoundException;
 import com.example.sistemaBanco.service.exceptions.ContaOrigemException;

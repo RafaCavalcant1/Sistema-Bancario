@@ -10,5 +10,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>, JpaSpec
 	Usuario findByCpfCnpj(String cpfCnpj); // busca o usuario pelo cpf/cnpj se n tiver retorna null
 
 	Usuario findByEmail(String email);// busca o usuario pelo email se n tiver retorna null
+
+	boolean existsByCpfCnpjAndIdNot(String cpfCnpj, Long id);
+
+	boolean existsByEmailAndIdNot(String email, Long id);
 	
 }

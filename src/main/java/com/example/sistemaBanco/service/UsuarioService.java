@@ -88,18 +88,16 @@ public class UsuarioService {
 		// buscar o usuario pelo id , se n existir gera esse erro
 		Usuario entity = usuarioRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
 
-		// ver se CPF/CNPJ já está cadastrado
-		Usuario existByCpfCnpj = usuarioRepository.findByCpfCnpj(obj.getCpfCnpj());
-		if (existByCpfCnpj != null) {
-			throw new DuplicateUserException("CPF/CNPJ já cadastrado para outro usuário: " + obj.getCpfCnpj());
-		}
+		//vendo se o email ja esta cadastrado menos o do usuario atual 
+        if (cpfCnpjExcludingUsuario(id, obj.getCpfCnpj())) {
+            throw new DuplicateUserException("CPF/CNPJ já cadastrado para outro usuário: " + obj.getCpfCnpj());
+        }
 
-		// Vver se o email já está cadastrado
-		Usuario existByEmail = usuarioRepository.findByEmail(obj.getEmail());
-		if (existByEmail != null) {
-			throw new DuplicateUserException("E-mail já cadastrado para outro usuário: " + obj.getEmail());
-		}
-
+       //vendo se o email ja esta cadastrado menos o do usuario atual 
+        if (emailExcludingUsuario(id, obj.getEmail())) {
+            throw new DuplicateUserException("E-mail já cadastrado para outro usuário: " + obj.getEmail());
+        }
+		
 		// tamanho da senha
 		if (obj.getSenha() != null && obj.getSenha().length() < 8) {
 			throw new InvalidPasswordLengthException("A senha deve ter no mínimo 8 caracteres.");
@@ -110,6 +108,15 @@ public class UsuarioService {
 
 		return usuarioRepository.save(entity); // usuario atualizado
 	}
+	
+	private boolean cpfCnpjExcludingUsuario(Long id, String cpfCnpj) {
+        return usuarioRepository.existsByCpfCnpjAndIdNot(cpfCnpj, id);
+    }
+
+    private boolean emailExcludingUsuario(Long id, String email) {
+        return usuarioRepository.existsByEmailAndIdNot(email, id);
+    }
+
 
 	// atualizar os dados do entity do que chegou com o obj
 	private void updateData(Usuario entity, PutUsuario obj) {
@@ -119,7 +126,7 @@ public class UsuarioService {
 		}
 		// se o telef for diferente de nulo
 		if (obj.getNomeCompleto() != null) {
-			entity.setNomeCompleto(obj.getNomeCompleto()); // atualiza o telefone
+			entity.setNomeCompleto(obj.getNomeCompleto()); 
 		}
 		if (obj.getCpfCnpj() != null) {
 			entity.setCpfCnpj(obj.getCpfCnpj());

@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 import com.example.sistemaBanco.entities.Conta;
 import com.example.sistemaBanco.repository.ContaRepository;
 import com.example.sistemaBanco.repository.UsuarioRepository;
+import com.example.sistemaBanco.service.exceptions.ContaExistenteException;
 import com.example.sistemaBanco.service.exceptions.ContaNotFoundException;
-import com.example.sistemaBanco.service.exceptions.ResourceNotFoundException;
 import com.example.sistemaBanco.service.exceptions.UsuarioNotFound;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class ContaService {
@@ -46,16 +48,17 @@ public class ContaService {
 	public Conta findById(Long id) {
 		return contaRepository.findById(id).orElseThrow(() -> new ContaNotFoundException(id));
 	}
+	
+	@Transactional
+	public Conta insert(Conta conta) {
+		Long usuarioId = conta.getUsuario().getId();
+		if (!usuarioRepository.existsById(usuarioId)) {
+			throw new UsuarioNotFound("Usuário não encontrado com ID: " + usuarioId);
+		}
 
-	 public Conta insert(Conta conta) {
-		 Long usuarioId = conta.getUsuario().getId();
-	        if (!usuarioRepository.existsById(usuarioId)) {
-	            throw new UsuarioNotFound("Usuário não encontrado com ID: " + usuarioId);
-	        }
-
-	        if (contaRepository.existsByContaAndAgencia(conta.getConta(), conta.getAgencia())) {
-	            throw new ContaExistenteException("Conta já existente na agência: " + conta.getAgencia());
-	        }
-	        return contaRepository.save(conta);
-	    }
+		if (contaRepository.existsByContaAndAgencia(conta.getConta(), conta.getAgencia())) {
+			throw new ContaExistenteException("Conta já existente na agência: " + conta.getAgencia());
+		}
+		return contaRepository.save(conta);
+	}
 }
