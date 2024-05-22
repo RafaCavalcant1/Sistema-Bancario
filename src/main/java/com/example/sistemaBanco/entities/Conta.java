@@ -77,6 +77,10 @@ public class Conta implements Serializable {
 		return usuario;
 	}
 
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

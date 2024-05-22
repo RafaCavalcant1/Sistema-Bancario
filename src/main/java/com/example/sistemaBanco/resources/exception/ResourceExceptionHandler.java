@@ -11,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.example.sistemaBanco.service.ContaExistenteException;
 import com.example.sistemaBanco.service.exceptions.ContaDestinoException;
 import com.example.sistemaBanco.service.exceptions.ContaNotFoundException;
 import com.example.sistemaBanco.service.exceptions.ContaOrigemException;
@@ -24,6 +25,7 @@ import com.example.sistemaBanco.service.exceptions.ResourceNotFoundException;
 import com.example.sistemaBanco.service.exceptions.SaldoInsuficienteException;
 import com.example.sistemaBanco.service.exceptions.TransferenciaNotFoundException;
 import com.example.sistemaBanco.service.exceptions.UsuarioLojistaException;
+import com.example.sistemaBanco.service.exceptions.UsuarioNotFound;
 import com.example.sistemaBanco.service.exceptions.ValorInvalidoException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,7 +46,7 @@ public class ResourceExceptionHandler {
 	
 	// passei todas as classes de exceção
 	@ExceptionHandler({InvalidPasswordLengthException.class, DuplicateUserException.class, SaldoInsuficienteException.class, ContaDestinoException.class, ContaOrigemException.class,
-		ValorInvalidoException.class, ContasIguaisException.class,UsuarioLojistaException.class, ContaNotFoundException.class})
+		ValorInvalidoException.class, ContasIguaisException.class,UsuarioLojistaException.class, ContaNotFoundException.class, UsuarioNotFound.class})
 	public ResponseEntity<StandardError> handleOnlyException(Exception e, HttpServletRequest request) { // método handleCustomException que recebe Exception e (exceção lançada), e HttpServletRequest request, que representa a requisição HTTP.
 	    String messageUser = e.getMessage();
 	    HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY; // o status sempre vai ser esse, 422
@@ -114,4 +116,14 @@ public class ResourceExceptionHandler {
 	    return ResponseEntity.status(status).body(err);
 	}
 	
+
+	@ExceptionHandler(ContaExistenteException.class)
+	public ResponseEntity<StandardError> requisicaoInvalida(ContaExistenteException e, HttpServletRequest request) { // método handleCustomException que recebe Exception e (exceção lançada), e HttpServletRequest request, que representa a requisição HTTP.
+	    String messageUser = "Conta já existente";
+	    HttpStatus status = HttpStatus.CONFLICT; // o status sempre vai ser esse, 409
+
+	    StandardError err = new StandardError(Instant.now(), status.value(), messageUser, e.getMessage(), request.getRequestURI());
+	    return ResponseEntity.status(status).body(err);
+	}
+
 }

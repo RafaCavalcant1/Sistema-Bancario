@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import com.example.sistemaBanco.dto.IdDto;
+import com.example.sistemaBanco.entities.Conta;
 import com.example.sistemaBanco.entities.Transacao;
 import com.example.sistemaBanco.entities.enums.TipoTransacao;
 
@@ -24,7 +25,9 @@ public class PostTransacaoDeposito implements Serializable {
 	}
 
 	public Transacao toTransacao() {
-		return new Transacao(null, null, conta.toConta(), valor, null, TipoTransacao.DEPOSITO);
+		Conta conta = new Conta();
+        conta.setId(this.conta.getId());
+		return new Transacao(null, null, conta, valor, null, TipoTransacao.DEPOSITO);
 	}
 
 	public static PostTransacaoDeposito fromTransacaoDeposito(Transacao transacao) {

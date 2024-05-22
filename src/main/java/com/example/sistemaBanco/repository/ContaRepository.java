@@ -11,4 +11,6 @@ import com.example.sistemaBanco.entities.Conta;
 public interface ContaRepository extends JpaRepository<Conta, Long>,JpaSpecificationExecutor<Conta> {
 
 	Optional<GetConta> findById(Conta contaOrigem);
+
+	boolean existsByContaAndAgencia(String conta, String agencia);
 }

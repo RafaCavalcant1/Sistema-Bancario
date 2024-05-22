@@ -12,13 +12,19 @@ import org.springframework.stereotype.Service;
 
 import com.example.sistemaBanco.entities.Conta;
 import com.example.sistemaBanco.repository.ContaRepository;
+import com.example.sistemaBanco.repository.UsuarioRepository;
 import com.example.sistemaBanco.service.exceptions.ContaNotFoundException;
+import com.example.sistemaBanco.service.exceptions.ResourceNotFoundException;
+import com.example.sistemaBanco.service.exceptions.UsuarioNotFound;
 
 @Service
 public class ContaService {
 
 	@Autowired
 	private ContaRepository contaRepository;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 	
 	public Page<Conta> pesquisarContas( String conta, String agencia, String nomeCompleto, Pageable pegeable) {
  
@@ -41,4 +47,15 @@ public class ContaService {
 		return contaRepository.findById(id).orElseThrow(() -> new ContaNotFoundException(id));
 	}
 
+	 public Conta insert(Conta conta) {
+		 Long usuarioId = conta.getUsuario().getId();
+	        if (!usuarioRepository.existsById(usuarioId)) {
+	            throw new UsuarioNotFound("Usuário não encontrado com ID: " + usuarioId);
+	        }
+
+	        if (contaRepository.existsByContaAndAgencia(conta.getConta(), conta.getAgencia())) {
+	            throw new ContaExistenteException("Conta já existente na agência: " + conta.getAgencia());
+	        }
+	        return contaRepository.save(conta);
+	    }
 }
