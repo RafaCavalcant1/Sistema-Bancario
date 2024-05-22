@@ -32,7 +32,7 @@ public class PostTransacaoTransferencia implements Serializable {
 		Conta contaDestino = new Conta();
 		contaDestino.setId(idContaDestino);
 
-		return new Transacao(null, contaOrigem, contaDestino, valor, null, TipoTransacao.TRANSFERENCIA);
+		return new Transacao(contaOrigem, contaDestino, valor, TipoTransacao.TRANSFERENCIA);
 	}
 
 	public static PostTransacaoTransferencia fromTransacaoTransferencia(Transacao transacao) {

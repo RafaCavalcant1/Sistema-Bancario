@@ -48,6 +48,19 @@ public class Transacao implements Serializable {
 		this.data = data;
 		this.tipo = tipo;
 	}
+	
+	public Transacao(Conta contaDestino,BigDecimal valor, TipoTransacao tipo) {
+		this.contaDestino = contaDestino;
+		this.valor = valor;
+		this.tipo = tipo;
+	}
+	
+	public Transacao(Conta contaOrigem, Conta contaDestino,BigDecimal valor, TipoTransacao tipo) {
+		this.contaOrigem = contaOrigem;
+		this.contaDestino = contaDestino;
+		this.valor = valor;
+		this.tipo = tipo;
+	}
 
 	public Long getId() {
 		return id;

@@ -25,9 +25,9 @@ public class PostTransacaoSaque implements Serializable {
 	}
 
 	public Transacao toTransacao() { 
-		Conta conta = new Conta();
-        conta.setId(this.conta.getId());
-		return new Transacao(null, conta, null, valor, null, TipoTransacao.SAQUE);
+		Conta contaOrigem = new Conta();
+		contaOrigem.setId(this.conta.getId());
+		return new Transacao(contaOrigem, valor, TipoTransacao.SAQUE);
 	}
 
 	public static PostTransacaoSaque fromTransacaoSaque(Transacao transacao) { 
