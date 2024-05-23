@@ -24,17 +24,16 @@ public class PostTransacaoSaque implements Serializable {
 		this.valor = valor;
 	}
 
-	public Transacao toTransacao() { 
+	public Transacao toTransacao() {
 		Conta contaOrigem = new Conta();
 		contaOrigem.setId(this.conta.getId());
-		return new Transacao(contaOrigem, valor, TipoTransacao.SAQUE);
-	}
 
-	public static PostTransacaoSaque fromTransacaoSaque(Transacao transacao) { 
-		return new PostTransacaoSaque(
-			new IdDto(transacao.getContaOrigem().getId()), 
-			transacao.getValor()
-		);
+		Transacao transacao = new Transacao();
+		transacao.setContaOrigem(contaOrigem);
+		transacao.setValor(this.valor);
+		transacao.setTipo(TipoTransacao.SAQUE);
+
+		return transacao;
 	}
 
 	public IdDto getConta() {

@@ -30,13 +30,6 @@ public class PostTransacaoDeposito implements Serializable {
 		return new Transacao(contaDestino, valor, TipoTransacao.DEPOSITO);
 	}
 
-	public static PostTransacaoDeposito fromTransacaoDeposito(Transacao transacao) {
-		return new PostTransacaoDeposito(
-		new IdDto(transacao.getContaDestino().getId()), 
-		transacao.getValor()
-		);
-	}
-
 	public IdDto getConta() {
 		return conta;
 	}

@@ -35,12 +35,6 @@ public class PostTransacaoTransferencia implements Serializable {
 		return new Transacao(contaOrigem, contaDestino, valor, TipoTransacao.TRANSFERENCIA);
 	}
 
-	public static PostTransacaoTransferencia fromTransacaoTransferencia(Transacao transacao) {
-		return new PostTransacaoTransferencia(
-				transacao.getContaOrigem() != null ? transacao.getContaOrigem().getId() : null,
-				transacao.getContaDestino() != null ? transacao.getContaDestino().getId() : null, transacao.getValor());
-	}
-
 	public Long getIdContaOrigem() {
 		return idContaOrigem;
 	}
