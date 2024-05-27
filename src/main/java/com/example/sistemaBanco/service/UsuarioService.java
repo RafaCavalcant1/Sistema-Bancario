@@ -4,6 +4,7 @@ import static com.example.sistemaBanco.spec.UsuarioSpec.comEmailParecido;
 import static com.example.sistemaBanco.spec.UsuarioSpec.comNomeParecido;
 import static com.example.sistemaBanco.spec.UsuarioSpec.comCpfCnpjIgual;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,6 @@ import com.example.sistemaBanco.entities.Usuario;
 import com.example.sistemaBanco.repository.UsuarioRepository;
 import com.example.sistemaBanco.service.exceptions.DatabaseException;
 import com.example.sistemaBanco.service.exceptions.DuplicateUserException;
-import com.example.sistemaBanco.service.exceptions.InvalidPasswordLengthException;
 import com.example.sistemaBanco.service.exceptions.ResourceNotFoundException;
 import com.example.sistemaBanco.util.Md5Util;
 
@@ -35,15 +35,17 @@ public class UsuarioService {
 
 		Specification<Usuario> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
 
-		if (cpfCnpj != null) 
+		if(Objects.nonNull(cpfCnpj)) 
 			spec = spec.and(comCpfCnpjIgual(cpfCnpj));
 
-		if (email != null)
+		if(Objects.nonNull(email)) 
 			spec = spec.and(comEmailParecido(email));
-
-		if (nomeCompleto != null)
+		
+		// o OBJECTS serve para fazer validações se é igua, se está nula, se não esta nula, ultil no POO 
+		//ela tem métodos utilitários para operar em objetos ou verificar certas condições antes de operações. 
+		if(Objects.nonNull(nomeCompleto)) 
 			spec = spec.and(comNomeParecido(nomeCompleto));
-
+			
 		return this.usuarioRepository.findAll(spec, pageable);
 	}
 
@@ -71,11 +73,6 @@ public class UsuarioService {
 			throw new DuplicateUserException("E-mail já cadastrado: " + usuario.getEmail());
 		}
 
-		// verificando tamanho senha
-		if (usuario.getSenha().length() < 8) {
-			throw new InvalidPasswordLengthException("A senha deve ter no mínimo 8 caracteres.");
-		}
-
 		String encryptedPassword = Md5Util.cryptography(usuario.getSenha());
 		usuario.setSenha(encryptedPassword);
 
@@ -97,11 +94,6 @@ public class UsuarioService {
         if (emailExcludingUsuario(id, obj.getEmail())) {
             throw new DuplicateUserException("E-mail já cadastrado para outro usuário: " + obj.getEmail());
         }
-		
-		// tamanho da senha
-		if (obj.getSenha() != null && obj.getSenha().length() < 8) {
-			throw new InvalidPasswordLengthException("A senha deve ter no mínimo 8 caracteres.");
-		}
 
 		// Atualizar os dados do usuário no bancp
 		updateData(entity, obj);

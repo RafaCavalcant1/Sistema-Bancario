@@ -8,6 +8,7 @@ import com.example.sistemaBanco.entities.enums.TipoUsuario;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class UsuarioRequestDto implements Serializable { // interface marcadora que indica que a classe pode ser
 															// serializada. é
@@ -27,6 +28,7 @@ public class UsuarioRequestDto implements Serializable { // interface marcadora 
 	private String email;
 
 	@NotBlank(message = "Password cannot be empty.")
+	@Size(min = 8, message = "A senha deve conter 8 caracteres")
 	private String senha;
 
 	@NotNull(message = "Type cannot be empty.")

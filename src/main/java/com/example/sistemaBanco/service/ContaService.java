@@ -4,6 +4,8 @@ import static com.example.sistemaBanco.spec.ContaSpec.comAgenciaParecida;
 import static com.example.sistemaBanco.spec.ContaSpec.comContaIgual;
 import static com.example.sistemaBanco.spec.ContaSpec.comNomeDoUsuarioParecido;
 
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,13 +34,13 @@ public class ContaService {
  
 		Specification<Conta> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
 
-		if (conta != null)
+		if(Objects.nonNull(conta)) 
 			spec = spec.and(comContaIgual(conta));
-
-		if (agencia != null)
+		
+		if(Objects.nonNull(agencia)) 
 			spec = spec.and(comAgenciaParecida(agencia));
-
-		if (nomeCompleto != null)
+		
+		if(Objects.nonNull(nomeCompleto)) 
 			spec = spec.and(comNomeDoUsuarioParecido(nomeCompleto));
 
 		return this.contaRepository.findAll(spec, pegeable);

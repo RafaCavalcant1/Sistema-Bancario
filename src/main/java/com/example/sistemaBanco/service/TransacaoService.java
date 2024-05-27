@@ -7,6 +7,7 @@ import static com.example.sistemaBanco.spec.TransacaoSpec.comTipoIgual;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,15 +55,15 @@ public class TransacaoService {
 
 		Specification<Transacao> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
 
-		if (dataInicio != null)
-			spec = spec.and(comDataMaiorOuIgualA(dataInicio));
-
-		if (dataFim != null)
-			spec = spec.and(comDataMenorOuIgualA(dataFim));
-
-		if (tipo != null)
-			spec = spec.and(comTipoIgual(tipo));
-
+	    if(Objects.nonNull(dataInicio)) 
+		    spec = spec.and(comDataMaiorOuIgualA(dataInicio));
+	    
+	    if(Objects.nonNull(dataFim)) 
+		    spec = spec.and(comDataMenorOuIgualA(dataFim));
+	    
+	    if(Objects.nonNull(tipo)) 
+		    spec = spec.and(comTipoIgual(tipo ));
+	    
 		return transacaoRepository.findAll(spec, pageable);
 	}
 
