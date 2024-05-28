@@ -48,11 +48,10 @@ public class TransacaoResource implements TransacaoResourceOpenApi{
 			throw new RequisicaoInvalidaException("Data ínicio deve ser menor ou igual a data fim");
 		
 		Page<Transacao> paginaTransacoes = transacaoService.listarHistoricoTransacao(dataInicio, dataFim, tipo, pageable);
-		List<GetTransacao> getTransacao= paginaTransacoes.stream()
-				.map(GetTransacao::fromTransferencia)
-				.toList();
+		GetTransacao getTransacao = new GetTransacao();	
+		List<GetTransacao> getTransacoes= getTransacao.fromTransferencia(paginaTransacoes.getContent());
 
-		return ResponseEntity.ok(new PageImpl<>(getTransacao, pageable, paginaTransacoes.getTotalElements()));
+		return ResponseEntity.ok(new PageImpl<>(getTransacoes, pageable, paginaTransacoes.getTotalElements()));
 	}
 
 	@GetMapping("/{id}") // indica que a requisição vai aceitar um ID dentro da url

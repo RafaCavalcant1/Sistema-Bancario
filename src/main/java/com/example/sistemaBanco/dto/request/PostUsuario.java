@@ -1,6 +1,8 @@
 package com.example.sistemaBanco.dto.request;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.example.sistemaBanco.entities.Usuario;
 import com.example.sistemaBanco.entities.enums.TipoUsuario;
@@ -18,8 +20,13 @@ public class PostUsuario extends UsuarioRequestDto implements Serializable {
 
 
 	//recebe um objeto Usuario como parâmetro e retorna um objeto PostUsuario
-	public static PostUsuario fromUsuario(Usuario usuario) { // faz  o inverso e retorna os objetps 
-		return new PostUsuario(usuario.getNomeCompleto(), usuario.getCpfCnpj(), usuario.getEmail(),
-				usuario.getSenha(), usuario.getTipo());
+	public static List<PostUsuario> fromUsuario(List<Usuario> listUsuario) {
+		List<PostUsuario> postUsuarioList = new ArrayList<>();
+		listUsuario.forEach(usuario -> {
+			postUsuarioList.add(new PostUsuario(usuario.getNomeCompleto(), usuario.getCpfCnpj(), usuario.getEmail(),
+					usuario.getSenha(), usuario.getTipo()));
+		});
+		return postUsuarioList;
 	}
 }
+

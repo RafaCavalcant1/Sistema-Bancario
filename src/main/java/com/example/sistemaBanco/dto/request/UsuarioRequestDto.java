@@ -2,6 +2,8 @@ package com.example.sistemaBanco.dto.request;
 
 import java.io.Serializable;
 
+import org.springframework.beans.BeanUtils;
+
 import com.example.sistemaBanco.entities.Usuario;
 import com.example.sistemaBanco.entities.enums.TipoUsuario;
 
@@ -9,13 +11,14 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-public class UsuarioRequestDto implements Serializable { // interface marcadora que indica que a classe pode ser
-															// serializada. é
-	// o processo de converter um objeto em uma sequência de bytes, que
-	// pode ser armazenada em um arquivo
+@Data
+@AllArgsConstructor
+public class UsuarioRequestDto implements Serializable { 
 
-	private static final long serialVersionUID = 1L; // nnúmero de série padrao
+	private static final long serialVersionUID = 1L; 
 
 	@NotBlank(message = "Name cannot be empty.")
 	private String nomeCompleto;
@@ -34,61 +37,10 @@ public class UsuarioRequestDto implements Serializable { // interface marcadora 
 	@NotNull(message = "Type cannot be empty.")
 	private TipoUsuario tipo; // comum ou lojista
 
-	public UsuarioRequestDto() {
-	}
 
-	public UsuarioRequestDto(String nomeCompleto, String cpfCnpj, String email, String senha, TipoUsuario tipo) {
-		super();
-		this.nomeCompleto = nomeCompleto;
-		this.cpfCnpj = cpfCnpj;
-		this.email = email;
-		this.senha = senha;
-		this.tipo = tipo;
-	}
-
-	public Usuario toUsuario() { // convertendo usuarioDto em um obj usuario
-		return new Usuario(null, this.getNomeCompleto(), this.getCpfCnpj(), this.getEmail(), this.getSenha(),
-				this.getTipo());
-	}
-
-	public String getNomeCompleto() {
-		return nomeCompleto;
-	}
-
-	public void setNomeCompleto(String nomeCompleto) {
-		this.nomeCompleto = nomeCompleto;
-	}
-
-	public String getCpfCnpj() {
-		return cpfCnpj;
-	}
-
-	public void setCpfCnpj(String cpfCnpj) {
-		this.cpfCnpj = cpfCnpj;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
-	public TipoUsuario getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(TipoUsuario tipo) {
-		this.tipo = tipo;
+	public UsuarioRequestDto toUsuario(Usuario usuario) { // convertendo usuarioDto em um obj usuario
+		BeanUtils.copyProperties(usuario, this);
+		return this;
 	}
 
 }

@@ -2,11 +2,16 @@ package com.example.sistemaBanco.dto.request;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.example.sistemaBanco.dto.response.ResponseUsuario;
 import com.example.sistemaBanco.entities.Conta;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import lombok.Data;
+
+@Data
 public class GetConta implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -19,75 +24,25 @@ public class GetConta implements Serializable {
 	// faz com que qnd o jackson for converter java em json eme não vai considerar a propiedade contas dentro de usuario, ele vai ignorar
 	@JsonIgnoreProperties("contas") 
 	private ResponseUsuario usuario;// usar o dto 
-
-	public GetConta() {
-	}
-
-	public GetConta(Long id,String conta, String agencia, BigDecimal  saldo, ResponseUsuario usuario) {
-		super();
-		this.id = id;
-		this.conta = conta;
-		this.agencia = agencia;
-		this.saldo = saldo;
-		this.usuario = usuario;
-	}
-
-	public Conta toConta() { // convertendo contaDto em um obj usuario
-		return new Conta(this.getId(), this.getConta(), this.getAgencia(), this.getSaldo(), null);
-	}
-
-	public static GetConta fromConta(Conta conta) {
-		if (conta == null) {
-            return null;
-        }
-		ResponseUsuario getUsuario = ResponseUsuario.toResponseUsuario(conta.getUsuario());// pegando o getusuario para converter em usuario associando a uma conta
-		return new GetConta(conta.getId(), conta.getConta(), conta.getAgencia(), conta.getSaldo(), getUsuario);
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-
-	public String getConta() {
-		return conta;
-	}
-
-	public void setConta(String conta) {
-		this.conta = conta;
-	}
-
-	public String getAgencia() {
-		return agencia;
-	}
-
-	public void setAgencia(String agencia) {
-		this.agencia = agencia;
-	}
-
-	public BigDecimal  getSaldo() {
-		return saldo;
-	}
-
-	public void setSaldo(BigDecimal  saldo) {
-		this.saldo = saldo;
-	}
-
-	public ResponseUsuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(ResponseUsuario usuario) {
-		this.usuario = usuario;
-	}
-
 	
+	public GetConta toConta(Conta conta) { 
+		this.id = conta.getId();
+        this.conta = conta.getConta();
+        this.agencia = conta.getAgencia();
+        this.saldo = conta.getSaldo();
+       
+        ResponseUsuario responseUsuario = new ResponseUsuario();
+        this.usuario = responseUsuario.toResponseUsuario(conta.getUsuario());
+        return this;
+	}
 
-	
-	
+	public List<GetConta> fromConta(List<Conta> listConta){
+		GetConta getConta = new GetConta();
+		List<GetConta> getContaList = new ArrayList<>();
+		listConta.forEach(c -> {
+			getContaList.add(getConta.toConta(c));
+		});
+		return getContaList;
+	}
 
 }

@@ -3,6 +3,7 @@ package com.example.sistemaBanco.resources;
 import java.net.URI;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -35,13 +36,22 @@ public class UsuarioResource implements UsuarioResourceOpenApi {
 	@Autowired
 	private UsuarioService usuarioService;
 
+//	ResponseUsuario responseUsuario = ResponseUsuario.builder()
+//        	.email("jujij")
+//        	.cpfCpj("78777")
+//        .build();
 	@GetMapping
 	public ResponseEntity<Page<ResponseUsuario>> pesquisarUsuario(@RequestParam(required = false) String cpfCnpj,
 			@RequestParam(required = false) String email, @RequestParam(required = false) String nomeCompleto,
 			Pageable pageable) {
 
 		Page<Usuario> paginaUsuarios = usuarioService.pesquisarUsuario(nomeCompleto, email, cpfCnpj, pageable);
-		List<ResponseUsuario> respondeUsuario = paginaUsuarios.stream().map(ResponseUsuario::toResponseUsuario)
+		List<ResponseUsuario> respondeUsuario = paginaUsuarios.stream().map(usuario -> { //a funcao fornecida uma lambda que aceita um parâmetro usuario e executa o bloco de código definido entre {}
+            ResponseUsuario responseUsuario = new ResponseUsuario();
+            // criando nova instancia de ResponseUsuario
+            responseUsuario.toResponseUsuario(usuario); //chamando ométodo de instancia toResponseUsuario
+            return responseUsuario;//// Retornar a instância preenchida
+        })
 				.toList();
 
 		return ResponseEntity.ok(new PageImpl<>(respondeUsuario, pageable, paginaUsuarios.getTotalElements()));
@@ -55,11 +65,13 @@ public class UsuarioResource implements UsuarioResourceOpenApi {
 
 	@PostMapping // inserir novo usuario
 	public ResponseEntity<ResponseUsuario> insert(@RequestBody @Valid PostUsuario postUsuario) {
-		Usuario usuario = postUsuario.toUsuario(); // convertendo
+		Usuario usuario = new Usuario();
+	    BeanUtils.copyProperties(postUsuario, usuario); 
 		usuario = usuarioService.createUsuario(usuario); // service para criar o usuário
-		ResponseUsuario responseDto = ResponseUsuario.toResponseUsuario(usuario); // converte usuario para respostadto
+		ResponseUsuario responseDto = new ResponseUsuario();
+		responseDto.toResponseUsuario(usuario); //o mtodo toResponseUsuario copia as propriedades do objeto Usuario para ResponseUsuario
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(responseDto.getId())
-				.toUri();
+	            .toUri();
 		return ResponseEntity.created(uri).body(responseDto);
 	}
 
@@ -68,9 +80,10 @@ public class UsuarioResource implements UsuarioResourceOpenApi {
 	// a resposta é um response
 	public ResponseEntity<ResponseUsuario> update(@PathVariable Long id, @RequestBody @Valid PutUsuario obj) {
 		Usuario updatedUsuario = usuarioService.update(id, obj); // Metodo update retorna um Usuario
-		ResponseUsuario responseUsuario = ResponseUsuario.toResponseUsuario(updatedUsuario); // Convertendo para
-																								// ResponseUsuario
-		return ResponseEntity.ok().body(responseUsuario);
+		ResponseUsuario responseDto = new ResponseUsuario();
+		responseDto.toResponseUsuario(updatedUsuario);
+		
+		return ResponseEntity.ok().body(responseDto);
 	}
 
 	@DeleteMapping("/{id}")

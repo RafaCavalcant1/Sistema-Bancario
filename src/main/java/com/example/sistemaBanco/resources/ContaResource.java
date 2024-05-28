@@ -47,17 +47,14 @@ public class ContaResource implements ContaResourceOpenApi {
 		// conta e eu quero transforma em uma Getconta
 		Page<Conta> paginaContas = contaService.pesquisarContas(conta, agencia, nomeCompleto, pageable);// serve para
 																										// pegar o
-																										// conteudo da
+		GetConta getConta = new GetConta();																					// conteudo da
 																										// pagina
 		// transformando o conteuddo da pagina em get contas
-		List<GetConta> getContas = paginaContas.getContent().stream()
+		List<GetConta> getContas = getConta.fromConta(paginaContas.getContent());
 				// .map((xpto) -> GetConta.fromConta(xpto)) // usando lambda
 				// usando method reference coloca por deibaixo dos panos a mesma coisa que a
 				// lambda, so que como os dois xpto é o mesmo q entra e sai ai usa o method
 				// reference
-				.map(GetConta::fromConta) // o map é para transformar que no caso to transformando a lista e comta em
-											// uma lista de GetConta
-				.toList();
 		// criando uma nova pagina passando o conteudo transformados, junto com as
 		// informações da paginação
 		// o pageImpl implmenta a interfae Page
@@ -69,7 +66,8 @@ public class ContaResource implements ContaResourceOpenApi {
 	@GetMapping("/{id}") // indica que a requisição vai aceitar um ID dentro da url
 	public ResponseEntity<GetConta> findById(@PathVariable Long id) {
 		Conta conta = contaService.findById(id);
-		GetConta getConta = GetConta.fromConta(conta); // convertendo
+		GetConta getConta = new GetConta();
+		getConta.toConta(conta); // convertendo
 		return ResponseEntity.ok(getConta);
 	}
 

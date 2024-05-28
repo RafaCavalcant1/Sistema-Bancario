@@ -73,8 +73,9 @@ public class TransacaoService {
 		// ver se encontrou
 		Transacao transferencia = optionalTransferencia.orElseThrow(() -> new TransferenciaNotFoundException(id));
 		// mapeando a transferencia para o get
-		GetTransacao getTransferencia = GetTransacao.fromTransferencia(transferencia);
-		return getTransferencia;
+		GetTransacao getTransacao = new GetTransacao();
+		getTransacao.toTransacao(transferencia);
+		return getTransacao;
 	}
 
 	@Transactional
