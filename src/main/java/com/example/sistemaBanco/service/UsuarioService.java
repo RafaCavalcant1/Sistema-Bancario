@@ -118,23 +118,22 @@ public class UsuarioService {
 	// atualizar os dados do entity do que chegou com o obj
 	private void updateData(Usuario entity, PutUsuario obj) {
 		// se o email for diferente de nulo
-		if (obj.getEmail() != null) {
+		if (Objects.nonNull(obj.getEmail())) {
 			entity.setEmail(obj.getEmail()); // atualiza o email
 		}
 		// se o telef for diferente de nulo
-		if (obj.getNomeCompleto() != null) {
+		if (Objects.nonNull(obj.getNomeCompleto())) {
 			entity.setNomeCompleto(obj.getNomeCompleto()); 
 		}
-		if (obj.getCpfCnpj() != null) {
+		if (Objects.nonNull(obj.getCpfCnpj())) {
 			entity.setCpfCnpj(obj.getCpfCnpj());
 		}
-		if (obj.getTipo() != null) {
+		if (Objects.nonNull(obj.getTipo())) {
 			entity.setTipo(obj.getTipo());
 		}
-		if (obj.getSenha() != null) {
+		if (Objects.nonNull(obj.getSenha())) {
 			String encryptedPassword = Md5Util.cryptography(obj.getSenha());
 			entity.setSenha(encryptedPassword);
-			entity.setSenha(obj.getSenha());
 		}
 
 		// não vai atualizar o id
