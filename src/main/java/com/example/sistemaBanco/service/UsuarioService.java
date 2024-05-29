@@ -1,8 +1,8 @@
 package com.example.sistemaBanco.service;
 
+import static com.example.sistemaBanco.spec.UsuarioSpec.comCpfCnpjIgual;
 import static com.example.sistemaBanco.spec.UsuarioSpec.comEmailParecido;
 import static com.example.sistemaBanco.spec.UsuarioSpec.comNomeParecido;
-import static com.example.sistemaBanco.spec.UsuarioSpec.comCpfCnpjIgual;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -33,7 +33,7 @@ public class UsuarioService {
 
 	public Page<Usuario> pesquisarUsuario(String nomeCompleto, String email, String cpfCnpj, Pageable pageable) {
 
-		Specification<Usuario> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
+		Specification<Usuario>spec = Specification.where(null); 
 
 		if(Objects.nonNull(cpfCnpj)) 
 			spec = spec.and(comCpfCnpjIgual(cpfCnpj));

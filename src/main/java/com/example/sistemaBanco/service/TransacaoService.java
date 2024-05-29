@@ -53,8 +53,9 @@ public class TransacaoService {
 	public Page<Transacao> listarHistoricoTransacao(LocalDate dataInicio, LocalDate dataFim, TipoTransacao tipo,
 			Pageable pageable) {
 
-		Specification<Transacao> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
-
+		// começa null pq não tem nenhuma condição aplicada ainda
+		Specification<Transacao>spec = Specification.where(null); 
+		
 	    if(Objects.nonNull(dataInicio)) 
 		    spec = spec.and(comDataMaiorOuIgualA(dataInicio));
 	    

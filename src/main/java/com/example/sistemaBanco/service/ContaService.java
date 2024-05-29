@@ -32,7 +32,7 @@ public class ContaService {
 	
 	public Page<Conta> pesquisarContas( String conta, String agencia, String nomeCompleto, Pageable pegeable) {
  
-		Specification<Conta> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
+		Specification<Conta>spec = Specification.where(null); 
 
 		if(Objects.nonNull(conta)) 
 			spec = spec.and(comContaIgual(conta));
