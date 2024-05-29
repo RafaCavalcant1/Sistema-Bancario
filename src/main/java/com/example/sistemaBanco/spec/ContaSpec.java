@@ -12,18 +12,18 @@ public class ContaSpec {
 	//root: representa a entidade principal da consulta, Conta
 	//query: representa a consulta em si, permite acesso a diferentes partes da consulta, como  filtros
 	//criteriaBuilder: construir as cláusulas da consulta, como where, like, equal, (são criterios do filtro) 
-	public static Specification<Conta> comNomeDoUsuarioParecido(String nomeCompleto) {
+	public static Specification<Conta> nomeDoUsuarioParecido(String nomeCompleto) {
 		return (root, query, criteriaBuilder) -> 
 				criteriaBuilder.like(criteriaBuilder.lower(root.get("usuario").get("nomeCompleto")), "%" + nomeCompleto.toLowerCase() + "%");
 	// o like ele faz a busca de tudo a partir do % 
 				// o lower para ignorar caracteres minusculos ou maiusculos 
 	}
 	
-	public static Specification<Conta> comAgenciaParecida(String agencia) {
+	public static Specification<Conta> agenciaParecida(String agencia) {
 		return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("agencia"), "%" + agencia + "%");
 	}
 	
-	public static Specification<Conta> comContaIgual(String conta) {
+	public static Specification<Conta> contaIgual(String conta) {
 		return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("conta"), conta);
 	}
 	

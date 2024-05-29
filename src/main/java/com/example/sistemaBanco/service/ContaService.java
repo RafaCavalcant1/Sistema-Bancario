@@ -1,8 +1,8 @@
 package com.example.sistemaBanco.service;
 
-import static com.example.sistemaBanco.spec.ContaSpec.comAgenciaParecida;
-import static com.example.sistemaBanco.spec.ContaSpec.comContaIgual;
-import static com.example.sistemaBanco.spec.ContaSpec.comNomeDoUsuarioParecido;
+import static com.example.sistemaBanco.spec.ContaSpec.agenciaParecida;
+import static com.example.sistemaBanco.spec.ContaSpec.contaIgual;
+import static com.example.sistemaBanco.spec.ContaSpec.nomeDoUsuarioParecido;
 
 import java.util.Objects;
 
@@ -35,13 +35,13 @@ public class ContaService {
 		Specification<Conta>spec = Specification.where(null); 
 
 		if(Objects.nonNull(conta)) 
-			spec = spec.and(comContaIgual(conta));
+			spec = spec.and(contaIgual(conta));
 		
 		if(Objects.nonNull(agencia)) 
-			spec = spec.and(comAgenciaParecida(agencia));
+			spec = spec.and(agenciaParecida(agencia));
 		
 		if(Objects.nonNull(nomeCompleto)) 
-			spec = spec.and(comNomeDoUsuarioParecido(nomeCompleto));
+			spec = spec.and(nomeDoUsuarioParecido(nomeCompleto));
 
 		return this.contaRepository.findAll(spec, pegeable);
 	}

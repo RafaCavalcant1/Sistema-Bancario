@@ -1,8 +1,8 @@
 package com.example.sistemaBanco.service;
 
-import static com.example.sistemaBanco.spec.TransacaoSpec.comDataMaiorOuIgualA;
-import static com.example.sistemaBanco.spec.TransacaoSpec.comDataMenorOuIgualA;
-import static com.example.sistemaBanco.spec.TransacaoSpec.comTipoIgual;
+import static com.example.sistemaBanco.spec.TransacaoSpec.dataMaiorOuIgualA;
+import static com.example.sistemaBanco.spec.TransacaoSpec.dataMenorOuIgualA;
+import static com.example.sistemaBanco.spec.TransacaoSpec.tipoIgual;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -57,13 +57,13 @@ public class TransacaoService {
 		Specification<Transacao>spec = Specification.where(null); 
 		
 	    if(Objects.nonNull(dataInicio)) 
-		    spec = spec.and(comDataMaiorOuIgualA(dataInicio));
+		    spec = spec.and(dataMaiorOuIgualA(dataInicio));
 	    
 	    if(Objects.nonNull(dataFim)) 
-		    spec = spec.and(comDataMenorOuIgualA(dataFim));
+		    spec = spec.and(dataMenorOuIgualA(dataFim));
 	    
 	    if(Objects.nonNull(tipo)) 
-		    spec = spec.and(comTipoIgual(tipo ));
+		    spec = spec.and(tipoIgual(tipo ));
 	    
 		return transacaoRepository.findAll(spec, pageable);
 	}

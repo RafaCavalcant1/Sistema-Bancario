@@ -1,8 +1,8 @@
 package com.example.sistemaBanco.service;
 
-import static com.example.sistemaBanco.spec.UsuarioSpec.comCpfCnpjIgual;
-import static com.example.sistemaBanco.spec.UsuarioSpec.comEmailParecido;
-import static com.example.sistemaBanco.spec.UsuarioSpec.comNomeParecido;
+import static com.example.sistemaBanco.spec.UsuarioSpec.cpfCnpjIgual;
+import static com.example.sistemaBanco.spec.UsuarioSpec.emailParecido;
+import static com.example.sistemaBanco.spec.UsuarioSpec.nomeParecido;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -36,15 +36,15 @@ public class UsuarioService {
 		Specification<Usuario>spec = Specification.where(null); 
 
 		if(Objects.nonNull(cpfCnpj)) 
-			spec = spec.and(comCpfCnpjIgual(cpfCnpj));
+			spec = spec.and(cpfCnpjIgual(cpfCnpj));
 
 		if(Objects.nonNull(email)) 
-			spec = spec.and(comEmailParecido(email));
+			spec = spec.and(emailParecido(email));
 		
 		// o OBJECTS serve para fazer validações se é igua, se está nula, se não esta nula, ultil no POO 
 		//ela tem métodos utilitários para operar em objetos ou verificar certas condições antes de operações. 
 		if(Objects.nonNull(nomeCompleto)) 
-			spec = spec.and(comNomeParecido(nomeCompleto));
+			spec = spec.and(nomeParecido(nomeCompleto));
 			
 		return this.usuarioRepository.findAll(spec, pageable);
 	}
