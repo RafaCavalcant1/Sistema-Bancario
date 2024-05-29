@@ -86,6 +86,15 @@ public class UsuarioService {
 		// buscar o usuario pelo id , se n existir gera esse erro
 		Usuario entity = usuarioRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
 
+		verificarDuplicacaoCpfCnpjEmailExcluindoUsuario(id, obj);
+
+		// Atualizar os dados do usuário no bancp
+		updateData(entity, obj);
+
+		return usuarioRepository.save(entity); // usuario atualizado
+	}
+	
+	public void verificarDuplicacaoCpfCnpjEmailExcluindoUsuario(Long id, PutUsuario obj) {
 		//vendo se o email ja esta cadastrado menos o do usuario atual 
         if (cpfCnpjExcludingUsuario(id, obj.getCpfCnpj())) {
             throw new DuplicateUserException("CPF/CNPJ já cadastrado para outro usuário: " + obj.getCpfCnpj());
@@ -95,11 +104,6 @@ public class UsuarioService {
         if (emailExcludingUsuario(id, obj.getEmail())) {
             throw new DuplicateUserException("E-mail já cadastrado para outro usuário: " + obj.getEmail());
         }
-
-		// Atualizar os dados do usuário no bancp
-		updateData(entity, obj);
-
-		return usuarioRepository.save(entity); // usuario atualizado
 	}
 	
 	private boolean cpfCnpjExcludingUsuario(Long id, String cpfCnpj) {
