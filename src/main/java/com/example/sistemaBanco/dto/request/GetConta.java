@@ -31,8 +31,7 @@ public class GetConta implements Serializable {
         this.agencia = conta.getAgencia();
         this.saldo = conta.getSaldo();
        
-        ResponseUsuario responseUsuario = new ResponseUsuario();
-        this.usuario = responseUsuario.toResponseUsuario(conta.getUsuario());
+        this.usuario = ResponseUsuario.toResponseUsuario(conta.getUsuario());
         return this;
 	}
 

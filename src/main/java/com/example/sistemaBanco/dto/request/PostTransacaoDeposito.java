@@ -19,8 +19,10 @@ public class PostTransacaoDeposito implements Serializable {
 	private BigDecimal valor;
 
 	public Transacao toTransacao() {
-		Conta contaDestino = new Conta();
-        contaDestino.setId(this.conta.getId());
-		return new Transacao(contaDestino, valor, TipoTransacao.DEPOSITO);
-	}
+        return new Transacao.Builder()
+                .contaDestino(new Conta.Builder().id(this.conta.getId()).build())
+                .valor(this.valor)
+                .tipo(TipoTransacao.DEPOSITO)
+                .build();
+    }
 }
