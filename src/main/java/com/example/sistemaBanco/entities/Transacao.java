@@ -40,26 +40,57 @@ public class Transacao implements Serializable {
 	public Transacao() {
 	}
 
-	public Transacao(Long id, Conta contaOrigem, Conta contaDestino, BigDecimal valor, Date data, TipoTransacao tipo) {
-		this.id = id;
-		this.contaOrigem = contaOrigem;
-		this.contaDestino = contaDestino;
-		this.valor = valor;
-		this.data = data;
-		this.tipo = tipo;
+	public static class Builder {
+		private Long id;
+		private Conta contaOrigem;
+		private Conta contaDestino;
+		private BigDecimal valor;
+		private Date data;
+		private TipoTransacao tipo;
+
+		public Builder id(Long id) {
+			this.id = id;
+			return this;
+		}
+
+		public Builder contaOrigem(Conta contaOrigem) {
+			this.contaOrigem = contaOrigem;
+			return this;
+		}
+
+		public Builder contaDestino(Conta contaDestino) {
+			this.contaDestino = contaDestino;
+			return this;
+		}
+
+		public Builder valor(BigDecimal valor) {
+			this.valor = valor;
+			return this;
+		}
+
+		public Builder data(Date data) {
+			this.data = data;
+			return this;
+		}
+
+		public Builder tipo(TipoTransacao tipo) {
+			this.tipo = tipo;
+			return this;
+		}
+
+		public Transacao build() {
+			return new Transacao(this);
+		}
 	}
-	
-	public Transacao(Conta contaDestino,BigDecimal valor, TipoTransacao tipo) {
-		this.contaDestino = contaDestino;
-		this.valor = valor;
-		this.tipo = tipo;
-	}
-	
-	public Transacao(Conta contaOrigem, Conta contaDestino,BigDecimal valor, TipoTransacao tipo) {
-		this.contaOrigem = contaOrigem;
-		this.contaDestino = contaDestino;
-		this.valor = valor;
-		this.tipo = tipo;
+
+	// garante que a criaação de instacias de yransacao so pode ser feita através do builde
+	private Transacao(Builder builder) {
+		this.id = builder.id;
+		this.contaOrigem = builder.contaOrigem;
+		this.contaDestino = builder.contaDestino;
+		this.valor = builder.valor;
+		this.data = builder.data;
+		this.tipo = builder.tipo;
 	}
 
 	public Long getId() {

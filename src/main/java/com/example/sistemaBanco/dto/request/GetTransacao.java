@@ -34,25 +34,12 @@ public class GetTransacao implements Serializable {
         return this;
 	}
 	
-	public List<GetTransacao>fromTransferencia(List<Transacao> listTransacao){
-		GetTransacao getTransacao = new GetTransacao();
+	public static List<GetTransacao> fromTransacao(List<Transacao> listTransacao){
 		List<GetTransacao> getTransacaoList = new ArrayList<>();
 		listTransacao.forEach(t -> {
-			getTransacaoList.add(getTransacao.toTransacao(t));
+			getTransacaoList.add(new GetTransacao().toTransacao(t));
 		});
 		return getTransacaoList;
 	}
-
-
-//	public static GetTransacao fromTransferencia(Transacao transferencia) { // faz o inverso e retorna os objetps
-//		GetConta contaOrigem = new GetConta();
-//		contaOrigem.toConta(transferencia.getContaOrigem());
-//
-//		GetConta contaDestino = new GetConta();
-//		contaDestino.toConta(transferencia.getContaDestino());
-//
-//		return new GetTransacao(transferencia.getId(), contaOrigem, contaDestino, transferencia.getValor(),
-//				transferencia.getData(), transferencia.getTipo());
-//	}
 
 }
