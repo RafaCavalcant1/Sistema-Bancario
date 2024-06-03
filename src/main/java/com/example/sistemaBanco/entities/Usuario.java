@@ -35,18 +35,67 @@ public class Usuario implements Serializable { //interface marcadora que indica 
 	@OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER) // um usuario pode ter varias contas
 	private List<Conta> contas = new ArrayList<>();
 	
-	public Usuario(){
-	}
+	public Usuario() {
+    }
 
-	public Usuario(Long id, String nomeCompleto, String cpfCnpj, String email, String senha, TipoUsuario tipo) {
-		super();
-		this.id = id;
-		this.nomeCompleto = nomeCompleto;
-		this.cpfCnpj = cpfCnpj;
-		this.email = email;
-		this.senha = senha;
-		this.tipo = tipo;
-	}
+    public static class Builder {
+        private Long id;
+        private String nomeCompleto;
+        private String cpfCnpj;
+        private String email;
+        private String senha;
+        private TipoUsuario tipo;
+        private List<Conta> contas = new ArrayList<>();
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder nomeCompleto(String nomeCompleto) {
+            this.nomeCompleto = nomeCompleto;
+            return this;
+        }
+
+        public Builder cpfCnpj(String cpfCnpj) {
+            this.cpfCnpj = cpfCnpj;
+            return this;
+        }
+
+        public Builder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder senha(String senha) {
+            this.senha = senha;
+            return this;
+        }
+
+        public Builder tipo(TipoUsuario tipo) {
+            this.tipo = tipo;
+            return this;
+        }
+
+        public Builder contas(List<Conta> contas) {
+            this.contas = contas;
+            return this;
+        }
+
+        public Usuario build() {
+            return new Usuario(this);
+        }
+    }
+    
+    private Usuario(Builder builder) {
+        this.id = builder.id;
+        this.nomeCompleto = builder.nomeCompleto;
+        this.cpfCnpj = builder.cpfCnpj;
+        this.email = builder.email;
+        this.senha = builder.senha;
+        this.tipo = builder.tipo;
+        this.contas = builder.contas;
+    }
 
 	public Long getId() {
 		return id;

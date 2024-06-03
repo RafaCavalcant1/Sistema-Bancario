@@ -30,17 +30,53 @@ public class Conta implements Serializable {
 	private Usuario usuario;
 
 	public Conta() {
-	}
+    }
 
-	public Conta(Long id, String conta, String agencia, BigDecimal saldo, Usuario usuario) {
-		super();
-		this.id = id;
-		this.conta = conta;
-		this.agencia = agencia;
-		this.saldo = saldo;
-		this.usuario = usuario;
-	}
+    public static class Builder {
+        private Long id;
+        private String conta;
+        private String agencia;
+        private BigDecimal saldo;
+        private Usuario usuario;
 
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder conta(String conta) {
+            this.conta = conta;
+            return this;
+        }
+
+        public Builder agencia(String agencia) {
+            this.agencia = agencia;
+            return this;
+        }
+
+        public Builder saldo(BigDecimal saldo) {
+            this.saldo = saldo;
+            return this;
+        }
+
+        public Builder usuario(Usuario usuario) {
+            this.usuario = usuario;
+            return this;
+        }
+
+        public Conta build() {
+            return new Conta(this);
+        }
+    }
+    
+    private Conta(Builder builder) {
+        this.id = builder.id;
+        this.conta = builder.conta;
+        this.agencia = builder.agencia;
+        this.saldo = builder.saldo;
+        this.usuario = builder.usuario;
+    }
+    
 	public Long getId() {
 		return id;
 	}
