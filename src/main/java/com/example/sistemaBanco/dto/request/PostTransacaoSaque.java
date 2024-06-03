@@ -22,16 +22,12 @@ public class PostTransacaoSaque implements Serializable {
 	}
 
 	public Transacao toTransacao() {
-		Conta contaOrigem = new Conta();
-		contaOrigem.setId(this.conta.getId());
-
-		Transacao transacao = new Transacao();
-		transacao.setContaOrigem(contaOrigem);
-		transacao.setValor(this.valor);
-		transacao.setTipo(TipoTransacao.SAQUE);
-
-		return transacao;
-	}
+        return new Transacao.Builder()
+                .contaOrigem(new Conta.Builder().id(this.conta.getId()).build())
+                .valor(this.valor)
+                .tipo(TipoTransacao.SAQUE)
+                .build();
+    }
 
 
 }
