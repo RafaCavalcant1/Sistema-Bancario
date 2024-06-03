@@ -23,11 +23,10 @@ public class ResponseUsuario implements Serializable {
 	private String email;
 	private TipoUsuario tipo; 
 	
-	// método de conversão, que chama a classe BeansUtils e o método estatico copyProperties 
-	public ResponseUsuario toResponseUsuario (Usuario usuario) {
-		// passa o usuario que é recebido como argumento do método, o this que é o objeto e os atributos que vão ser ignorados
-		BeanUtils.copyProperties(usuario, this, "password"); // passa o usuario que é recebido como argumento do método
-		return this;
-	}
+	public static ResponseUsuario toResponseUsuario(Usuario usuario) {
+        ResponseUsuario responseUsuario = new ResponseUsuario();
+        BeanUtils.copyProperties(usuario, responseUsuario, "password");
+        return responseUsuario;
+    }
 	
 }

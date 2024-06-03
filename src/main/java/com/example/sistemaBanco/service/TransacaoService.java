@@ -78,11 +78,12 @@ public class TransacaoService {
 		getTransacao.toTransacao(transferencia);
 		return getTransacao;
 	}
-	
-	private void configurarTransacao(Transacao transacao, TipoTransacao tipo) {
+
+	public void configurarTransacao(Transacao transacao, TipoTransacao tipo) {
 	    transacao.setTipo(tipo);
 	    transacao.setData(new Date());
 	}
+	
 	@Transactional
 	public void realizarSaque(Transacao saque, Conta contaOrigem) {
 
@@ -124,6 +125,7 @@ public class TransacaoService {
 		contaRepository.save(contaDestino);
 
 		configurarTransacao(deposito, TipoTransacao.DEPOSITO);
+
 		transacaoRepository.save(deposito);
 	}
 
@@ -170,7 +172,8 @@ public class TransacaoService {
 			realizarDeposito(transferencia, contaDestino); // metodo deposito
 
 			configurarTransacao(transferencia, TipoTransacao.TRANSFERENCIA);
-	        transacaoRepository.save(transferencia);
+			transacaoRepository.save(transferencia);
+			
 
 			enviarEmailTransferencia(transferencia, contaDestino);
 
