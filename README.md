@@ -49,9 +49,11 @@ O projeto é um sistema de web services desenvolvido com Spring Boot e JPA/Hiber
 
 <br/>
 
-## Usar
-
-Para executar este repositório você precisará de uma linguagem de programação IDE para JAVA e uma ferramenta Spring Boot.
+## Como usar:
+ - Instalar o java 17 -> https://www.oracle.com/java/technologies/downloads/#java17
+ - Ter uma IDE para JAVA e uma ferramenta Spring Boot
+ - Instalar o git -> https://git-scm.com/downloads
+ - Clonar o repositório pelo git bash
 
 > **Note**: Você pode usar uma ferramenta Spring Boot online. https://start.spring.io/
 
