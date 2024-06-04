@@ -84,7 +84,7 @@ O projeto é um sistema de web services desenvolvido com Spring Boot e JPA/Hiber
 
 ## Ferramenta de teste
 
-- [Postman](https://www.postman.com/): Postman é uma ferramenta de teste e colaboração de API que permite aos desenvolvedores criar, testar, documentar e compartilhar APIs com eficiência. https://github.com/RafaCavalcant1/api-loja-springboot/blob/main/New%20Collection.postman_collection.json
+- Postman: é uma ferramenta de teste e colaboração de API que permite aos desenvolvedores criar, testar, documentar e compartilhar APIs com eficiência. https://www.postman.com/
   
 
 ## Padrões de projetos utilizados
