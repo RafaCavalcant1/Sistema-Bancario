@@ -30,8 +30,29 @@ O projeto é um sistema de web services desenvolvido com Spring Boot e JPA/Hiber
 
 
 ## Diagramas:
+- Diagrama de classe
+  - Ilustrar os objetos que compõem o sistema.
+  ![Frame 1](https://github.com/RafaCavalcant1/Sistema-Bancario/assets/149629955/b62e0954-fa4c-49da-ab71-c57b8a5f187b)
 
-![Group 6 (1)](https://github.com/RafaCavalcant1/Sistema-Bancario/assets/149629955/d754b225-66f9-429c-ab75-ac4ce0dcd6ba)
+- Diagrama de Caso de uso
+  - Ilustrar o comportamento do sistema.
+  ![Frame 2](https://github.com/RafaCavalcant1/Sistema-Bancario/assets/149629955/66294265-374c-485e-8e88-97a54c4a7282)
+
+- Diagrama de Sequência
+  - Modelar a interação entre as diversas classes identificadas.
+  - Fluxo de transferência:
+    
+    ![diagramaSequencial-transferencia drawio](https://github.com/RafaCavalcant1/Sistema-Bancario/assets/149629955/c06aced3-07d9-4586-8dba-c1f08305b705)
+
+  - Fluxo de saque:
+    
+    ![diagramaSequencial-saque drawio (1)](https://github.com/RafaCavalcant1/Sistema-Bancario/assets/149629955/951e8d07-2e4c-428b-b219-00701dd37c74)
+
+  - Fluxo de depósito:
+    
+    ![diagramaSequencial-deposito drawio](https://github.com/RafaCavalcant1/Sistema-Bancario/assets/149629955/c13c5294-08c7-48fb-a5df-9fcdd4410b0d)
+
+
 
 # Características:
 - **Destaca-se**
@@ -64,12 +85,9 @@ O projeto é um sistema de web services desenvolvido com Spring Boot e JPA/Hiber
 ## Ferramenta de teste
 
 - [Postman](https://www.postman.com/): Postman é uma ferramenta de teste e colaboração de API que permite aos desenvolvedores criar, testar, documentar e compartilhar APIs com eficiência. https://github.com/RafaCavalcant1/api-loja-springboot/blob/main/New%20Collection.postman_collection.json
+  
 
-## Recursos para aprender Spring Boot
-
-- https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/ - toda a documentação do Spring Boot
-
-## Padrões de Projetos
+## Padrões de projetos utilizados
 - Specification
 
   ![Group 1](https://github.com/RafaCavalcant1/Sistema-Bancario/assets/149629955/9c6f9816-b6ce-4d01-b869-3a232702d24d)
@@ -88,4 +106,7 @@ O projeto é um sistema de web services desenvolvido com Spring Boot e JPA/Hiber
 
 
 
+## Recursos para aprender Spring Boot
+
+- https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/ - toda a documentação do Spring Boot
 
