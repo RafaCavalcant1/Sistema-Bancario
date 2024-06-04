@@ -54,9 +54,7 @@ public class UsuarioService {
 		// ver se encontrou
 		Usuario usuario = optionalUsuario.orElseThrow(() -> new ResourceNotFoundException(id)); // se não gera esse erro
 		// mapeando o usuaario para o get
-		ResponseUsuario responseUsuario = new ResponseUsuario();
-		responseUsuario.toResponseUsuario(usuario);
-		return responseUsuario;
+		return ResponseUsuario.toResponseUsuario(usuario);
 	}
 
 	public Usuario createUsuario(Usuario usuario) {

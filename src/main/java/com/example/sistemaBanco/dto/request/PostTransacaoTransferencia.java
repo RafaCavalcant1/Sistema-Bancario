@@ -19,13 +19,14 @@ public class PostTransacaoTransferencia implements Serializable {
 	private BigDecimal valor;
 
 	public Transacao toTransacao() {
-		Conta contaOrigem = new Conta();
-		contaOrigem.setId(idContaOrigem);
-
-		Conta contaDestino = new Conta();
-		contaDestino.setId(idContaDestino);
-
-		return new Transacao(contaOrigem, contaDestino, valor, TipoTransacao.TRANSFERENCIA);
+		// inicia o builder da transacao
+	    return new Transacao.Builder()
+	            .contaOrigem(new Conta.Builder().id(idContaOrigem).build()) // define a contaOrigem e inicia o builder da CONTA
+	            .contaDestino(new Conta.Builder().id(idContaDestino).build())
+	            .valor(valor)
+	            .tipo(TipoTransacao.TRANSFERENCIA)
+	            //constroi e retorna a instância de Transacao com os valores definidos
+	            .build();
 	}
 
 }

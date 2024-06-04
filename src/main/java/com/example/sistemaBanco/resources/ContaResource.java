@@ -47,14 +47,14 @@ public class ContaResource implements ContaResourceOpenApi {
 		// conta e eu quero transforma em uma Getconta
 		Page<Conta> paginaContas = contaService.pesquisarContas(conta, agencia, nomeCompleto, pageable);// serve para
 																										// pegar o
-		GetConta getConta = new GetConta();																					// conteudo da
-																										// pagina
+		GetConta getConta = new GetConta(); // conteudo da
+		// pagina
 		// transformando o conteuddo da pagina em get contas
 		List<GetConta> getContas = getConta.fromConta(paginaContas.getContent());
-				// .map((xpto) -> GetConta.fromConta(xpto)) // usando lambda
-				// usando method reference coloca por deibaixo dos panos a mesma coisa que a
-				// lambda, so que como os dois xpto é o mesmo q entra e sai ai usa o method
-				// reference
+		// .map((xpto) -> GetConta.fromConta(xpto)) // usando lambda
+		// usando method reference coloca por deibaixo dos panos a mesma coisa que a
+		// lambda, so que como os dois xpto é o mesmo q entra e sai ai usa o method
+		// reference
 		// criando uma nova pagina passando o conteudo transformados, junto com as
 		// informações da paginação
 		// o pageImpl implmenta a interfae Page
@@ -73,22 +73,13 @@ public class ContaResource implements ContaResourceOpenApi {
 
 	@PostMapping
 	public ResponseEntity<ResponseConta> criarConta(@RequestBody PostConta postConta) {
-		Conta novaConta = new Conta();
-		novaConta.setAgencia(postConta.getAgencia());
+		Usuario usuario = new Usuario.Builder().id(postConta.getUsuario().getId()).build();
 
+		Conta novaConta = new Conta.Builder().agencia(postConta.getAgencia()).saldo(BigDecimal.ZERO).usuario(usuario)
+				.build();
 		Random random = new Random();
 		int numeroConta = 1 + random.nextInt(3);
-		novaConta.setConta(String.valueOf(numeroConta)); 
-
-		// Converter IdDto para Usuario
-		IdDto usuarioDto = postConta.getUsuario();
-		Usuario usuario = new Usuario();
-		usuario.setId(usuarioDto.getId());
-
-		novaConta.setUsuario(usuario);
-
-		// Definir o saldo inicial como 0
-		novaConta.setSaldo(BigDecimal.ZERO);
+		novaConta.setConta(String.valueOf(numeroConta));
 
 		// Salvar a nova conta usando o serviço
 		Conta contaSalva = contaService.insert(novaConta);

@@ -32,24 +32,24 @@ import com.example.sistemaBanco.service.exceptions.RequisicaoInvalidaException;
 
 @RestController
 @RequestMapping(value = "/transacoes")
-public class TransacaoResource implements TransacaoResourceOpenApi{
+public class TransacaoResource implements TransacaoResourceOpenApi {
 
 	@Autowired
 	private TransacaoService transacaoService;
 
 	@GetMapping
-	public ResponseEntity<Page<GetTransacao>> obterHistoricoTransacao(@RequestParam(required = false)@DateTimeFormat(iso = ISO.DATE) LocalDate dataInicio,
-													  @RequestParam(required = false)@DateTimeFormat(iso = ISO.DATE) LocalDate dataFim,
-													  @RequestParam(required = false) TipoTransacao tipo,
-													  Pageable pageable){
-		
-		//se a dataInicio é posterior a dataFim
-		if((dataInicio != null && dataFim != null) && dataInicio.isAfter(dataFim))
+	public ResponseEntity<Page<GetTransacao>> obterHistoricoTransacao(
+			@RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE) LocalDate dataInicio,
+			@RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE) LocalDate dataFim,
+			@RequestParam(required = false) TipoTransacao tipo, Pageable pageable) {
+
+		// se a dataInicio é posterior a dataFim
+		if ((dataInicio != null && dataFim != null) && dataInicio.isAfter(dataFim))
 			throw new RequisicaoInvalidaException("Data ínicio deve ser menor ou igual a data fim");
-		
-		Page<Transacao> paginaTransacoes = transacaoService.listarHistoricoTransacao(dataInicio, dataFim, tipo, pageable);
-		GetTransacao getTransacao = new GetTransacao();	
-		List<GetTransacao> getTransacoes= getTransacao.fromTransferencia(paginaTransacoes.getContent());
+
+		Page<Transacao> paginaTransacoes = transacaoService.listarHistoricoTransacao(dataInicio, dataFim, tipo,
+				pageable);
+		List<GetTransacao> getTransacoes = GetTransacao.fromTransacao(paginaTransacoes.getContent());
 
 		return ResponseEntity.ok(new PageImpl<>(getTransacoes, pageable, paginaTransacoes.getTotalElements()));
 	}
@@ -64,22 +64,21 @@ public class TransacaoResource implements TransacaoResourceOpenApi{
 	@PostMapping("/fazer-transferencias")
 	public void realizarTransferencia(@RequestBody PostTransacaoTransferencia transferenciaDto) {
 		Transacao trasferencia = transferenciaDto.toTransacao();
-        transacaoService.realizarTransferencia(trasferencia);
+		transacaoService.realizarTransferencia(trasferencia);
 	}
-	
+
 	@ResponseStatus(HttpStatus.NO_CONTENT) // essa anotação deixa o retorno do end point com esse status
 	@PostMapping("/fazer-saques")
 	public void realizarSaque(@RequestBody PostTransacaoSaque saqueDto) {
 		Transacao saque = saqueDto.toTransacao();
-        transacaoService.realizarSaque(saque);
+		transacaoService.realizarSaque(saque);
 	}
-	
+
 	@ResponseStatus(HttpStatus.NO_CONTENT) // essa anotação deixa o retorno do end point com esse status
 	@PostMapping("/fazer-depositos")
 	public void realizarDeposito(@RequestBody PostTransacaoDeposito depositoDto) {
 		Transacao deposito = depositoDto.toTransacao();
-        transacaoService.realizarDeposito(deposito);
+		transacaoService.realizarDeposito(deposito);
 	}
-
 
 }
