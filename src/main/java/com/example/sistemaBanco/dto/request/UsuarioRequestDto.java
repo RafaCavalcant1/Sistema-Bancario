@@ -37,7 +37,6 @@ public class UsuarioRequestDto implements Serializable {
 	@NotNull(message = "Type cannot be empty.")
 	private TipoUsuario tipo; // comum ou lojista
 
-
 	public UsuarioRequestDto toUsuario(Usuario usuario) { // convertendo usuarioDto em um obj usuario
 		BeanUtils.copyProperties(usuario, this);
 		return this;
