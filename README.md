@@ -24,11 +24,14 @@ O projeto é um sistema de web services desenvolvido com Spring Boot e JPA/Hiber
 - [x] Cadastro de contas
 - [x] Listagem de transação
 - [x] Listagem de transação por ID
-- [x] Fazer transação
+- [x] Fazer saque
+- [x] Fazer Depósito
+- [x] Fazer Transferência
 
-![image](https://github.com/RafaCavalcant1/Sistema-Bancario/assets/149629955/51d9c249-d79e-4b2a-acd8-b1396f014c99)
 
+## Diagramas:
 
+![Group 6 (1)](https://github.com/RafaCavalcant1/Sistema-Bancario/assets/149629955/d754b225-66f9-429c-ab75-ac4ce0dcd6ba)
 
 # Características:
 - **Destaca-se**
@@ -49,13 +52,13 @@ O projeto é um sistema de web services desenvolvido com Spring Boot e JPA/Hiber
 
 <br/>
 
+## Pré-requisitos:
+- Instalar o java 17 -> https://www.oracle.com/java/technologies/downloads/#java17
+- Instalar o git (opcional) -> https://git-scm.com/downloads
+  
 ## Como usar:
- - Instalar o java 17 -> https://www.oracle.com/java/technologies/downloads/#java17
- - Ter uma IDE para JAVA e uma ferramenta Spring Boot
- - Instalar o git -> https://git-scm.com/downloads
  - Clonar o repositório pelo git bash
-
-> **Note**: Você pode usar uma ferramenta Spring Boot online. https://start.spring.io/
+ - Rodar o comando: "java -jar sistemaBanco.jar"
 
 
 ## Ferramenta de teste
@@ -65,3 +68,24 @@ O projeto é um sistema de web services desenvolvido com Spring Boot e JPA/Hiber
 ## Recursos para aprender Spring Boot
 
 - https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/ - toda a documentação do Spring Boot
+
+## Padrões de Projetos
+- Specification
+
+  ![Group 1](https://github.com/RafaCavalcant1/Sistema-Bancario/assets/149629955/9c6f9816-b6ce-4d01-b869-3a232702d24d)
+
+- Dto
+
+  ![Group 2](https://github.com/RafaCavalcant1/Sistema-Bancario/assets/149629955/837ad1f2-d541-471b-bbd1-c349998b4f8a)
+
+- Builder
+
+  ![Group 4](https://github.com/RafaCavalcant1/Sistema-Bancario/assets/149629955/f6c031e5-16ca-41da-a648-1445a91dc55d)
+
+  usando o padrão:
+  
+  ![image 11](https://github.com/RafaCavalcant1/Sistema-Bancario/assets/149629955/02f644be-55a7-4490-9b84-0a4f973fd785)
+
+
+
+
