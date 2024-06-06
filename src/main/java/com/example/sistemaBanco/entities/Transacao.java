@@ -82,7 +82,6 @@ public class Transacao implements Serializable {
 			return new Transacao(this);
 		}
 	}
-
 	// garante que a criaação de instacias de yransacao so pode ser feita através do builde
 	private Transacao(Builder builder) {
 		this.id = builder.id;

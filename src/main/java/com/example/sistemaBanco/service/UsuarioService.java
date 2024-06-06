@@ -67,7 +67,7 @@ public class UsuarioService {
 		}
 
 		// verificando cemail
-		Usuario existByEmail = usuarioRepository.findByEmail(usuario.getEmail());
+		Usuario existByEmail = (Usuario) usuarioRepository.findByEmail(usuario.getEmail());
 		if (existByEmail != null) {
 			throw new DuplicateUserException("E-mail já cadastrado: " + usuario.getEmail());
 		}
