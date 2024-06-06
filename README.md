@@ -24,9 +24,33 @@ O projeto é um sistema de web services desenvolvido com Spring Boot e JPA/Hiber
 - [x] Cadastro de contas
 - [x] Listagem de transação
 - [x] Listagem de transação por ID
-- [x] Fazer transação
+- [x] Fazer saque
+- [x] Fazer Depósito
+- [x] Fazer Transferência
 
-![image](https://github.com/RafaCavalcant1/Sistema-Bancario/assets/149629955/51d9c249-d79e-4b2a-acd8-b1396f014c99)
+
+## Diagramas:
+- Diagrama de classe
+  - Ilustrar os objetos que compõem o sistema.
+  ![Frame 1](https://github.com/RafaCavalcant1/Sistema-Bancario/assets/149629955/b62e0954-fa4c-49da-ab71-c57b8a5f187b)
+
+- Diagrama de Caso de uso
+  - Ilustrar o comportamento do sistema.
+  ![Frame 2](https://github.com/RafaCavalcant1/Sistema-Bancario/assets/149629955/66294265-374c-485e-8e88-97a54c4a7282)
+
+- Diagrama de Sequência
+  - Modelar a interação entre as diversas classes identificadas.
+  - Fluxo de transferência:
+    
+    ![diagramaSequencial-transferencia drawio](https://github.com/RafaCavalcant1/Sistema-Bancario/assets/149629955/c06aced3-07d9-4586-8dba-c1f08305b705)
+
+  - Fluxo de saque:
+    
+    ![diagramaSequencial-saque drawio (1)](https://github.com/RafaCavalcant1/Sistema-Bancario/assets/149629955/951e8d07-2e4c-428b-b219-00701dd37c74)
+
+  - Fluxo de depósito:
+    
+    ![diagramaSequencial-deposito drawio](https://github.com/RafaCavalcant1/Sistema-Bancario/assets/149629955/c13c5294-08c7-48fb-a5df-9fcdd4410b0d)
 
 
 
@@ -49,19 +73,40 @@ O projeto é um sistema de web services desenvolvido com Spring Boot e JPA/Hiber
 
 <br/>
 
+## Pré-requisitos:
+- Instalar o java 17 -> https://www.oracle.com/java/technologies/downloads/#java17
+- Instalar o git (opcional) -> https://git-scm.com/downloads
+  
 ## Como usar:
- - Instalar o java 17 -> https://www.oracle.com/java/technologies/downloads/#java17
- - Ter uma IDE para JAVA e uma ferramenta Spring Boot
- - Instalar o git -> https://git-scm.com/downloads
  - Clonar o repositório pelo git bash
-
-> **Note**: Você pode usar uma ferramenta Spring Boot online. https://start.spring.io/
+ - Rodar o comando: "java -jar sistemaBanco.jar"
 
 
 ## Ferramenta de teste
 
-- [Postman](https://www.postman.com/): Postman é uma ferramenta de teste e colaboração de API que permite aos desenvolvedores criar, testar, documentar e compartilhar APIs com eficiência. https://github.com/RafaCavalcant1/api-loja-springboot/blob/main/New%20Collection.postman_collection.json
+- Postman: é uma ferramenta de teste e colaboração de API que permite aos desenvolvedores criar, testar, documentar e compartilhar APIs com eficiência. https://www.postman.com/
+  
+
+## Padrões de projetos utilizados
+- Specification
+
+  ![Group 1](https://github.com/RafaCavalcant1/Sistema-Bancario/assets/149629955/9c6f9816-b6ce-4d01-b869-3a232702d24d)
+
+- Dto
+
+  ![Group 2](https://github.com/RafaCavalcant1/Sistema-Bancario/assets/149629955/837ad1f2-d541-471b-bbd1-c349998b4f8a)
+
+- Builder
+
+  ![Group 4](https://github.com/RafaCavalcant1/Sistema-Bancario/assets/149629955/f6c031e5-16ca-41da-a648-1445a91dc55d)
+
+  usando o padrão:
+  
+  ![image 11](https://github.com/RafaCavalcant1/Sistema-Bancario/assets/149629955/02f644be-55a7-4490-9b84-0a4f973fd785)
+
+
 
 ## Recursos para aprender Spring Boot
 
 - https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/ - toda a documentação do Spring Boot
+
