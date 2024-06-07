@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.sistemaBanco.entities.Conta;
 import com.example.sistemaBanco.entities.Transacao;
@@ -33,18 +34,21 @@ public class DatabaseSeeder implements CommandLineRunner {
 
 	@Autowired
 	private TransacaoRepository transacaoRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override // tudo que colocar dentro desse método run(ele veio do implements) vai ser
 				// executado
 	public void run(String... args) throws Exception {
 		Usuario u1 = new Usuario.Builder().nomeCompleto("Rafaela cavalcanti").cpfCnpj("12329912447")
-				.email("rafaela@gmail.com").senha(Md5Util.cryptography("12345678")).tipo(TipoUsuario.COMUM).build();
+				.email("rafaela@gmail.com").senha(passwordEncoder.encode("12345678")).tipo(TipoUsuario.COMUM).build();
 
 		Usuario u2 = new Usuario.Builder().nomeCompleto("Jessica Silva").cpfCnpj("11111111111")
-				.email("jessica@gmail.com").senha(Md5Util.cryptography("12345678")).tipo(TipoUsuario.COMUM).build();
+				.email("jessica@gmail.com").senha(passwordEncoder.encode("12345678")).tipo(TipoUsuario.COMUM).build();
 
 		Usuario u3 = new Usuario.Builder().nomeCompleto("Maria Pereira").cpfCnpj("22222222222").email("maria@gmail.com")
-				.senha(Md5Util.cryptography("12345678")).tipo(TipoUsuario.LOJISTA).build();
+				.senha(passwordEncoder.encode("12345678")).tipo(TipoUsuario.LOJISTA).build();
 
 		usuarioRepository.saveAll(Arrays.asList(u1, u2, u3));
 
