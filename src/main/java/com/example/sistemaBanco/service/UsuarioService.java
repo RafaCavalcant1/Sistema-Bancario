@@ -12,6 +12,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.sistemaBanco.dto.request.PutUsuario;
@@ -21,7 +22,6 @@ import com.example.sistemaBanco.repository.UsuarioRepository;
 import com.example.sistemaBanco.service.exceptions.DatabaseException;
 import com.example.sistemaBanco.service.exceptions.DuplicateUserException;
 import com.example.sistemaBanco.service.exceptions.ResourceNotFoundException;
-import com.example.sistemaBanco.util.Md5Util;
 
 import jakarta.transaction.Transactional;
 
@@ -30,6 +30,9 @@ public class UsuarioService {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+    private PasswordEncoder passwordEncoder;
 
 	public Page<Usuario> pesquisarUsuario(String nomeCompleto, String email, String cpfCnpj, Pageable pageable) {
 
@@ -72,8 +75,9 @@ public class UsuarioService {
 			throw new DuplicateUserException("E-mail já cadastrado: " + usuario.getEmail());
 		}
 
-		String encryptedPassword = Md5Util.cryptography(usuario.getSenha());
-		usuario.setSenha(encryptedPassword);
+		// Criptografando a senha
+        String encryptedPassword = passwordEncoder.encode(usuario.getSenha());
+        usuario.setSenha(encryptedPassword);
 
 		return usuarioRepository.save(usuario);
 	}
@@ -130,8 +134,9 @@ public class UsuarioService {
 			entity.setTipo(obj.getTipo());
 		}
 		if (Objects.nonNull(obj.getSenha())) {
-			String encryptedPassword = Md5Util.cryptography(obj.getSenha());
-			entity.setSenha(encryptedPassword);
+			// Criptografando a senha
+	        String encryptedPassword = passwordEncoder.encode(obj.getSenha());
+	        obj.setSenha(encryptedPassword);
 		}
 
 		// não vai atualizar o id

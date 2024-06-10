@@ -22,6 +22,7 @@ public class SecurityConfiguracao {
 	@Autowired
 	SecurityFilter securityFilter;
 	
+	@SuppressWarnings("removal")
 	@Bean// para que o spring instancie a classe
 	// a corrente de filtros que eu vou aplicar minha requisição para fazer a seguraçada aplicação, vão ser métodos 
 	SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -36,9 +37,11 @@ public class SecurityConfiguracao {
 						.requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
 						// qualquer request que seja do tipo post p endoint usuarios, o usuario pode ser Comum
 						//.requestMatchers(HttpMethod.POST, "/usuarios").hasRole("COMUM")
+						 .requestMatchers("/h2-console/**").permitAll()
 						//para todo resto das requisições eu quero que seja autenticado apenas
 						.anyRequest().authenticated()
 						)
+				.headers(headers -> headers.frameOptions().sameOrigin())
 				.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
 				.build();
 	}
