@@ -186,7 +186,7 @@ public class Usuario implements Serializable, UserDetails{ //interface marcadora
 
 	@Override
 	public String getPassword() {
-		return null;
+		return senha;
 	}
 
 	@Override

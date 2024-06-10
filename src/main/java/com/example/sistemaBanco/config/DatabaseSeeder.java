@@ -18,7 +18,6 @@ import com.example.sistemaBanco.entities.enums.TipoUsuario;
 import com.example.sistemaBanco.repository.ContaRepository;
 import com.example.sistemaBanco.repository.TransacaoRepository;
 import com.example.sistemaBanco.repository.UsuarioRepository;
-import com.example.sistemaBanco.util.Md5Util;
 
 //uma classe especifica de configuração para o perfil de teste
 //para executar quando o programa for iniciado usa o implements CommandLineRunner
