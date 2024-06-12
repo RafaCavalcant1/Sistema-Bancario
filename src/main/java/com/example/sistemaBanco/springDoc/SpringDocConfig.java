@@ -26,7 +26,8 @@ public class SpringDocConfig {
 						Arrays.asList(
 								new Tag().name("Usuário"),
 								new Tag().name("Transação"),
-								new Tag().name("Conta")
+								new Tag().name("Conta"),
+								new Tag().name("Autenticação")
 								)
 						);
 	

@@ -33,7 +33,7 @@ public interface UsuarioResourceOpenApi {
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "200", description = "Usuário encontrado com sucesso"),
 	        @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(schema = @Schema(implementation = StandardError.class))),
-	        @ApiResponse(responseCode = "403")
+	        @ApiResponse(responseCode = "403",description = "Acesso negado")
 	})
 	
 	// esta criando um parametro que vai na url ParameterIn.QUERY, o name é o nome do parametro e o @Schema define o tipo do parametro 
@@ -51,7 +51,7 @@ public interface UsuarioResourceOpenApi {
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "200", description = "Usuário encontrado com sucesso"),
 	        @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(schema = @Schema(implementation = StandardError.class))),
-	        @ApiResponse(responseCode = "403")
+	        @ApiResponse(responseCode = "403",description = "Acesso negado")
 	})
 	@GetMapping("/{id}")
 	ResponseEntity<ResponseUsuario> findById(@PathVariable Long id);
@@ -59,7 +59,7 @@ public interface UsuarioResourceOpenApi {
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "201"),
 	        @ApiResponse(responseCode = "422", description = "Entidade não processável", content = @Content(schema = @Schema(implementation = StandardError.class))),
-	        @ApiResponse(responseCode = "403")
+	        @ApiResponse(responseCode = "403",description = "Acesso negado")
 	})
 	@PostMapping
 	ResponseEntity<ResponseUsuario> insert(@RequestBody @Valid PostUsuario postUsuario);
@@ -68,7 +68,7 @@ public interface UsuarioResourceOpenApi {
 	        @ApiResponse(responseCode = "200"),
 	        @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(schema = @Schema(implementation = StandardError.class))),
 	        @ApiResponse(responseCode = "422", description = "Entidade não processável", content = @Content(schema = @Schema(implementation = StandardError.class))),
-	        @ApiResponse(responseCode = "403")
+	        @ApiResponse(responseCode = "403",description = "Acesso negado")
 	})
 	@PutMapping("/{id}")
 	ResponseEntity<ResponseUsuario> update(@PathVariable Long id, @RequestBody @Valid PutUsuario obj);
@@ -77,7 +77,7 @@ public interface UsuarioResourceOpenApi {
 	        @ApiResponse(responseCode = "204"),
 	        @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(schema = @Schema(implementation = StandardError.class))),
 	        @ApiResponse(responseCode = "400", description = "Usuário possui dependências", content = @Content(schema = @Schema(implementation = StandardError.class))),
-	        @ApiResponse(responseCode = "403")
+	        @ApiResponse(responseCode = "403",description = "Acesso negado")
 	})
 	@DeleteMapping("/{id}")
 	ResponseEntity<Void> deletarUsuario(@PathVariable Long id);

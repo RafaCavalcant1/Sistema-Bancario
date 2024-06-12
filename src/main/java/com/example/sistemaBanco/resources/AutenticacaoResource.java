@@ -13,12 +13,13 @@ import com.example.sistemaBanco.dto.ResponseLogin;
 import com.example.sistemaBanco.dto.request.PostAutenticacao;
 import com.example.sistemaBanco.entities.Usuario;
 import com.example.sistemaBanco.infra.security.TokenService;
+import com.example.sistemaBanco.resources.openApi.AutenticacaoResourceOpenApi;
 
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("auth")
-public class AutenticacaoController {
+public class AutenticacaoResource implements AutenticacaoResourceOpenApi{
 
 	@Autowired
 	private AuthenticationManager authenticationManager;

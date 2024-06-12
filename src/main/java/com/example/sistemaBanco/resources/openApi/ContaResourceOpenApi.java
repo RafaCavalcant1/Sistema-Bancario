@@ -30,7 +30,7 @@ public interface ContaResourceOpenApi {
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "200"),
 	        @ApiResponse(responseCode = "422", description = "Entidade não processável", content = @Content(schema = @Schema(implementation = StandardError.class))),
-	        @ApiResponse(responseCode = "403")
+	        @ApiResponse(responseCode = "403",description = "Acesso negado")
 	})
 	@Parameter(in = ParameterIn.QUERY, name = "page", schema = @Schema(type = "integer"))
 	@Parameter(in = ParameterIn.QUERY, name = "size", schema = @Schema(type = "integer"))
@@ -43,7 +43,7 @@ public interface ContaResourceOpenApi {
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "200"),
 	        @ApiResponse(responseCode = "422", description = "Entidade não processável", content = @Content(schema = @Schema(implementation = StandardError.class))),
-	        @ApiResponse(responseCode = "403")
+	        @ApiResponse(responseCode = "403", description = "Acesso negado")
 	})
 	@GetMapping("/{id}") 
 	public ResponseEntity<GetConta> findById(@PathVariable Long id);
@@ -52,7 +52,7 @@ public interface ContaResourceOpenApi {
 	        @ApiResponse(responseCode = "200"),
 	        @ApiResponse(responseCode = "422", description = "Entidade não processável", content = @Content(schema = @Schema(implementation = StandardError.class))),
 	        @ApiResponse(responseCode = "409", description = "Conflito", content = @Content(schema = @Schema(implementation = StandardError.class))),
-	        @ApiResponse(responseCode = "403")
+	        @ApiResponse(responseCode = "403",description = "Acesso negado")
 	})
 	@PostMapping
 	public ResponseEntity<ResponseConta> criarConta(@RequestBody PostConta postConta);

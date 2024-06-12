@@ -38,7 +38,7 @@ public interface TransacaoResourceOpenApi {
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "200"),
 	        @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(schema = @Schema(implementation = StandardError.class))),
-	        @ApiResponse(responseCode = "403")
+	        @ApiResponse(responseCode = "403",description = "Acesso negado")
 	})
 	@Parameter(in = ParameterIn.QUERY, name = "page", schema = @Schema(type = "integer"))
 	@Parameter(in = ParameterIn.QUERY, name = "size", schema = @Schema(type = "integer"))
@@ -51,14 +51,14 @@ public interface TransacaoResourceOpenApi {
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "200"),
 	        @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(schema = @Schema(implementation = StandardError.class))),
-	        @ApiResponse(responseCode = "403")
+	        @ApiResponse(responseCode = "403",description = "Acesso negado")
 	})
 	@GetMapping("/{id}") 
 	ResponseEntity<GetTransacao> findById(@PathVariable Long id);
 	
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "422", description = "Entidade não processável", content = @Content(schema = @Schema(implementation = StandardError.class))),
-	        @ApiResponse(responseCode = "403")
+	        @ApiResponse(responseCode = "403",description = "Acesso negado")
 	})
 	@ResponseStatus(HttpStatus.NO_CONTENT) 
 	@PostMapping("/fazer-transferencias")
@@ -67,7 +67,7 @@ public interface TransacaoResourceOpenApi {
 	// content é um conteudo e espera uma anotação contet essa anotação a gnt define o conteudo, dentro dela tem um schmema que é uma estrutaura de uma cklasse, um jsonn, ele tb espera uma anotação shcema que o implementacio define a classe que representa a resposta em um json
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "422", description = "Entidade não processável", content = @Content(schema = @Schema(implementation = StandardError.class))),
-	        @ApiResponse(responseCode = "403")
+	        @ApiResponse(responseCode = "403",description = "Acesso negado")
 	})
 	@ResponseStatus(HttpStatus.NO_CONTENT) 
 	@PostMapping("/fazer-saques")
@@ -75,7 +75,7 @@ public interface TransacaoResourceOpenApi {
 	
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "422", description = "Entidade não processável", content = @Content(schema = @Schema(implementation = StandardError.class))),
-	        @ApiResponse(responseCode = "403")
+	        @ApiResponse(responseCode = "403",description = "Acesso negado")
 	})
 	@ResponseStatus(HttpStatus.NO_CONTENT) 
 	@PostMapping("/fazer-depositos")
