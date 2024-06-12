@@ -20,15 +20,18 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+@SecurityRequirement(name = "security_auth")
 @Tag(name = "Conta")
 public interface ContaResourceOpenApi {
 	
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "200"),
-	        @ApiResponse(responseCode = "422", description = "Entidade não processável", content = @Content(schema = @Schema(implementation = StandardError.class)))
-	    })
+	        @ApiResponse(responseCode = "422", description = "Entidade não processável", content = @Content(schema = @Schema(implementation = StandardError.class))),
+	        @ApiResponse(responseCode = "403")
+	})
 	@Parameter(in = ParameterIn.QUERY, name = "page", schema = @Schema(type = "integer"))
 	@Parameter(in = ParameterIn.QUERY, name = "size", schema = @Schema(type = "integer"))
 	@Parameter(in = ParameterIn.QUERY, name = "sort") // o sort por si ja é string 
@@ -39,16 +42,18 @@ public interface ContaResourceOpenApi {
 														  @Parameter(hidden = true) Pageable pageable );
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "200"),
-	        @ApiResponse(responseCode = "422", description = "Entidade não processável", content = @Content(schema = @Schema(implementation = StandardError.class)))
-	    })
+	        @ApiResponse(responseCode = "422", description = "Entidade não processável", content = @Content(schema = @Schema(implementation = StandardError.class))),
+	        @ApiResponse(responseCode = "403")
+	})
 	@GetMapping("/{id}") 
 	public ResponseEntity<GetConta> findById(@PathVariable Long id);
 
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "200"),
 	        @ApiResponse(responseCode = "422", description = "Entidade não processável", content = @Content(schema = @Schema(implementation = StandardError.class))),
-	        @ApiResponse(responseCode = "409", description = "Conflito", content = @Content(schema = @Schema(implementation = StandardError.class)))
-	    })
+	        @ApiResponse(responseCode = "409", description = "Conflito", content = @Content(schema = @Schema(implementation = StandardError.class))),
+	        @ApiResponse(responseCode = "403")
+	})
 	@PostMapping
 	public ResponseEntity<ResponseConta> criarConta(@RequestBody PostConta postConta);
 }
