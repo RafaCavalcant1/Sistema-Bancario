@@ -179,8 +179,10 @@ public class Usuario implements Serializable, UserDetails{ //interface marcadora
 	//aqui que temos que retornar quais são as roles do usuario para que o SS tome as decisões corretas de acordo com as roles
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// o SS ja tem mapeado por padrão algumas roles e ele espera receber uma coleçao de roles
-		if(this.tipo == TipoUsuario.COMUM)return List.of(new SimpleGrantedAuthority("TIPO.COMUM"), new SimpleGrantedAuthority("TIPO.LOJISTA"));
-		else return List.of(new SimpleGrantedAuthority("TIPO.LOJISTA"));
+		if(this.tipo == TipoUsuario.COMUM)
+			return List.of(new SimpleGrantedAuthority("ROLE_COMUM"));
+		else
+			return List.of(new SimpleGrantedAuthority("ROLE_LOJISTA"));
 
 	}
 
