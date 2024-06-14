@@ -18,7 +18,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Component //faz com que a classe seja um bean gerenciado pelo Spring, permite sua injeção em outros componentes
 public class SecurityFilter extends OncePerRequestFilter {
-
+// ela extends o OncePerRequestFilter que é um filtro que acontece uma vez a cada requisiçãi 
+	// precisa ser gerado um método que é o doFilterInternal que vai ser chamado antes
 	@Autowired
     TokenService tokenService;
     @Autowired
@@ -30,21 +31,29 @@ public class SecurityFilter extends OncePerRequestFilter {
         var token = this.recoverToken(request); //O recoverToken extrai o token do cabeçalho "Authorization" da requisição
         if(token != null){ // se o token for diferente de nulo
             var email = tokenService.validateToken(token); // se for encontrado um token ele é validade no service
-            UserDetails usuario = usuarioRepository.findByEmail(email); // busca o email do usuário
+            // se validar com sucesso chama o UserDetails para encontrar o usuario 
+            UserDetails usuario = usuarioRepository.findByEmail(email); 
 
-            //instância de UsernamePasswordAuthenticationToken é criada com as informações do usuário e definida no contexto de segurança 
-            //SecurityContextHolder estabelecendo que o usuário está autenticado
+            //agora faz as verificaçãoes desse usuario com a variavel authenticarion
+            //faz a instância de UsernamePasswordAuthenticationToken é criada com as informações do usuário e definida no contexto de segurança 
+            // criando um obj que é como se fosse um dto que é utilizado para passar as informações do usuario autenticado para o contexto
+            // do SS
             var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+            //SecurityContextHolder(é o contexto da autenticaçaõ)  estabelecendo que o usuário está autenticado
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            // esse context é o contexto que o sprint ja sabe trabalhar e eu passo passo para ele as informações que ele precis.
+            //mas esse momento é quando o usuario ja fez a autenticação 
         }
-        filterChain.doFilter(request, response); // requisição é passada para o próximo filtro na cadeia de filtros
+        filterChain.doFilter(request, response); // se n tiver token chama o proximo filtro que é o username
     }
 
     // extrai o token do cabeçalho "Authorization" da requisição http
     private String recoverToken(HttpServletRequest request){
+    	// dentro do request temos os header, um deles é o authorization que é onde o usuario vai passar o token
         var authHeader = request.getHeader("Authorization");
-        if(authHeader == null) return null; // se o cabeçalho não tiver, retorna null
-        return authHeader.replace("Bearer ", ""); // se tiver, remove o prefixp "Bearer " para pegar o token real
+        if(authHeader == null) 
+        	return null; // retorna null se n tiver nenhum token
+        return authHeader.replace("Bearer ", ""); // se tiver, remove o prefixp "Bearer " e o espaço para pegar o token real
     }
 }
 

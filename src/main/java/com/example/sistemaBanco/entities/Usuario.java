@@ -183,7 +183,6 @@ public class Usuario implements Serializable, UserDetails{ //interface marcadora
 			return List.of(new SimpleGrantedAuthority("ROLE_COMUM"));
 		else
 			return List.of(new SimpleGrantedAuthority("ROLE_LOJISTA"));
-
 	}
 
 	@Override
