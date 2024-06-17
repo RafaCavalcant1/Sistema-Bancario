@@ -41,13 +41,14 @@ public class TransacaoResource implements TransacaoResourceOpenApi {
 	public ResponseEntity<Page<GetTransacao>> obterHistoricoTransacao(
 			@RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE) LocalDate dataInicio,
 			@RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE) LocalDate dataFim,
-			@RequestParam(required = false) TipoTransacao tipo, Pageable pageable) {
+			@RequestParam(required = false) TipoTransacao tipo,
+			@RequestParam(required = false) Long id,Pageable pageable) {
 
 		// se a dataInicio é posterior a dataFim
 		if ((dataInicio != null && dataFim != null) && dataInicio.isAfter(dataFim))
 			throw new RequisicaoInvalidaException("Data ínicio deve ser menor ou igual a data fim");
 
-		Page<Transacao> paginaTransacoes = transacaoService.listarHistoricoTransacao(dataInicio, dataFim, tipo,
+		Page<Transacao> paginaTransacoes = transacaoService.listarHistoricoTransacao(dataInicio, dataFim, tipo, id,
 				pageable);
 		List<GetTransacao> getTransacoes = GetTransacao.fromTransacao(paginaTransacoes.getContent());
 

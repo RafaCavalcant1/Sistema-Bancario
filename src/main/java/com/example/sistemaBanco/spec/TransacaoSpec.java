@@ -24,7 +24,10 @@ public class TransacaoSpec {
 	public static Specification<Transacao> tipoIgual(TipoTransacao tipo) {
 		return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("tipo"), tipo);
 	}
-	
+
+	public static Specification<Transacao> idUsuario(Long id) {
+		return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("contaOrigem").get("usuario").get("id"), id);
+	}
 	
 }
 
