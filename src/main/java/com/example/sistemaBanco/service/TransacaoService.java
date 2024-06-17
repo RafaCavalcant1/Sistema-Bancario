@@ -3,6 +3,7 @@ package com.example.sistemaBanco.service;
 import static com.example.sistemaBanco.spec.TransacaoSpec.dataMaiorOuIgualA;
 import static com.example.sistemaBanco.spec.TransacaoSpec.dataMenorOuIgualA;
 import static com.example.sistemaBanco.spec.TransacaoSpec.tipoIgual;
+import static com.example.sistemaBanco.spec.TransacaoSpec.idUsuario;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -50,7 +51,7 @@ public class TransacaoService {
 	@Autowired
 	ContaService contaService;
 
-	public Page<Transacao> listarHistoricoTransacao(LocalDate dataInicio, LocalDate dataFim, TipoTransacao tipo,
+	public Page<Transacao> listarHistoricoTransacao(LocalDate dataInicio, LocalDate dataFim, TipoTransacao tipo,Long id,
 			Pageable pageable) {
 
 		// começa null pq não tem nenhuma condição aplicada ainda
@@ -64,6 +65,9 @@ public class TransacaoService {
 	    
 	    if(Objects.nonNull(tipo)) 
 		    spec = spec.and(tipoIgual(tipo ));
+	    
+	    if(Objects.nonNull(id)) 
+		    spec = spec.and(idUsuario(id));
 	    
 		return transacaoRepository.findAll(spec, pageable);
 	}

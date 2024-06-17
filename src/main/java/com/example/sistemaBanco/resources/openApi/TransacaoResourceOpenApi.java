@@ -47,6 +47,7 @@ public interface TransacaoResourceOpenApi {
 	ResponseEntity<Page<GetTransacao>> obterHistoricoTransacao(@RequestParam(required = false)@DateTimeFormat(iso = ISO.DATE) LocalDate dataInicio,
 													  @RequestParam(required = false)@DateTimeFormat(iso = ISO.DATE) LocalDate dataFim,
 													  @RequestParam(required = false) TipoTransacao tipo,
+													  @RequestParam(required = false) Long id,
 													  @Parameter(hidden = true) Pageable pageable);
 	@ApiResponses(value = {
 	        @ApiResponse(responseCode = "200"),

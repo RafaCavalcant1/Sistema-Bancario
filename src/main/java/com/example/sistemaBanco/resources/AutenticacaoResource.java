@@ -29,11 +29,18 @@ public class AutenticacaoResource implements AutenticacaoResourceOpenApi{
 	
 	//endpoint para o usuario fazer o login
 	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody @Valid PostAutenticacao data) {
+	public ResponseEntity<ResponseLogin> login(@RequestBody @Valid PostAutenticacao data) {
+		// usernamePass classe do SS que representa um objeto de autenticação baseado em nome de usuário e senha, elaé usada durante a autenticação para 
+		//encapsular as credenciais do usuário e as informações de autenticação
 		var usernamePassword = new  UsernamePasswordAuthenticationToken(data.email(), data.senha());
 		var auth = this.authenticationManager.authenticate(usernamePassword);
-		 var token = tokenService.generateToken((Usuario) auth.getPrincipal());
-
+		
+		//UserDetails usuarioDetails = (UserDetails) auth.getPrincipal();
+		//gerando um novo token que recebe um auth.getPrincipal  e pega o obj principal(quem é o usuario)
+		// e faz o cast de usuario 
+		var token = tokenService.generateToken( (Usuario) auth.getPrincipal());
+		 //var token = tokenService.generateToken(usuarioDetails);
+		// retona esse token 
 	        return ResponseEntity.ok(new ResponseLogin(token));
 	}
 
