@@ -23,8 +23,6 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_usuarios")
-// userDatails vem do ss e é usada para identificar uma classe que representa um usuário que vai ser autenticado 
-// é necessario implementar os métodos dela
 public class Usuario implements Serializable, UserDetails{ //interface marcadora que indica que a classe pode ser serializada.  é o processo de converter um objeto em uma sequência de bytes, que pode ser armazenada em um arquivo
 
 	private static final long serialVersionUID = 1L;  // nnúmero de série padrao 
@@ -173,7 +171,7 @@ public class Usuario implements Serializable, UserDetails{ //interface marcadora
 		Usuario other = (Usuario) obj;
 		return Objects.equals(id, other.id);
 	}
-
+	
 	@Override
 	// quando o SS for consultar a entidade p ver quais são as roles que o usuário tem ai chama esse função
 	//aqui que temos que retornar quais são as roles do usuario para que o SS tome as decisões corretas de acordo com as roles
@@ -184,37 +182,33 @@ public class Usuario implements Serializable, UserDetails{ //interface marcadora
 		else
 			return List.of(new SimpleGrantedAuthority("ROLE_LOJISTA"));
 	}
-
+	
+	
 	@Override
 	public String getPassword() {
 		return senha;
 	}
-
 	@Override
 	public String getUsername() {
 		// aqui retorna o login do usuario (email)
 		return email;
 	}
-
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
-
 	@Override
 	public boolean isAccountNonLocked() {
 		return true;
 	}
-
 	@Override
 	// ve se a credencial não está inspirada
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
-
-	// o original o return é false 
+	// o original o return é false
 	@Override
-	// ve se o usuario está ativo 
+	// ve se o usuario está ativo
 	public boolean isEnabled() {
 		return true;
 	}
@@ -223,6 +217,5 @@ public class Usuario implements Serializable, UserDetails{ //interface marcadora
 	
 	
 
-	
 
 }

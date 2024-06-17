@@ -35,10 +35,11 @@ public class AutenticacaoResource implements AutenticacaoResourceOpenApi{
 		var usernamePassword = new  UsernamePasswordAuthenticationToken(data.email(), data.senha());
 		var auth = this.authenticationManager.authenticate(usernamePassword);
 		
+		//UserDetails usuarioDetails = (UserDetails) auth.getPrincipal();
 		//gerando um novo token que recebe um auth.getPrincipal  e pega o obj principal(quem é o usuario)
 		// e faz o cast de usuario 
 		var token = tokenService.generateToken( (Usuario) auth.getPrincipal());
-
+		 //var token = tokenService.generateToken(usuarioDetails);
 		// retona esse token 
 	        return ResponseEntity.ok(new ResponseLogin(token));
 	}

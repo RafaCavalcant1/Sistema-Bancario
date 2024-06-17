@@ -11,8 +11,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+//import com.example.sistemaBanco.dto.response.ResponseUsuarioDetails;
 import com.example.sistemaBanco.entities.Usuario;
-
 @Service
 public class TokenService {
 	// classe responsável pela geração e validação de tokens JTW
