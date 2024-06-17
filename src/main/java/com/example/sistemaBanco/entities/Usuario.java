@@ -2,13 +2,8 @@ package com.example.sistemaBanco.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.sistemaBanco.entities.enums.TipoUsuario;
 
@@ -23,7 +18,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_usuarios")
-public class Usuario implements Serializable, UserDetails{ //interface marcadora que indica que a classe pode ser serializada.  é o processo de converter um objeto em uma sequência de bytes, que pode ser armazenada em um arquivo
+public class Usuario implements Serializable{ //interface marcadora que indica que a classe pode ser serializada.  é o processo de converter um objeto em uma sequência de bytes, que pode ser armazenada em um arquivo
 
 	private static final long serialVersionUID = 1L;  // nnúmero de série padrao 
 	
@@ -172,50 +167,5 @@ public class Usuario implements Serializable, UserDetails{ //interface marcadora
 		return Objects.equals(id, other.id);
 	}
 	
-	@Override
-	// quando o SS for consultar a entidade p ver quais são as roles que o usuário tem ai chama esse função
-	//aqui que temos que retornar quais são as roles do usuario para que o SS tome as decisões corretas de acordo com as roles
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// o SS ja tem mapeado por padrão algumas roles e ele espera receber uma coleçao de roles
-		if(this.tipo == TipoUsuario.COMUM)
-			return List.of(new SimpleGrantedAuthority("ROLE_COMUM"));
-		else
-			return List.of(new SimpleGrantedAuthority("ROLE_LOJISTA"));
-	}
-	
-	
-	@Override
-	public String getPassword() {
-		return senha;
-	}
-	@Override
-	public String getUsername() {
-		// aqui retorna o login do usuario (email)
-		return email;
-	}
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
-	@Override
-	// ve se a credencial não está inspirada
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-	// o original o return é false
-	@Override
-	// ve se o usuario está ativo
-	public boolean isEnabled() {
-		return true;
-	}
-	
-	
-	
-	
-
 
 }

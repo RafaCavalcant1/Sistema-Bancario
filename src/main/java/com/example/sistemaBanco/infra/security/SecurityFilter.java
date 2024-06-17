@@ -5,10 +5,11 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.example.sistemaBanco.dto.response.ResponseUsuarioDetails;
+import com.example.sistemaBanco.entities.Usuario;
 import com.example.sistemaBanco.repository.UsuarioRepository;
 
 import jakarta.servlet.FilterChain;
@@ -32,15 +33,13 @@ public class SecurityFilter extends OncePerRequestFilter {
         if(token != null){ // se o token for diferente de nulo
             var email = tokenService.validateToken(token); // se for encontrado um token ele é validade no service
             // se validar com sucesso chama o UserDetails para encontrar o usuario 
-            UserDetails usuario = usuarioRepository.findByEmail(email); 
-
-            //agora faz as verificaçãoes desse usuario com a variavel authenticarion
-            //faz a instância de UsernamePasswordAuthenticationToken é criada com as informações do usuário e definida no contexto de segurança 
-            // criando um obj que é como se fosse um dto que é utilizado para passar as informações do usuario autenticado para o contexto
-            // do SS
-            var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
-            //SecurityContextHolder(é o contexto da autenticaçaõ)  estabelecendo que o usuário está autenticado
+            Usuario usuario = usuarioRepository.findByEmail(email); 
+            //UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+           
+            ResponseUsuarioDetails usuarioDetails = ResponseUsuarioDetails.fromUsuario((Usuario) usuario); 
+            var authentication = new UsernamePasswordAuthenticationToken(usuarioDetails, null, usuarioDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            //SecurityContextHolder(é o contexto da autenticaçaõ)  estabelecendo que o usuário está autenticado
             // esse context é o contexto que o sprint ja sabe trabalhar e eu passo passo para ele as informações que ele precis.
             //mas esse momento é quando o usuario ja fez a autenticação 
         }

@@ -10,9 +10,6 @@ import com.example.sistemaBanco.entities.enums.TipoUsuario;
 import lombok.Data;
 
 @Data
-//@Builder
-//@NoArgsConstructor
-//@AllArgsConstructor
 public class ResponseUsuario implements Serializable { 
 
 	private static final long serialVersionUID = 1L; // nnúmero de série padrao

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.sistemaBanco.dto.ResponseLogin;
 import com.example.sistemaBanco.dto.request.PostAutenticacao;
-import com.example.sistemaBanco.entities.Usuario;
+import com.example.sistemaBanco.dto.response.ResponseUsuarioDetails;
 import com.example.sistemaBanco.infra.security.TokenService;
 import com.example.sistemaBanco.resources.openApi.AutenticacaoResourceOpenApi;
 
@@ -35,13 +35,9 @@ public class AutenticacaoResource implements AutenticacaoResourceOpenApi{
 		var usernamePassword = new  UsernamePasswordAuthenticationToken(data.email(), data.senha());
 		var auth = this.authenticationManager.authenticate(usernamePassword);
 		
-		//UserDetails usuarioDetails = (UserDetails) auth.getPrincipal();
-		//gerando um novo token que recebe um auth.getPrincipal  e pega o obj principal(quem é o usuario)
-		// e faz o cast de usuario 
-		var token = tokenService.generateToken( (Usuario) auth.getPrincipal());
-		 //var token = tokenService.generateToken(usuarioDetails);
+		 var token = tokenService.generateToken((ResponseUsuarioDetails) auth.getPrincipal());
 		// retona esse token 
 	        return ResponseEntity.ok(new ResponseLogin(token));
 	}
-
+	
 }

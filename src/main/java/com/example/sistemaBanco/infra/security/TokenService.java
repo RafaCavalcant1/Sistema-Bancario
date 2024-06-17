@@ -11,8 +11,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-//import com.example.sistemaBanco.dto.response.ResponseUsuarioDetails;
-import com.example.sistemaBanco.entities.Usuario;
+import com.example.sistemaBanco.dto.response.ResponseUsuarioDetails;
 @Service
 public class TokenService {
 	// classe responsável pela geração e validação de tokens JTW
@@ -23,7 +22,7 @@ public class TokenService {
     private String secret;
 
 	// método para gerar um token para o usuario 
-    public String generateToken(Usuario usuario){
+    public String generateToken(ResponseUsuarioDetails usuario){
         try{
         	//cria um algoritmo de assinatura HMAC utilizando o segredo
             Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -32,7 +31,7 @@ public class TokenService {
             		.withIssuer("auth-api") 
                     .withClaim("id", usuario.getId()) // claim para colocar informaçoes personalizadas 
                     .withClaim("nome", usuario.getNomeCompleto())
-                    .withSubject(usuario.getEmail())// o usuario que esta recebeno esse token 
+                    .withSubject(usuario.getUsername())// o usuario que esta recebeno esse token 
                  // o tempo de expiração do token
                     .withExpiresAt(genExpirationDate()) 
                     .sign(algorithm);// assina o token que usa o algoritmo 
